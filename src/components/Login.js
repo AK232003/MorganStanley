@@ -30,7 +30,7 @@ const Login = () => {
   return (
     <div id="loginpage">
     <div className="grid mt-4 place-content-center">
-      <div className="rounded-5" style={{backgroundColor: "rgb(178 176 176 / 45%)"}}>
+      <div className="rounded-5" style={{backgroundColor: "rgb(178 176 176 / 60%)"}}>
       <div className="row mt-5 mx-5">
         <img src="./logo_scroll.png" alt="logo" className="col-10 offset-1 col-sm-8 offset-sm-2 h-24 place-self-center bg-white/[.4] rounded-3"/> 
         {error && (
@@ -50,7 +50,7 @@ const Login = () => {
               className="form-control form-control-lg rounded-3 !border-transparent"
               ref={emailRef}
               required
-              style={{background: "rgb(178 176 176 / 36%)"}}
+              style={{background: "rgb(178 176 176 / 50%)"}}
               />
           </div>
           <div className="form-outline mb-4">
@@ -61,7 +61,7 @@ const Login = () => {
               className="form-control form-control-lg rounded-3 !border-transparent"
               ref={passwordRef}
               required
-              style={{background: "rgb(178 176 176 / 36%)"}}
+              style={{background: "rgb(178 176 176 / 50%)"}}
               />
           </div>
           <div className="mb-4 font-sans fw-medium text-black text-center text-sm md:text-base">
