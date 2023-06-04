@@ -1,5 +1,4 @@
 import { React, useRef, useState } from "react";
-import { Form, Label, FormGroup, Input, Col, Button } from "reactstrap";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -28,38 +27,39 @@ const Login = () => {
   }
 
   return (
-    <>
-      <img src="./logo_scroll.png" alt="logo"></img>
-      <div
-        className="container-md"
-        style={{ maxWidth: "500px", marginTop: "100px" }}
-      >
-        <h1 className="mt-100 text-center"> Login </h1>
+    <div className="grid mt-4 place-content-center">
+      <div className="row mt-5 mx-5">
+        <img src="./logo_scroll.png" alt="logo" className="col-10 offset-1 col-sm-8 offset-sm-2 h-32 place-self-center"/> 
         {error && (
           <div className="alert alert-danger" role="alert">
             {error}
           </div>
         )}
-        <form onSubmit={handleSubmitLogin} className="d-flex flex-column">
+        </div>
+        <div className="row m-1 flex-column">
+
+        <form onSubmit={handleSubmitLogin} className="col-10 offset-1 font-sans fw-semibold text-sm md:text-base">
           <div className="form-outline mb-4">
-            <label className="form-label"> Email </label>
+            <label className="form-label text-textcolor"> Email </label>
             <input
               type="email"
               id="email"
-              className="form-control form-control-lg"
+              className="form-control form-control-lg rounded-3"
               ref={emailRef}
               required
-            />
+              style={{background: "#f4ecec"}}
+              />
           </div>
           <div className="form-outline mb-4">
-            <label className="form-label"> Password </label>
+            <label className="form-label text-textcolor"> Password </label>
             <input
               type="password"
               id="pass"
-              className="form-control form-control-lg"
+              className="form-control form-control-lg rounded-3"
               ref={passwordRef}
               required
-            />
+              style={{background: "#f4ecec"}}
+              />
           </div>
           <div className="d-flex justify-content-around align-items-center mb-4">
             <p>
@@ -69,15 +69,15 @@ const Login = () => {
           <div className="d-flex justify-content-around align-items-center mb-4">
             <button
               type="submit"
-              disabled={loading}
-              className="btn btn-primary btn-lg btn-block"
-            >
+              disabled={loading} 
+              className="!bg-themecolor btn d-block w-100 rounded-pill font-sans fw-medium text-sm md:text-base !text-[#f4ecec]"
+              >
               Sign in
             </button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 };
 
