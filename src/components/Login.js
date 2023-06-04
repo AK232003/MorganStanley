@@ -18,7 +18,8 @@ const Login = () => {
       setError("");
       setLoading(true);
       console.log(emailRef.current.value, passwordRef.current.value);
-      await login(emailRef.current.value, passwordRef.current.value);
+      const response=await login(emailRef.current.value, passwordRef.current.value);
+      console.log(response);
       navigate("/");
     } catch {
       setError("Incorrect Username or Password");
