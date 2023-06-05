@@ -7,8 +7,12 @@ module.exports = {
     extend: {
       colors:{
         'themecolor': "#a72c63",
-        'textcolor': "#662277",
-        'loginbg': "f4ecec"
+        'textcolor': "#ffffff",
+        'loginbg': "f4ecec", 
+        'sideBarColor1': "#362740",
+        'color2': "#69BF64",
+        'color3': "#6E7DAB",
+        'color4': "#E95CA1"
       },
     },
     
