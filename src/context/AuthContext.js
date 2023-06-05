@@ -12,10 +12,11 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   function signup(email, password) {
-    return auth.createUserWithEmailAndPassword(email, password)
+    return auth
+      .createUserWithEmailAndPassword(email, password)
       .then(() => {
         // var user = userCredential.user;
-        console.log("Signup Successfull!")
+        console.log("Signup Successfull!");
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -24,7 +25,8 @@ export function AuthProvider({ children }) {
   }
 
   function login(email, password) {
-    return auth.signInWithEmailAndPassword(email, password)
+    return auth
+      .signInWithEmailAndPassword(email, password)
       .then(() => {
         console.log("Login Successfull!");
       })
@@ -47,7 +49,6 @@ export function AuthProvider({ children }) {
     currentUser,
     login,
     signup,
-
   };
 
   return (

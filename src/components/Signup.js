@@ -3,10 +3,10 @@ import { Form, Label, FormGroup, Input, Col, Button } from "reactstrap";
 import { useAuth } from "../context/AuthContext";
 import { getDatabase, ref, update, child, get, set } from "firebase/database";
 
-const Signup= () => {
+const Signup = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const {signup} = useAuth();
+  const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
