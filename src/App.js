@@ -7,6 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
+import AddChild from "./components/AddChild"
 
 function App() {
   const [data, setData] = useState(null);
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Dashboard/>}></Route>
           <Route path="signup" element={<Signup setdata={setData} />} />
           <Route path="login" element={<Login />} />
+          <Route path="addChild" element={<AddChild />} />
         </Routes>
       </AuthProvider>
     </Router>

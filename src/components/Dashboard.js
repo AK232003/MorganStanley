@@ -19,6 +19,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import Button from '@mui/material/Button';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -40,6 +41,7 @@ const theme = createTheme({
 const drawerWidth = 250;
 
 function Dashboard() {
+  const navigate=useNavigate();
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   const handleDrawerToggle = () => {
@@ -129,7 +131,7 @@ function Dashboard() {
         </Box>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'flex-end', position: 'fixed', bottom: 0, right: 0, padding: '1rem', width: '100%' }} >
-        <Button variant="contained" sx={{ height: 40, bgcolor: 'addchild.primary' }} startIcon={<PersonAddIcon />}>
+        <Button variant="contained" onClick={()=> navigate('addChild')} sx={{ height: 40, bgcolor: 'addchild.primary' }} startIcon={<PersonAddIcon />}>
           Add Child
         </Button>
       </Box>
