@@ -1,5 +1,4 @@
 import { React, useRef, useState } from "react";
-import { Form, Label, FormGroup, Input, Col, Button } from "reactstrap";
 import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
@@ -26,7 +25,6 @@ const Signup = () => {
 
   return (
     <>
-      <img src="./logo_scroll.png" alt="logo"></img>
       <div
         className="container-md"
         style={{ maxWidth: "500px", marginTop: "100px" }}

@@ -1,9 +1,8 @@
 import { React, useRef, useState } from "react";
-import { Form, Label, FormGroup, Input, Col, Button } from "reactstrap";
 import { useAuth } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Login = ({setuser}) => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login } = useAuth();
@@ -20,9 +19,11 @@ const Login = () => {
       console.log(emailRef.current.value, passwordRef.current.value);
       const isGroundWorker = await login(emailRef.current.value, passwordRef.current.value);
        if (isGroundWorker) {
-         navigate("/Dashboard1");
+          setuser("groundWorker");
+         navigate("/groundWorker");
        } else {
-         navigate("/");
+        setuser("caseManager")
+         navigate("/caseManager");
        }
     } catch {
       setError("Incorrect Username or Password");
@@ -31,7 +32,7 @@ const Login = () => {
     setLoading(false);
   }
   return (
-    <div id="loginpage">
+    <div id="loginpage" className="w-100">
       <div className="grid mt-4 place-content-center">
         <div
           className="rounded-5"
@@ -41,13 +42,13 @@ const Login = () => {
             <img
               src="./logo_scroll.png"
               alt="logo"
-              className="col-10 offset-1 col-sm-8 offset-sm-2 h-24 place-self-center bg-white/[.4] rounded-3"
+              className="col-10 offset-1 col-sm-8 offset-sm-2 h-20 place-self-center bg-white/[.4] rounded-3"
             />
-            {error && (
+            {/* {error && (
               <div className="alert alert-danger" role="alert">
                 {error}
               </div>
-            )}
+            )} */}
           </div>
           <div className="row m-1 flex-column">
             <form
@@ -75,9 +76,6 @@ const Login = () => {
                   required
                   style={{ background: "rgb(178 176 176 / 50%)" }}
                 />
-              </div>
-              <div className="mb-4 font-sans fw-medium text-black text-center text-sm md:text-base">
-                Don't have an account?<Link to="/signup"> Signup </Link>
               </div>
               <div className="d-flex justify-content-around align-items-center mb-4">
                 <button

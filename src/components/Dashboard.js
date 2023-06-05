@@ -1,8 +1,10 @@
-import {React} from "react";
-import { Button } from "reactstrap";
+import {React, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-const Dashboard= () =>{
+const Dashboard= ({user}) =>{
   const navigate=useNavigate();
+  useEffect(()=>{
+    if(user===null) navigate("/");
+  },[user])
   return (
     <div className="container m-4">
       <div className="grid grid-cols-2 gap-2">
