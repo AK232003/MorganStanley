@@ -14,7 +14,7 @@ function App() {
   const [openSide,toggle]=useState(true);
 
   return (
-    <div className="flex h-full" >
+    <div className="flex h-full bg-gradient-to-r from-[#C1DDB4] to-[#69BF64]" >
     <div className={`h-9/10 p-4 ${openSide? 'w-72':'w-24'} bg-gradient-to-br from-purple-500 to-fuchsia-500 duration-300 rounded-3 m-2 relative shadow-xl opacity-90 hover:shadow-themecolor hover:opacity-100`}>
       <FaBars className={`text-4xl cursor-pointer top-1 duration-500 ${openSide&& 'rotate-[180deg]'}`} onClick={()=> toggle(!openSide) } ></FaBars>
       {openSide?<img src="logo_scroll.png" height="40" width="100%" className="pt-4"></img>:""}
