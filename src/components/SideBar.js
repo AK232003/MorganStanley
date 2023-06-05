@@ -6,12 +6,12 @@ const SideBar=({setuser})=>{
   const [open,setOpen] =useState(false);
   const handdleToggle=()=>{
     if(!open) toggle(!openSide); 
-    open?setOpen(false):setOpen(open)
+    open?setOpen(false):setOpen(open);
   }
 	return (
     <>
     <div className={`h-14 w-14 ${open && "hidden"} sm:hidden rounded-3 m-2 p-1 relative bg-sideBarColor1 opacity-90 top-3 left-5`}>
-          <FaBars className="h-12 w-12 cursor-pointer text-textcolor visible" onClick={() => setOpen(!open)}></FaBars>
+          <FaBars className="h-12 w-12 cursor-pointer text-textcolor visible" onClick={() =>{ setOpen(!open); toggle(true)}}></FaBars>
     </div>
 	<div className={`h-9/10 px-4 pb-4 pt-3 ${openSide ? "w-72" : "w-24"} ${!open && "hidden"} bg-sideBarColor1 duration-300 rounded-3 m-2 relative drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block`}>
           <FaBars className={`h-12 w-12 cursor-pointer top-1 text-textcolor duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()}></FaBars>

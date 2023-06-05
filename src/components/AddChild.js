@@ -1,7 +1,7 @@
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Form, FormGroup, FormText, FormFeedback, Label, Input, Col, Button } from 'reactstrap';
-
-const AddChild = () => {
+import { useNavigate } from "react-router-dom";
+const AddChild = ({user}) => {
 	const [open, setOpen] = useState('1');
 	const toggle = (id) => {
 		if (open === id) {
@@ -14,9 +14,12 @@ const AddChild = () => {
 		event.preventDefault();
 		console.log(event);
 	}
-	console.log("yes")
+	const navigate=useNavigate();
+  useEffect(()=>{
+    if(user===null) navigate("/");
+  },[user])
 	return (
-		<div className="container">
+		<div className="container mt-4">
 			<Form onSubmit={(event) => handleSubmitInformation(event)}>
 			<Accordion open={open} toggle={toggle}>
 				<AccordionItem>

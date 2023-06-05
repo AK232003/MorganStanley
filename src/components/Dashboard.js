@@ -11,9 +11,7 @@ const Dashboard= ({user}) =>{
       <div className="text-textcolor justify-self-start rounded-4 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md ">
          <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">Dashboard</div>
       </div>
-      <Link to="addChild">
-        <button className="justify-self-start sm:justify-self-center p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]"> Add child</button>
-      </Link>
+        <button className="justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/groundWorker/addChild")} > Add child</button>
       </div>
     </div>
   );
