@@ -9,7 +9,7 @@ import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
 import Dashboard1 from "./components/DashBoard1";
 import SideBar from "./components/SideBar";
-
+import AddChild from "./components/AddChild";
 function App() {
   const [user, setUser] = useState(null);
   return (
@@ -19,8 +19,9 @@ function App() {
           <AuthProvider>
             {user && <SideBar setuser={(value)=>setUser(value)}/>}
             <Routes>
-              <Route exact path="/" element={<Login setuser={(value)=>setUser(value)}/>}></Route>
-              <Route path="/groundWorker" element={<Dashboard user={user}/>} />
+              <Route index element={<Login setuser={(value)=>setUser(value)}/>}></Route>
+              <Route exact path="groundWorker" element={<Dashboard user={user}/>}/>
+              <Route path="groundWorker/addChild" element={<AddChild />}/>
               <Route path="signup" element={<Signup />} />
               <Route path="/caseManager" element={<Dashboard1 />} />
             </Routes>

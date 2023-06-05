@@ -20,10 +20,10 @@ const Login = ({setuser}) => {
       const isGroundWorker = await login(emailRef.current.value, passwordRef.current.value);
        if (isGroundWorker) {
           setuser("groundWorker");
-         navigate("/groundWorker");
+         navigate("groundWorker");
        } else {
         setuser("caseManager")
-         navigate("/caseManager");
+         navigate("caseManager");
        }
     } catch {
       setError("Incorrect Username or Password");

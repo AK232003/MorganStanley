@@ -1,4 +1,4 @@
-import {React,useLayoutEffect,useState} from "react";
+import {React,useState} from "react";
 import { FaBars, FaRegUserCircle, FaArrowAltCircleRight } from 'react-icons/fa';
 
 const SideBar=({setuser})=>{

@@ -14,11 +14,7 @@ const AddChild = () => {
 		event.preventDefault();
 		console.log(event);
 	}
-	const handleSubmitFamilyBackground = (event) => {
-		event.preventDefault();
-		console.log(event);
-	}
-
+	console.log("yes")
 	return (
 		<div className="container">
 			<Form onSubmit={(event) => handleSubmitInformation(event)}>
