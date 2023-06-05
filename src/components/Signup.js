@@ -1,7 +1,6 @@
 import { React, useRef, useState } from "react";
 import { Form, Label, FormGroup, Input, Col, Button } from "reactstrap";
 import { useAuth } from "../context/AuthContext";
-import { getDatabase, ref, update, child, get, set } from "firebase/database";
 
 const Signup = () => {
   const emailRef = useRef();
@@ -10,14 +9,14 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmitLogin(e) {
+  async function createUser(e, userType) {
     e.preventDefault();
 
     try {
       setError("");
       setLoading(true);
-      console.log(emailRef.current.value, passwordRef.current.value);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      console.log(emailRef.current.value, passwordRef.current.value, userType);
+      await signup(emailRef.current.value, passwordRef.current.value, userType);
     } catch {
       setError("Failed to create an account");
     }
@@ -38,7 +37,7 @@ const Signup = () => {
             {error}
           </div>
         )}
-        <form onSubmit={handleSubmitLogin} className="d-flex flex-column">
+        <form className="d-flex flex-column">
           <div className="form-outline mb-4">
             <label className="form-label"> Email </label>
             <input
@@ -67,11 +66,21 @@ const Signup = () => {
           </div>
           <div className="d-flex justify-content-around align-items-center mb-4">
             <button
-              type="submit"
+              type="button"
               disabled={loading}
               className="btn btn-primary btn-lg btn-block"
+              onClick={(e) => createUser(e, "GroundWorker")}
             >
-              Sign Up
+              Create User
+            </button>
+
+            <button
+              type="button"
+              disabled={loading}
+              className="btn btn-primary btn-lg btn-block"
+              onClick={(e) => createUser(e, "CaseManager")}
+            >
+              Create Manager
             </button>
           </div>
         </form>
