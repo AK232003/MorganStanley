@@ -8,6 +8,7 @@ import img from "../logo_scroll.png";
 
 const ChildrenList = (user) => {
 	const navigate=useNavigate();
+	const [filter,setFilter]=useState("Completed")
 	useEffect(()=>{
 		if(user===null) navigate("/");
 	},[user])
@@ -45,7 +46,12 @@ const ChildrenList = (user) => {
     }
     return (
 	<div className="container mt-4 overflow-y-scroll">
-        {children.length>0? childrenLists() :<div className="spinner-border m-5 p-4" style={{position: "relative" ,top: "50%", left: "50%"}} role="status"></div>}
+		<div className="row mt-4 h-16">
+			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Assigned")}>Assigned </button>
+			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Unassigned")}> Unassigned</button>
+			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Completed")}> Completed</button>
+		</div>
+			{children.length>0? childrenLists() :<div className="spinner-border m-5 p-4" style={{position: "relative" ,top: "50%", left: "50%"}} role="status"></div>}
 	</div>
  );
 }
