@@ -1,21 +1,12 @@
-import React, { useState } from "react";
-import addChild from "./components/addChild";
 
+
+import "./App.css";
+import React, { useState } from "react";
+import Dashboard from "./components/Dashboard";
 function App() {
   const [data, setData] = useState(null);
   return (
-
-    <addChild />
-    // <Router>
-    //   <AuthProvider>
-    //     <Routes>
-    //       <Route path="/" element={<a />}></Route>
-    //       <Route path="signup" element={<Signup setdata={setData} />} />
-    //       <Route path="login" element={} />
-    //       <Route path="excel" element={<FileUploader />} />
-    //     </Routes>
-    //   </AuthProvider>
-    // </Router>
+   <Dashboard/>
   );
 }
 
