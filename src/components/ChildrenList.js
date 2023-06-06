@@ -27,7 +27,7 @@ const ChildrenList = (user) => {
             <div className="row">
             {children.map((children) => {
                 return  (
-								<Card body className="col-3 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/caseManager/list/${children["id"]}`, {state: {children}})}> 
+								<Card body className="col col-sm-5 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/caseManager/list/${children["id"]}`, {state: {children}})}> 
 								<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img}/>
 								<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" > Assign</button>
 								</div>
