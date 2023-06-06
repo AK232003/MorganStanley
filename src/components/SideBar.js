@@ -1,9 +1,12 @@
 import {React,useState} from "react";
-import { FaBars, FaRegUserCircle, FaArrowAltCircleRight } from 'react-icons/fa';
-
+import { FaBars, FaRegUserCircle, FaArrowAltCircleRight, FaChild, FaHome  } from 'react-icons/fa';
+import {BsPeopleFill}from 'react-icons/bs'
+import { useNavigate } from "react-router-dom";
+import logo from "../logo_scroll.png";
 const SideBar=({setuser})=>{
 	const [openSide, toggle] = useState(true);
   const [open,setOpen] =useState(false);
+  const navigate=useNavigate();
   const handdleToggle=()=>{
     if(!open) toggle(!openSide); 
     open?setOpen(false):setOpen(open);
@@ -17,15 +20,23 @@ const SideBar=({setuser})=>{
           <FaBars className={`h-12 w-12 cursor-pointer top-1 text-textcolor duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()}></FaBars>
           {openSide &&
             <img alt="logo"
-            src="logo_scroll.png"
+            src={logo}
             height="40"
             width="100%"
             className="pt-4"></img>}
           <ul className="pt-2 ps-0">
-            <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8]">1</li>
-            <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8]">2</li>
-            <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8]">3</li>
-            <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8]">4</li>
+            <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer" onClick={()=>navigate("/groundWorker")} >
+              <span><FaHome className="text-3xl text-textcolor block float-left"></FaHome></span>
+              <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Dashboard</span>
+            </li>
+            <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer" onClick={()=>navigate("/groundWorker/addChild")} >
+              <span><FaChild className="text-3xl text-textcolor block float-left"></FaChild></span>
+              <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Add Child</span>
+            </li>
+            <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer" onClick={()=>navigate("/groundWorker/addExcel")} >
+              <span><BsPeopleFill className="text-3xl text-textcolor block float-left"></BsPeopleFill></span>
+              <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Add Bulk Data</span>
+            </li>
             <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8]">
               <span><FaRegUserCircle className="text-3xl text-textcolor block float-left"></FaRegUserCircle></span>
               <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Profile</span>

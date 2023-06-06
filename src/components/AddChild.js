@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Form, FormGroup, FormText, FormFeedback, Label, Input, Col, Button } from 'reactstrap';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 const AddChild = ({user}) => {
 	const [open, setOpen] = useState('1');
 	const toggle = (id) => {
@@ -151,6 +151,13 @@ const AddChild = ({user}) => {
 					<Button type="submit" color="primary">
 						Submit
 					</Button>
+				</div>
+				<div className="col-2 m-2">
+					<Link to="/groundWorker/addExcel">
+					<Button color="primary">
+						Add Excel Sheet
+					</Button>
+					</Link>
 				</div>
 			</FormGroup>
 		</Form>

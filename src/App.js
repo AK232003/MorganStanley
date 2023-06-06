@@ -22,6 +22,7 @@ function App() {
               <Route index element={<Login setuser={(value)=>setUser(value)}/>}></Route>
               <Route exact path="groundWorker" element={<Dashboard user={user}/>}/>
               <Route path="groundWorker/addChild" element={<AddChild user={user}/>}/>
+              <Route path="groundWorker/addExcel" element={<Dashboard1 />}/>
               <Route path="signup" element={<Signup />} />
               <Route path="/caseManager" element={<Dashboard1 />} />
             </Routes>
