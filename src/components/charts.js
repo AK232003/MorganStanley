@@ -13,7 +13,7 @@ const Colors_Scheme = (num) => {
         var r = Math.floor(Math.random() * 256);
         var g = Math.floor(Math.random() * 256);
         var b = Math.floor(Math.random() * 256);
-        const color1 = `rgba(${r}, ${g}, ${b}, 0.5)`;
+        const color1 = `rgba(${r}, ${g}, ${b}, 0.3)`;
         const color2 = `rgba(${r}, ${g}, ${b}, 1)`;
         colors['bg'].push(color1);
         colors['brd'].push(color2);
@@ -51,6 +51,8 @@ function Pie_chart(labels_in, dt_in, title_in){
                     data: values,
                     backgroundColor: bgcolors,
                     borderColor: brdcolors,
+                    borderWidth: 2,
+                    hoverOffset: 4,
                 }
             ]
         }))
@@ -59,6 +61,7 @@ function Pie_chart(labels_in, dt_in, title_in){
 
     return (
             <Pie 
+                width = "30%"
                 options={{
                     responsive: true,
                     maintainAspectRatio: false,
@@ -73,12 +76,16 @@ function Pie_chart(labels_in, dt_in, title_in){
                             },
                         },
                         legend: {
-                            position: 'right',
-                            align: 'start',
+                            display: true,
+                            position: "left",
+                            align: "center",
+                            labels: {
+                                pointStyle: 'circle',
+                            },
                         },
                     },
-                    height: "100%",
-                    width: "100%",
+                    height: 1000,
+                    width: 1000,
                 }}
                 data={chartData}
             />

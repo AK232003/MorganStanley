@@ -2,6 +2,12 @@ import {React, useEffect} from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Grid } from "@mui/material";
 import Pie_chart from "./charts";
+import Card from '@mui/material/Card';
+// import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+// import CardMedia from '@mui/material/CardMedia';
+// import Button from '@mui/material/Button';
+// import Typography from '@mui/material/Typography';
 
 const Dashboard= ({user}) =>{
   const navigate=useNavigate();
@@ -20,10 +26,8 @@ const Dashboard= ({user}) =>{
       </div>
         <button className="justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/caseManager/addChild")} > Add child</button>
       </div>
-
-
       <Grid container spacing={4}>
-        <Grid item xs={12} sm={6} md={4}>
+        <Grid item xs={12} sm={8} md={4}>
           <Pie_chart labels = {labels1} data={data1} title={title1}/>
         </Grid>
       </Grid>
