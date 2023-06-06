@@ -15,7 +15,7 @@ import ChildrenList from "./components/ChildrenList";
 import AddchildXL from "./components/addChildxl";
 
 function App() {
-  const [user, setUser] = useState(" ");
+  const [user, setUser] = useState(null);
   return (
     <>
     <div className="flex h-full bg-[#C1DDB4]">
