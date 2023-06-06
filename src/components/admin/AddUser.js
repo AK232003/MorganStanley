@@ -33,7 +33,7 @@ const AddUser = ({user}) => {
         className="container-md"
         style={{ maxWidth: "500px", marginTop: "100px" }}
       >
-        <h1 className="mt-100 text-center"> Signup</h1>
+        <h1 className="mt-100 text-center"> Add User</h1>
         {error && (
           <div className="alert alert-danger" role="alert">
             {error}
@@ -61,12 +61,6 @@ const AddUser = ({user}) => {
             />
           </div>
           <div className="d-flex justify-content-around align-items-center mb-4">
-            <p>
-              Don't have an account?
-              {/* <Link to="/signup"> Signup </Link> */}
-            </p>
-          </div>
-          <div className="d-flex justify-content-around align-items-center mb-4">
             <button
               type="button"
               disabled={loading}
@@ -74,6 +68,14 @@ const AddUser = ({user}) => {
               onClick={(e) => createUser(e, "GroundWorker")}
             >
               Create User
+            </button>
+            <button
+              type="button"
+              disabled={loading}
+              className="btn btn-primary btn-lg btn-block"
+              // onClick={(e) => createUser(e, "GroundWorker")}
+            >
+              Create Admin
             </button>
 
             <button

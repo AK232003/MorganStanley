@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
 import Login from "./components/Login";
-import Signup from "./components/Signup";
 import Dashboard1 from "./components/DashBoard1";
 import SideBar from "./components/SideBar";
 import { Dashboard, AddChild, AddchildXL, ChildProfile, ChildrenList } from "./components/caseManager/caseManager.js";
@@ -29,7 +28,6 @@ function App() {
               <Route exact path="admin/addUser" element={<AddUser user={user}/>}/>
               <Route exact path="admin/managersList" element={<ManagersList user={user}/>}/>
               <Route exact path="admin/workersList" element={<WorkersList user={user}/>}/>
-              <Route path="signup" element={<Signup />} />
               <Route path="/groundWorker" element={<Dashboard1 />} />
             </Routes>
           </AuthProvider>
