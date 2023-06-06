@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const Colors_Scheme = (num) => {
+const ColorsScheme = (num) => {
     const colors = {
         bg: [],
         brd: [],
@@ -21,7 +21,7 @@ const Colors_Scheme = (num) => {
     return colors;
 };
 
-function Pie_chart(labels_in, dt_in, title_in){
+function PieChart(labels_in, dt_in, title_in){
     const [chartData, setChartData] = useState({
         labels: [],
         datasets: [
@@ -37,7 +37,7 @@ function Pie_chart(labels_in, dt_in, title_in){
         const labels = labels_in.labels;
         const values = labels_in.data;
         const lbll = labels_in.title;
-        const scheme = Colors_Scheme(labels.length);
+        const scheme = ColorsScheme(labels.length);
         const bgcolors = scheme.bg;
         const brdcolors = scheme.brd;
 
@@ -91,4 +91,4 @@ function Pie_chart(labels_in, dt_in, title_in){
     )
 }
 
-export default Pie_chart;
+export default PieChart;

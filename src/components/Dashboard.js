@@ -1,7 +1,6 @@
 import {React, useEffect} from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Grid } from "@mui/material";
-import Pie_chart from "./charts";
+import { useNavigate } from "react-router-dom";
+import PieChart from "./charts";
 import { Card, CardBody, CardTitle} from "reactstrap";
 
 
@@ -27,7 +26,7 @@ const Dashboard= ({user}) =>{
       <CardTitle tag="h5"><strong>{title1}</strong></CardTitle>
     </div>
           <CardBody>
-            <Pie_chart labels = {labels1} data={data1} title={title1}/>
+            <PieChart labels = {labels1} data={data1} title={title1}/>
           </CardBody>
       </Card>
     </div>

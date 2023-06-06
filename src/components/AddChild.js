@@ -66,8 +66,8 @@ const AddChild = ({user}) => {
     if(user===null) navigate("/");
   },[user])
 	return (
-		<div className="container mt-4" >
-			<Accordion className="overflow-y-scroll overflow-x-hidden h-full" open={open} toggle={toggle}>
+		<div className="container mt-4 bg-[#C1DDB4]" >
+			<Accordion className="overflow-y-scroll overflow-x-hidden h-full rounded-3 p-2" open={open} toggle={toggle}>
 			<Form  onSubmit={(event) => handleSubmitInformation(event)}>
 				<AccordionItem>
 					<AccordionHeader targetId="1">Section-1</AccordionHeader>
