@@ -26,8 +26,10 @@ const ChildrenList = (user) => {
             <div className="row">
             {children.map((children) => {
                 return  (
-								<Card body className="col-3 align-items-center mx-2 my-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/list/${children["id"]}`)}> 
-								<img alt="Child Photo" src={img}/>
+								<Card body className="col-3 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/list/${children["id"]}`, {state: {children}})}> 
+								<div><img alt="Child Photo" src={img}/>
+								<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" > Assign</button>
+								</div>
 								<CardBody>
 												<List type="unstyled">
 												<li > <strong>Name :</strong> {children["Age"]}</li>
