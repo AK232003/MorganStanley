@@ -229,7 +229,7 @@ const AddChild = ({user}) => {
 					</Button>
 				</div>
 				<div className="col-2 m-2">
-					<Link to="/groundWorker/addExcel">
+					<Link to="/caseManager/addExcel">
 					<Button color="primary">
 						Add Excel Sheet
 					</Button>
