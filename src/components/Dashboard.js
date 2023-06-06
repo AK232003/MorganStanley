@@ -2,17 +2,13 @@ import {React, useEffect} from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Grid } from "@mui/material";
 import Pie_chart from "./charts";
-import Card from '@mui/material/Card';
-// import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-// import CardMedia from '@mui/material/CardMedia';
-// import Button from '@mui/material/Button';
-// import Typography from '@mui/material/Typography';
+import { Card, CardBody, CardTitle} from "reactstrap";
+
 
 const Dashboard= ({user}) =>{
   const navigate=useNavigate();
   const labels1 = ["Adopted", "Free to Adopt", "Surrendered"];
-  const title1 = 'Number of Children'
+  const title1 = 'Case Statistics'
   const data1 = [100, 200, 50];
   // var piechart = Pie_chart(labels1, data1, title1)
   useEffect(()=>{
@@ -26,11 +22,14 @@ const Dashboard= ({user}) =>{
       </div>
         <button className="justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/caseManager/addChild")} > Add child</button>
       </div>
-      <Grid container spacing={4}>
-        <Grid item xs={12} sm={8} md={4}>
-          <Pie_chart labels = {labels1} data={data1} title={title1}/>
-        </Grid>
-      </Grid>
+      <Card className="row col-sm-5 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}>
+      <div style={{ display: 'flex', justifyContent: 'center'}}>
+      <CardTitle tag="h5"><strong>{title1}</strong></CardTitle>
+    </div>
+          <CardBody>
+            <Pie_chart labels = {labels1} data={data1} title={title1}/>
+          </CardBody>
+      </Card>
     </div>
   );
 }
