@@ -6,11 +6,11 @@ import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../logo_scroll.png";
 
-const ChildrenList = (user) => {
+const ManagersList = ({user}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("Completed")
 	useEffect(()=>{
-		if(user!=="caseManager") navigate("/");
+		if(user!=="admin") navigate("/");
 	},[user])
 
     const[children, setChildren] = useState([]);
@@ -36,8 +36,6 @@ const ChildrenList = (user) => {
 												<li > <strong>Name :</strong> {children["Age"]}</li>
 												<li > <strong>Age :</strong> {children["Age"]}</li>
 												<li > <strong>District :</strong> {children["District"]}</li>
-												<li > <strong>State :</strong> {children["State"]}</li>
-												<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
 												</List>
 									</CardBody>
 								</Card>
@@ -46,6 +44,7 @@ const ChildrenList = (user) => {
     }
     return (
 	<div className="container sm:mt-4 overflow-y-scroll bg-[#C1DDB4]">
+		<h2>Managers List</h2>
 		<div className="row mt-4 h-16">
 			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Assigned")}>Assigned </button>
 			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Unassigned")}> Unassigned</button>
@@ -56,4 +55,4 @@ const ChildrenList = (user) => {
  );
 }
 
-export default ChildrenList;
+export default ManagersList;

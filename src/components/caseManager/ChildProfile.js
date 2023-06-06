@@ -10,7 +10,7 @@ const ChildProfile= ({user}) => {
 	const [keys,setKeys]=useState(Object.keys(child));
 	const navigate=useNavigate();
 	useEffect(()=>{
-		if(user===null) navigate("/");
+		if(user!=="caseManager") navigate("/");
 	},[user])
 	useEffect(()=>{
 		setKeys(Object.keys(child))

@@ -1,6 +1,6 @@
 import {React, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import PieChart from "./charts";
+import PieChart from "../charts";
 import { Card, CardBody, CardTitle} from "reactstrap";
 
 
@@ -11,7 +11,7 @@ const Dashboard= ({user}) =>{
   const data1 = [100, 200, 50];
   // var piechart = Pie_chart(labels1, data1, title1)
   useEffect(()=>{
-    if(user===null) navigate("/");
+    if(user!=="caseManager") navigate("/");
   },[user])
   return (
     <div className="container m-4 overflow-hidden">
