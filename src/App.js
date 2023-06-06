@@ -12,9 +12,10 @@ import SideBar from "./components/SideBar";
 import AddChild from "./components/AddChild";
 import ChildProfile from "./components/ChildProfile";
 import ChildrenList from "./components/ChildrenList";
+import AddchildXL from "./components/addChildxl";
 
 function App() {
-  const [user, setUser] = useState(" ");
+  const [user, setUser] = useState(null);
   return (
     <>
     <div className="flex h-full bg-[#C1DDB4]">
@@ -23,13 +24,13 @@ function App() {
             {user && <SideBar setuser={(value)=>setUser(value)}/>}
             <Routes>
               <Route index element={<Login setuser={(value)=>setUser(value)}/>}></Route>
-              <Route exact path="groundWorker" element={<Dashboard user={user}/>}/>
-              <Route path="groundWorker/addChild" element={<AddChild user={user}/>}/>
-              <Route path="groundWorker/addExcel" element={<Dashboard1 />}/>
-              <Route path="groundWorker/list" element={< ChildrenList user={user}/>} />
-              <Route path="groundWorker/list/:id" element={<ChildProfile/>} />
+              <Route exact path="caseManager" element={<Dashboard user={user}/>}/>
+              <Route path="caseManager/addChild" element={<AddChild user={user}/>}/>
+              <Route path="caseManager/list" element={< ChildrenList user={user}/>} />
+              <Route path="caseManager/list/:id" element={<ChildProfile user={user}/>} />
+              <Route path="caseManager/addExcel" element={<AddchildXL />}/>
               <Route path="signup" element={<Signup />} />
-              <Route path="/caseManager" element={<Dashboard1 />} />
+              <Route path="/groundWorker" element={<Dashboard1 />} />
             </Routes>
           </AuthProvider>
         </Router>
@@ -39,3 +40,4 @@ function App() {
 }
 
 export default App;
+

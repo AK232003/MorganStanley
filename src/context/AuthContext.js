@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
           .then((snapshot) => {
             const userType = snapshot.val();
             console.log(`User ${userId} is of type ${userType}`);
-            return userType === "GroundWorker";
+            return userType;
           })
           .catch((error) => {
             console.error("Error getting user node:", error);

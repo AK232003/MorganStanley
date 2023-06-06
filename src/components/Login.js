@@ -17,11 +17,11 @@ const Login = ({setuser}) => {
       setError("");
       setLoading(true);
       console.log(emailRef.current.value, passwordRef.current.value);
-      const isGroundWorker = await login(emailRef.current.value, passwordRef.current.value);
-       if (isGroundWorker) {
+      const workerType = await login(emailRef.current.value, passwordRef.current.value);
+       if (workerType === "GroundWorker" ) {
           setuser("groundWorker");
          navigate("groundWorker");
-       } else {
+       } else if(workerType === "CaseManager"){
         setuser("caseManager")
          navigate("caseManager");
        }
