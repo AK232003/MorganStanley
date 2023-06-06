@@ -26,10 +26,26 @@ const ChildProfile= ({user}) => {
 								})}
 							</List>
 				</CardBody>
-						<div className="align-self-start m-2 p-2 pt-4 col-2"><img alt="Child Photo" src={img}/></div>
-			</Card>
-	<Card body className="hustify-content-center m-2 p-2 col-6" > 
-	<CardTitle className="m-2 p-2" tag="h2"> Assigned Ground Worker</CardTitle>
+						<div className="flex-column align-self-start m-2 p-2 pt-4 col-3"><img alt="Child Photo" src={img}/>
+						<div className="mt-4 p-2">
+								<strong> Steps Done:</strong>
+								<ul>
+									<li> Verification 1</li>
+									<li> Verification 2</li>
+									<li> Verification 3</li>
+								</ul>
+						</div>
+						<div className="mt-2 p-2">
+								<strong> Deadline:</strong> 29/10/2023
+						</div>
+						<div className="mt-2 p-2">
+							<label for="changeDeadline"><strong>Modify Deadline:</strong></label>
+						</div>
+						<div className="m-2 p-2 rounded-2 bg-color3">
+							<input id="changeDeadline" name="changeDeadline" type="date" className="bg-transparent w-100"></input>
+						</div>
+						<Card body className="justify-content-center m-2 mt-4 p-2" > 
+	<CardTitle className="m-2 p-2" tag="h4"> Assigned Ground Worker</CardTitle>
 			<CardBody>
 				<ul>
 				<li>Ground worker name</li>
@@ -37,6 +53,9 @@ const ChildProfile= ({user}) => {
 				</ul>
 				</CardBody>
 		</Card>
+						</div>
+			</Card>
+	
 	</div>
 	);
 }
