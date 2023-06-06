@@ -1,6 +1,6 @@
 import React, {useState,useEffect} from "react";
 import { useLocation,useNavigate } from "react-router-dom";
-import img from "../logo_scroll.png";
+import img from "../../logo_scroll.png";
 import { List, Card, CardBody, CardTitle} from "reactstrap";
 
 

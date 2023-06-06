@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import * as XLSX from "xlsx";
-import { db, database } from "../firebase";
+import { db, database } from "../../firebase";
 import { Accordion,AccordionItem, Form, FormGroup,AccordionHeader,AccordionBody,Col,Input,Label,Button } from "reactstrap";
 
 const AddchildXL = () => {

@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Form, FormGroup, FormText, FormFeedback, Label, Input, Col, Button } from 'reactstrap';
 import { useNavigate,Link } from "react-router-dom";
-import { database, db } from "../firebase";
+import { database, db } from "../../firebase";
 
 const AddChild = ({user}) => {
 

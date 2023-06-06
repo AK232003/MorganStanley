@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { List, Card, CardBody} from "reactstrap";
 
-import { db } from "../firebase"
+import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
-import img from "../logo_scroll.png";
+import img from "../../logo_scroll.png";
 
 const ChildrenList = (user) => {
 	const navigate=useNavigate();

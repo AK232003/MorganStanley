@@ -6,13 +6,9 @@ import { AuthProvider } from "./context/AuthContext";
 
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import Dashboard from "./components/Dashboard";
 import Dashboard1 from "./components/DashBoard1";
 import SideBar from "./components/SideBar";
-import AddChild from "./components/AddChild";
-import ChildProfile from "./components/ChildProfile";
-import ChildrenList from "./components/ChildrenList";
-import AddchildXL from "./components/addChildxl";
+import { Dashboard, AddChild, AddchildXL, ChildProfile, ChildrenList } from "./components/caseManager/caseManager.js";
 
 function App() {
   const [user, setUser] = useState(null);
