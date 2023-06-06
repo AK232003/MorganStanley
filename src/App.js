@@ -10,6 +10,8 @@ import Dashboard from "./components/Dashboard";
 import Dashboard1 from "./components/DashBoard1";
 import SideBar from "./components/SideBar";
 import AddChild from "./components/AddChild";
+import ListTest from "./components/ChildrenList";
+
 function App() {
   const [user, setUser] = useState(null);
   return (
@@ -25,6 +27,7 @@ function App() {
               <Route path="groundWorker/addExcel" element={<Dashboard1 />}/>
               <Route path="signup" element={<Signup />} />
               <Route path="/caseManager" element={<Dashboard1 />} />
+              <Route path="groundWorker/list" element={< ListTest user={user}/>} />
             </Routes>
           </AuthProvider>
         </Router>
