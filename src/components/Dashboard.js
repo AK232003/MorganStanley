@@ -1,7 +1,14 @@
 import {React, useEffect} from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { Grid } from "@mui/material";
+import Pie_chart from "./charts";
+
 const Dashboard= ({user}) =>{
   const navigate=useNavigate();
+  const labels1 = ["Adopted", "Free to Adopt", "Surrendered"];
+  const title1 = 'Number of Children'
+  const data1 = [100, 200, 50];
+  // var piechart = Pie_chart(labels1, data1, title1)
   useEffect(()=>{
     if(user===null) navigate("/");
   },[user])
@@ -13,6 +20,13 @@ const Dashboard= ({user}) =>{
       </div>
         <button className="justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/groundWorker/addChild")} > Add child</button>
       </div>
+
+
+      <Grid container spacing={4}>
+        <Grid item xs={12} sm={6} md={4}>
+          <Pie_chart labels = {labels1} data={data1} title={title1}/>
+        </Grid>
+      </Grid>
     </div>
   );
 }
