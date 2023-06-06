@@ -13,7 +13,7 @@ import AddChild from "./components/AddChild";
 import ListTest from "./components/ChildrenList";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(" ");
   return (
     <>
     <div className="flex h-full bg-[#C1DDB4]">
@@ -25,9 +25,9 @@ function App() {
               <Route exact path="groundWorker" element={<Dashboard user={user}/>}/>
               <Route path="groundWorker/addChild" element={<AddChild user={user}/>}/>
               <Route path="groundWorker/addExcel" element={<Dashboard1 />}/>
+              <Route path="groundWorker/list" element={< ListTest user={user}/>} />
               <Route path="signup" element={<Signup />} />
               <Route path="/caseManager" element={<Dashboard1 />} />
-              <Route path="groundWorker/list" element={< ListTest user={user}/>} />
             </Routes>
           </AuthProvider>
         </Router>
