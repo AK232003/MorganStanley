@@ -1,55 +1,21 @@
-import logo from './logo.svg';
-import './App.css';
-import * as XLSX from 'xlsx';
-import { db } from './firebase';
+import React, { useState } from "react";
+import addChild from "./components/addChild";
 
 function App() {
-  const readExcel = (file) =>{
-    const promise = new Promise((resolve, reject) =>{
-      const filereader = new FileReader();
-      filereader.readAsArrayBuffer(file)
-
-      filereader.onload = (e) => {
-        const bufferArray = e.target.result;
-        
-        const wb = XLSX.read(bufferArray, {type: 'buffer'});
-        const wsname = wb.SheetNames[0];
-
-        const ws = wb.Sheets[wsname];
-
-        const data = XLSX.utils.sheet_to_json(ws);
-
-        resolve(data);
-      };
-
-      filereader.onerror = ((e) => {
-        reject(e);
-      })
-    })
-
-    promise.then((d) => {
-      d.forEach((element) => {
-        // console.log(element['Case Number']);
-        db.collection("children").doc(element['Age']).set(element)
-        .then(() => {console.log("Document Successfully written")})
-        .catch((e) => {console.log("Error: ", e)})
-
-      });
-    })
-  }
-
-  
-
+  const [data, setData] = useState(null);
   return (
-    <div>
-      <input type='file' 
-        onChange={(e) => {
-          const file = e.target.files[0];
-          readExcel(file);
-        }}
-      
-      />
-    </div>
+
+    <addChild />
+    // <Router>
+    //   <AuthProvider>
+    //     <Routes>
+    //       <Route path="/" element={<a />}></Route>
+    //       <Route path="signup" element={<Signup setdata={setData} />} />
+    //       <Route path="login" element={} />
+    //       <Route path="excel" element={<FileUploader />} />
+    //     </Routes>
+    //   </AuthProvider>
+    // </Router>
   );
 }
 
