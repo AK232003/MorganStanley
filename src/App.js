@@ -13,6 +13,7 @@ import AddChild from "./components/AddChild";
 import ChildProfile from "./components/ChildProfile";
 import ChildrenList from "./components/ChildrenList";
 
+import AddchildXL from "./components/addChildxl";
 function App() {
   const [user, setUser] = useState(null);
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="groundWorker/addExcel" element={<Dashboard1 />}/>
               <Route path="groundWorker/list" element={< ChildrenList user={user}/>} />
               <Route path="groundWorker/list/:id" element={<ChildProfile/>} />
+              <Route path="groundWorker/addExcel" element={<AddchildXL />}/>
               <Route path="signup" element={<Signup />} />
               <Route path="/caseManager" element={<Dashboard1 />} />
             </Routes>
@@ -39,3 +41,4 @@ function App() {
 }
 
 export default App;
+
