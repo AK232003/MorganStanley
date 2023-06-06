@@ -16,7 +16,7 @@ const ChildProfile= ({user}) => {
 		setKeys(Object.keys(child))
 	},[child]);
 	return (
-	<div className="container overflow-y-auto"> 
+	<div className="container overflow-y-auto bg-[#C1DDB4]"> 
 		<Card body className=" !flex-row align-items-center justify-content-center m-2 p-2 mt-4" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  > 
 			<CardBody>
 							<List type="unstyled">

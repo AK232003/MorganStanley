@@ -12,13 +12,12 @@ const SideBar=({setuser})=>{
     open?setOpen(false):setOpen(open);
   }
 
-  console.log(setuser)
 	return (
     <>
-    <div className={`h-14 w-14 ${open && "hidden"} sm:hidden rounded-3 m-2 p-1 relative bg-sideBarColor1 opacity-90 top-3 left-5`}>
-          <FaBars className="h-12 w-12 cursor-pointer text-textcolor visible" onClick={() =>{ setOpen(!open); toggle(true)}}></FaBars>
+    <div className={`h-14 w-14 ${!open && "row"} sm:!hidden rounded-3 m-2 p-1 relative bg-sideBarColor1 opacity-90 top-4 left-5 z-0 ${open&& "opacity-0"} overflow-hidden`}>
+          <FaBars className="h-full w-full p-0 cursor-pointer text-textcolor visible" onClick={() =>{ setOpen(!open); toggle(true)}}></FaBars>
     </div>
-	<div className={`h-9/10 px-4 pb-4 pt-3 ${openSide ? "w-72" : "w-24"} ${!open && "hidden"} bg-sideBarColor1 duration-300 rounded-3 m-2 relative drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block`}>
+	<div className={`h-95 sm:h-9/10 px-4 pb-4 pt-3 ${openSide ? "w-72" : "w-24"} ${!open && "hidden"} ${open && "w-95"} bg-sideBarColor1 duration-300 rounded-3 m-2 absolute top-1 sm:relative drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block z-10`}>
           <FaBars className={`h-12 w-12 cursor-pointer top-1 text-textcolor duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()}></FaBars>
           {openSide &&
             <img alt="logo"

@@ -14,6 +14,9 @@ module.exports = {
         'color3': "#6E7DAB",
         'color4': "#E95CA1"
       },
+      spacing: {
+        '95': '95%'
+      }
     },
     
   },

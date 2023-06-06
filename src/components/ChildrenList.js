@@ -45,7 +45,7 @@ const ChildrenList = (user) => {
         </div>)
     }
     return (
-	<div className="container mt-4 overflow-y-scroll">
+	<div className="container sm:mt-4 overflow-y-scroll bg-[#C1DDB4]">
 		<div className="row mt-4 h-16">
 			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Assigned")}>Assigned </button>
 			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Unassigned")}> Unassigned</button>

@@ -18,7 +18,7 @@ function App() {
   const [user, setUser] = useState(null);
   return (
     <>
-    <div className="flex h-full bg-[#C1DDB4]">
+    <div className="sm:flex sm:w-full h-full bg-[#C1DDB4]">
         <Router>
           <AuthProvider>
             {user && <SideBar setuser={(value)=>setUser(value)}/>}
