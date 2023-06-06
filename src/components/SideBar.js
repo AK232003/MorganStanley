@@ -37,9 +37,9 @@ const SideBar=({setuser})=>{
               <span><BsPeopleFill className="text-3xl text-textcolor block float-left"></BsPeopleFill></span>
               <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Add Bulk Data</span>
             </li>
-            <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8]">
+            <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer "onClick={()=>navigate("/groundWorker/list")}>
               <span><FaRegUserCircle className="text-3xl text-textcolor block float-left"></FaRegUserCircle></span>
-              <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Profile</span>
+              <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Children List</span>
             </li>
             <li className="text-xl text-textcolor bg-color4 rounded-md p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer" onClick={()=>setuser(null)} >
               <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>

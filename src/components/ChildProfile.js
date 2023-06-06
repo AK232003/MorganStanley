@@ -1,14 +1,17 @@
 import React, {useState,useEffect} from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation,useNavigate } from "react-router-dom";
 import img from "../logo_scroll.png";
 import { List, Card, CardBody, CardTitle} from "reactstrap";
 
 
-const ChildProfile= () => {
+const ChildProfile= ({user}) => {
 	const {state}=useLocation();
 	const [child,setChild]=useState(state["children"]);
 	const [keys,setKeys]=useState(Object.keys(child));
-
+	const navigate=useNavigate();
+	useEffect(()=>{
+		if(user===null) navigate("/");
+	},[user])
 	useEffect(()=>{
 		setKeys(Object.keys(child))
 	},[child]);

@@ -28,7 +28,7 @@ function App() {
               <Route path="groundWorker/addChild" element={<AddChild user={user}/>}/>
               <Route path="groundWorker/addExcel" element={<Dashboard1 />}/>
               <Route path="groundWorker/list" element={< ChildrenList user={user}/>} />
-              <Route path="groundWorker/list/:id" element={<ChildProfile/>} />
+              <Route path="groundWorker/list/:id" element={<ChildProfile user={user}/>} />
               <Route path="groundWorker/addExcel" element={<AddchildXL />}/>
               <Route path="signup" element={<Signup />} />
               <Route path="/caseManager" element={<Dashboard1 />} />
