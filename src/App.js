@@ -12,7 +12,7 @@ import {AdminDashboard, AddUser ,ManagersList,WorkersList} from "./components/ad
 import GroundWorkerDashboard  from "./components/groundWorker/groundWorkerDashboard"
 
 function App() {
-  const [user, setUser] = useState("groundWorker");
+  const [user, setUser] = useState("caseManager");
   return (
     <>
     <div className="sm:flex sm:w-full h-full bg-color2">
