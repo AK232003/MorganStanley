@@ -9,16 +9,16 @@ import Dashboard1 from "./components/DashBoard1";
 import SideBar from "./components/SideBar";
 import { Dashboard, AddChild, AddchildXL, ChildProfile, ChildrenList } from "./components/caseManager/caseManager.js";
 import {AdminDashboard, AddUser ,ManagersList,WorkersList} from "./components/admin/admin";
-import GroundWorkerDashboard  from "./components/groundWorker/groundWorkerDashboard"
+import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
 function App() {
-  const [user, setUser] = useState("caseManager");
+  const [user, setUser] = useState(null);
   return (
     <>
-    <div className="sm:flex sm:w-full h-full bg-color2">
+    <div className={`${user!=="groundWorker"&& "sm:flex"} sm:w-full h-full bg-color2`}>
         <Router>
           <AuthProvider>
-            {user && <SideBar user={user} setuser={(value)=>setUser(value)}/>}
+            {user && user!=="groundWorker" && <SideBar user={user} setuser={(value)=>setUser(value)}/>}
             <Routes>
               <Route index element={<Login setuser={(value)=>setUser(value)}/>}></Route>
               <Route exact path="caseManager" element={<Dashboard user={user}/>}/>
@@ -31,6 +31,11 @@ function App() {
               <Route exact path="admin/managersList" element={<ManagersList user={user}/>}/>
               <Route exact path="admin/workersList" element={<WorkersList user={user}/>}/>
               <Route path="/groundWorker" element={<GroundWorkerDashboard user={user}/>} />
+              <Route exact path="/groundWorker/caseDetails/:id" element={<CaseDetails user={user} setuser={(value)=>setUser(value)}/>}>
+                  <Route path="step1/*" element={<Report/>}></Route>
+                  <Route path="step2" element={<>hihi2</>}></Route>
+                  <Route path="step3" element={<>hihi3</>}></Route>
+              </Route>
             </Routes>
           </AuthProvider>
         </Router>

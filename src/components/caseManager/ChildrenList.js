@@ -10,7 +10,6 @@ const ChildrenList = ({user}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("Completed")
 	useEffect(()=>{
-		// console.log(user["user"])
 		if(user!=="caseManager") navigate("/");
 	},[user])
 
