@@ -15,6 +15,10 @@ const ChildProfile= ({user}) => {
 	const [wid, setWid]=useState("");
 	const [wmsg, setWmsg]=useState("");
 	const [keys,setKeys]=useState(Object.keys(child));
+	const [text,setText]=useState("");
+	const [gwId,setGWID]=useState("");
+	const [report,setReport]=useState("");
+	const [assignedStatus,setAssignedStatus]=useState("");
 	const [date, setDate]=useState(null);
 	const navigate=useNavigate();
 	const [open, setOpen] = useState('1');
@@ -30,6 +34,14 @@ const ChildProfile= ({user}) => {
 		if(user!=="caseManager") navigate("/");
 	},[user])
 	useEffect(()=>{
+		db.collection("cases").doc(child["id"]).get().then((d) =>{
+			setText(d.data()["Photo Publication Text"])
+			setReport(d.data()["Photo Publication Report"])
+			setGWID(d.data()["Worker IDs"].slice(-1)[0])
+			setAssignedStatus(d.data()["Status"]);
+			console.log(d.data())
+		});
+
 		setKeys(Object.keys(child));
 		const ref = database.ref("childProfile/" + child["id"]);
 	
@@ -276,12 +288,30 @@ const ChildProfile= ({user}) => {
 							</Form>
 						</Accordion>
 						<Card body className="justify-content-center m-2 mt-4 p-2" > 
-	<CardTitle className="m-2 p-2" tag="h4"> Assigned Ground Worker</CardTitle>
-			<CardBody>
-				<ul>
-				<li>Ground worker name</li>
-				<li>Comments</li>
-				</ul>
+	<CardTitle className="m-1 p-1" tag="h4"> Assigned Ground Worker</CardTitle>
+			<CardBody >
+				<div className="row">
+					<div className="col"> Worker ID</div>
+					<div className="col">
+					{gwId}
+					</div>
+				</div>
+				<div className="row">
+					<div className="col"> Task Text</div>
+					<div className="col">
+					{text}
+					</div>
+				</div>
+				<div className="row">
+					<div className="col"> Related Files</div>
+					<div className="col">
+					<a href={report} target="_blank" rel="noopener noreferrer">Report Link</a>
+					</div>
+				</div>
+				{assignedStatus==="Assigned" && <div className="row mt-1">
+					<div className="col m-1 p-1 bg-color3 rounded-pill"><Button className="w-full bg-transparent !border-none !text-textcolor">Accept</Button></div>
+					<div className="col m-1 p-1 bg-color3 rounded-pill"><Button className="w-full bg-transparent !border-none !text-textcolor">Reject</Button></div>
+				</div>}
 				</CardBody>
 		</Card>
 						</div>
