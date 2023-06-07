@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  function signup(email, password, userType) {
+  function signup(email, password, userType, id, phoneno, name) {
     return auth
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
@@ -22,6 +22,9 @@ export function AuthProvider({ children }) {
           .ref(`Users/` + user.uid)
           .set({
             userType: userType,
+            Name: name,
+            Phone: phoneno,
+            UserID: id
           })
           .then(() => {
             console.log("Signup successful!");

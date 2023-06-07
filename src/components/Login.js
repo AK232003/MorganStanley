@@ -24,6 +24,11 @@ const Login = ({setuser}) => {
        } else if(workerType === "CaseManager"){
         setuser("caseManager")
          navigate("caseManager");
+        }
+        else if(workerType === "admin") {
+         setuser("admin")
+          navigate("admin");
+        
        }
     } catch {
       setError("Incorrect Username or Password");
