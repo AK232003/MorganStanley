@@ -6,7 +6,7 @@ import { List, Card, CardBody, CardTitle} from "reactstrap";
 
 const ChildProfile= ({user}) => {
 	const {state}=useLocation();
-	const [child,setChild]=useState(state["children"]);
+	const [child,setChild]=useState(null);
 	const [keys,setKeys]=useState(Object.keys(child));
 	const navigate=useNavigate();
 	useEffect(()=>{
