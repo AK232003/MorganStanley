@@ -90,7 +90,26 @@ const ChildProfile= ({user}) => {
 					"Status": element.target[3].value,
 				}) 
 			});
-			
+			database
+				  .ref("childProfile/" + child["id"])
+				  .set({
+					AssignStatus: element.target[3].value,
+					WorkerID: element.target[2].value,
+					ManagerID: element.target[1].value,
+					Step1: "Proposal",
+					Step2: "Proposal",
+					Step3: "Proposal",
+					Step4: "Proposal",
+					Step5: "Proposal",
+					Step6: "Proposal",
+					Step7: "Proposal",
+					Step8: "Proposal",
+
+					// Deadline: element.target[1].value// ISO can also be used
+				  });
+
+				  setWid(element.target[2].value)
+				  console.log(wid);
 		}
 
 		else {
@@ -108,17 +127,17 @@ const ChildProfile= ({user}) => {
 			
 		}
 	});
-		database
-				  .ref("childProfile/" + child["id"])
-				  .set({
-					AssignStatus: element.target[3].value,
-					WorkerID: element.target[2].value,
-					ManagerID: element.target[1].value,
-					// Deadline: element.target[1].value// ISO can also be used
-				  });
+		// database
+		// 		  .ref("childProfile/" + child["id"])
+		// 		  .set({
+		// 			AssignStatus: element.target[3].value,
+		// 			WorkerID: element.target[2].value,
+		// 			ManagerID: element.target[1].value,
+		// 			// Deadline: element.target[1].value// ISO can also be used
+		// 		  });
 		
-		setWid(element.target[2].value)
-		console.log(wid);
+		// setWid(element.target[2].value)
+		// console.log(wid);
 		
 		db.collection("children").doc(child["id"]).update({
 			"Status": element.target[3].value,
