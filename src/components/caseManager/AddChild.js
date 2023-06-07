@@ -1,11 +1,12 @@
 import { React, useState, useEffect } from "react";
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Form, FormGroup, FormText, FormFeedback, Label, Input, Col, Button } from 'reactstrap';
 import { useNavigate,Link } from "react-router-dom";
-import { database, db } from "../../firebase";
-
+import { database, db,storage } from "../../firebase";
+import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storage";
 const AddChild = ({user}) => {
 
 	const [open, setOpen] = useState('1');
+	const [imageUpload, setImageUpload] = useState(null);
 	const toggle = (id) => {
 		if (open === id) {
 			setOpen();
@@ -18,16 +19,21 @@ const AddChild = ({user}) => {
 		console.log(element.target[1].value);
 		// const id = element["Case Number"].split("/").join("");
 		const id = element.target[11].value.split("/").join("");
-        db.collection("children")
-          .doc(id)
-          .set(
-			{
+		const imageRef = storageRef(storage, `children/${id}`);
+		let dt = new Date();
+		dt.setMonth(dt.getMonth()+1);
+		console.log(dt);
+		uploadBytes(imageRef, imageUpload)
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref)
+          .then((url) => {
+			db.collection("children").doc(id).set({
 				"Name": element.target[1].value,
 				"Gender": element.target[2].value,
 				"Date Of Birth": element.target[3].value,
 				"Age": element.target[4].value,
 				"Child Category":element.target[5].value,
-				"Image": element.target[6].value,
+				"Image": url,
 				"State": element.target[7].value,
 				"District": element.target[8].value,
 				"Home": element.target[9].value,
@@ -39,35 +45,41 @@ const AddChild = ({user}) => {
 				"Guardian": element.target[16].value,
 				"Sibling": element.target[17].value,
 				"Total Shelter Home Stay": element.target[18].value,
-				"CWC Last Review": element.target[19].value,
-				"Last CWC Order": element.target[20].value,
-				"Case History": element.target[21].value,
-				"Documents Completed": element.target[23].value,
-				"Documents Pending": element.target[24].value,
-				"News Paper Publications Pending": element.target[25].value,
-				"Police Report Pending": element.target[26].value,
-				"Surrender Pending": element.target[27].value,
-				"Status": element.target[28].value,
-			}
-		  )
-          .then(() => {
-            console.log("Document successfully written with ID: ", id);
-            // Create an entry in the Realtime Database for the child profile
-            database
-              .ref("childProfile/" + id)
-              .set(db.collection("children").doc(id).id);
+				// "CWC Last Review": element.target[19].value,
+				// "Last CWC Order": element.target[20].value,
+				"Case History": element.target[19].value,
+				// "Documents Completed": element.target[23].value,
+				// "Documents Pending": element.target[24].value,
+				// "News Paper Publications Pending": element.target[25].value,
+				// "Police Report Pending": element.target[26].value,
+				// "Surrender Pending": element.target[27].value,
+				// "Status": element.target[28].value
+			}).then(() => {
+				console.log("Document successfully written with ID: ", id);
+				// Create an entry in the Realtime Database for the child profile
+				database
+				  .ref("childProfile/" + id)
+				  .set({
+					AssignStatus: "Not Assigned",
+					WorkerID: "",
+					ManagerID: "",
+					Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
+				  });
+			  })
+			  .catch((error) => {
+				console.error("Error writing document: ", error);
+			  });
           })
-          .catch((error) => {
-            console.error("Error writing document: ", error);
-          });
+		console.log(user);   
+      })
 	}
 	const navigate=useNavigate();
   useEffect(()=>{
     if(user!=="caseManager") navigate("/");
   },[user])
 	return (
-		<div className="container mt-4 bg-color1" >
-			<Accordion className="overflow-y-scroll overflow-x-hidden h-full rounded-1 p-2" open={open} toggle={toggle}>
+		<div className="container mt-4" >
+			<Accordion className="overflow-y-scroll overflow-x-hidden h-full" open={open} toggle={toggle}>
 			<Form  onSubmit={(event) => handleSubmitInformation(event)}>
 				<AccordionItem>
 					<AccordionHeader targetId="1">Section-1</AccordionHeader>
@@ -101,13 +113,14 @@ const AddChild = ({user}) => {
 										<option> Surrendered</option>
 										<option> Orphaned - No Guardians </option>
 										<option> Child Admitted in CCI by Family </option>
+										<option> Admitted by Guardians </option>
 									</Input>
 								</Col>
 							</FormGroup>
 							<FormGroup row>
 								<Label for="image" sm={2}> Image </Label>
 								<Col sm={10}>
-									<Input id="image" name="image" placeholder="Image" type="file" accept=".jpeg, .jpg, .png" /></Col>
+									<Input id="image" name="image" placeholder="Image" type="file" accept="image/*" onChange={(e) => {setImageUpload(e.target.files[0]);}}/></Col>
 							</FormGroup>
 							<FormGroup row>
 								<Label for="state" sm={2}> State </Label>
@@ -167,7 +180,7 @@ const AddChild = ({user}) => {
 								<Col sm={10}>
 									<Input id="tshs" name="tshs" placeholder="Total Shelter Home Stay" type="text"/></Col>
 							</FormGroup>
-							<FormGroup row>
+							{/* <FormGroup row>
 								<Label for="cwclr" sm={2}>CWC Last Review</Label>
 								<Col sm={10}>
 									<Input id="cwclr" name="cwclr" placeholder="CWC last review" type="date"/></Col>
@@ -176,14 +189,14 @@ const AddChild = ({user}) => {
 								<Label for="cwclo" sm={2}>Last CWC Order</Label>
 								<Col sm={10}>
 									<Input id="cwclo" name="cwclo" placeholder="CWC last order" type="text"/></Col>
-							</FormGroup>
+							</FormGroup> */}
 							<FormGroup row>
 								<Label for="casehistory" sm={2}>Case History</Label>
 								<Col sm={10}>
 									<Input id="casehistory" name="casehistory" placeholder="Case History" type="textarea"/></Col>
 							</FormGroup>
 							</AccordionBody>
-							<AccordionHeader targetId="3">Section-3</AccordionHeader>
+							{/* <AccordionHeader targetId="3">Section-3</AccordionHeader>
 							<AccordionBody accordionId="3">
 							<FormGroup row>
 								<Label for="docscomp" sm={2}>Documents Completed</Label>
@@ -214,17 +227,17 @@ const AddChild = ({user}) => {
 								<Label for="status" sm={2}>Status</Label>
 								<Col sm={10}>
 								<Input id="status" name="status" type="select" >
+										<option>Not Assigned</option>	
 										<option>Assigned</option>
-										<option>Not Assigned</option>
 										<option>Completed </option>
 									</Input>
 								</Col>
 							</FormGroup>
-					</AccordionBody>
+					</AccordionBody> */}
 				</AccordionItem>
 				<FormGroup row>
 				<div className="col-2 m-2">
-					<Button className="!bg-color3 !border-none !text-textcolor" type="submit">
+					<Button type="submit" color="primary">
 						Submit
 					</Button>
 				</div>
