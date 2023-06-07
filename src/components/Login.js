@@ -81,7 +81,7 @@ const Login = ({setuser}) => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="!bg-themecolor btn d-block w-100 rounded-pill font-sans fw-medium text-sm md:text-base !text-[#f4ecec]"
+                  className="!bg-themecolor btn d-block w-100 rounded-pill font-sans fw-medium text-sm md:text-base !text-textcolor"
                 >
                   Sign in
                 </button>

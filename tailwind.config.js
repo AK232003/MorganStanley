@@ -6,13 +6,14 @@ module.exports = {
   theme: {
     extend: {
       colors:{
-        'themecolor': "#a72c63",
-        'textcolor': "#ffffff",
-        'loginbg': "f4ecec", 
-        'sideBarColor1': "#362740",
-        'color2': "#69BF64",
-        'color3': "#6E7DAB",
-        'color4': "#E95CA1"
+        'themecolor': "#A2B29F",
+        'textcolor': "#000000",
+        'loginbg': "#f4ecec", 
+        'sideBarColor1': "#BDD2B6",
+        'color2': "#FDFCDC",
+        'color3': "#A2B29F",
+        'color4': "#798777",
+        'color5': "#FFD2D7",
       },
       spacing: {
         '95': '95%'

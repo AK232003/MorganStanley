@@ -9,11 +9,13 @@ import Dashboard1 from "./components/DashBoard1";
 import SideBar from "./components/SideBar";
 import { Dashboard, AddChild, AddchildXL, ChildProfile, ChildrenList } from "./components/caseManager/caseManager.js";
 import {AdminDashboard, AddUser ,ManagersList,WorkersList} from "./components/admin/admin";
+import GroundWorkerDashboard  from "./components/groundWorker/groundWorkerDashboard"
+
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("groundWorker");
   return (
     <>
-    <div className="sm:flex sm:w-full h-full bg-[#C1DDB4]">
+    <div className="sm:flex sm:w-full h-full bg-color2">
         <Router>
           <AuthProvider>
             {user && <SideBar user={user} setuser={(value)=>setUser(value)}/>}
@@ -28,7 +30,7 @@ function App() {
               <Route exact path="admin/addUser" element={<AddUser user={user}/>}/>
               <Route exact path="admin/managersList" element={<ManagersList user={user}/>}/>
               <Route exact path="admin/workersList" element={<WorkersList user={user}/>}/>
-              <Route path="/groundWorker" element={<Dashboard1 />} />
+              <Route path="/groundWorker" element={<GroundWorkerDashboard user={user}/>} />
             </Routes>
           </AuthProvider>
         </Router>

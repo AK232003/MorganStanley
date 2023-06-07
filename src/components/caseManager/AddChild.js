@@ -63,11 +63,11 @@ const AddChild = ({user}) => {
 	}
 	const navigate=useNavigate();
   useEffect(()=>{
-    if(user===null) navigate("/");
+    if(user!=="caseManager") navigate("/");
   },[user])
 	return (
-		<div className="container mt-4 bg-[#C1DDB4]" >
-			<Accordion className="overflow-y-scroll overflow-x-hidden h-full rounded-3 p-2" open={open} toggle={toggle}>
+		<div className="container mt-4 bg-color1" >
+			<Accordion className="overflow-y-scroll overflow-x-hidden h-full rounded-1 p-2" open={open} toggle={toggle}>
 			<Form  onSubmit={(event) => handleSubmitInformation(event)}>
 				<AccordionItem>
 					<AccordionHeader targetId="1">Section-1</AccordionHeader>
@@ -224,7 +224,7 @@ const AddChild = ({user}) => {
 				</AccordionItem>
 				<FormGroup row>
 				<div className="col-2 m-2">
-					<Button type="submit" color="primary">
+					<Button className="!bg-color3 !border-none !text-textcolor" type="submit">
 						Submit
 					</Button>
 				</div>

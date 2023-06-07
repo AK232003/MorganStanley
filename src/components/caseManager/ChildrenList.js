@@ -6,10 +6,11 @@ import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../logo_scroll.png";
 
-const ChildrenList = (user) => {
+const ChildrenList = ({user}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("Completed")
 	useEffect(()=>{
+		// console.log(user["user"])
 		if(user!=="caseManager") navigate("/");
 	},[user])
 
