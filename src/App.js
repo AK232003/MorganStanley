@@ -9,10 +9,10 @@ import Dashboard1 from "./components/DashBoard1";
 import SideBar from "./components/SideBar";
 import { Dashboard, AddChild, AddchildXL, ChildProfile, ChildrenList } from "./components/caseManager/caseManager.js";
 import {AdminDashboard, AddUser ,ManagersList,WorkersList} from "./components/admin/admin";
-import { GroundWorkerSidebar, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
+import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
 function App() {
-  const [user, setUser] = useState("groundWorker");
+  const [user, setUser] = useState(null);
   return (
     <>
     <div className={`${user!=="groundWorker"&& "sm:flex"} sm:w-full h-full bg-color2`}>
@@ -32,7 +32,7 @@ function App() {
               <Route exact path="admin/workersList" element={<WorkersList user={user}/>}/>
               <Route path="/groundWorker" element={<GroundWorkerDashboard user={user}/>} />
               <Route exact path="/groundWorker/caseDetails/:id" element={<CaseDetails user={user} setuser={(value)=>setUser(value)}/>}>
-                  <Route path="step1" element={<>hihi</>}></Route>
+                  <Route path="step1/*" element={<Report/>}></Route>
                   <Route path="step2" element={<>hihi2</>}></Route>
                   <Route path="step3" element={<>hihi3</>}></Route>
               </Route>

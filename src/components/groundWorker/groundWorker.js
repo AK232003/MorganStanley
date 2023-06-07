@@ -1,4 +1,5 @@
 import GroundWorkerDashboard  from "./groundWorkerDashboard"
 import GroundWorkerSidebar from "./groundWorkerSidebar"
 import CaseDetails from "./CaseDetails"
-export {GroundWorkerDashboard,GroundWorkerSidebar,CaseDetails}
+import Report from "./Reports"
+export {GroundWorkerDashboard,GroundWorkerSidebar,CaseDetails,Report}
