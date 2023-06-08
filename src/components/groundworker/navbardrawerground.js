@@ -10,10 +10,19 @@ import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import FilePresentIcon from '@mui/icons-material/FilePresent';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import LooksOneIcon from '@mui/icons-material/LooksOne';
+import LooksTwoIcon from '@mui/icons-material/LooksTwo';
+import Looks3Icon from '@mui/icons-material/Looks3';
+import Looks4Icon from '@mui/icons-material/Looks4';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import Collapse from '@mui/material/Collapse';
+import NewspaperIcon from '@mui/icons-material/Newspaper';
+import TvIcon from '@mui/icons-material/Tv';
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import MedicalInformationIcon from '@mui/icons-material/MedicalInformation';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
 const theme = createTheme({
     sidebar: {
@@ -35,7 +44,89 @@ const theme = createTheme({
     }
 });
 
+function ProcessItems({processVar}){
+    const [open, setOpen] = React.useState(true);
+    const handleClick = () => {
+        setOpen(!open);
+    };
+    if(processVar===false)
+    {
+        return null
+    }
+    return(
+        <>
+        <ListItemButton onClick={handleClick}>
+                            <ListItemIcon>
+                            <LooksOneIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Document Completion" />
+                            {open ? <ExpandLess /> : <ExpandMore />}
+                        </ListItemButton>
+                        <Collapse in={open} timeout="auto" unmountOnExit>
+                            <List component="div" disablePadding>
+                            <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                <NewspaperIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="News Report" />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                <TvIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="TV Report" />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                <PersonSearchIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Missing Report" />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                <MedicalInformationIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Medical Report" />
+                            </ListItemButton>
+                            <ListItemButton sx={{ pl: 4 }}>
+                                <ListItemIcon>
+                                <SummarizeIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="SI Report" />
+                            </ListItemButton>
+                            </List>
+                        </Collapse>
+                        <ListItem disablePadding sx={{height:"50px"}}>
+                            <ListItemButton >
+                                <ListItemIcon>
+                                    <LooksTwoIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="NOC Certificate"/>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding sx={{height:"50px"}}>
+                            <ListItemButton >
+                                <ListItemIcon>
+                                    <Looks3Icon />
+                                </ListItemIcon>
+                                <ListItemText primary="LFA Certificate"/>
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding sx={{height:"50px"}}>
+                            <ListItemButton >
+                                <ListItemIcon>
+                                    <Looks4Icon/>
+                                </ListItemIcon>
+                                <ListItemText primary="Upload to CARINGS"/>
+                            </ListItemButton>
+                        </ListItem>
+        </>
+    )
+};
+
 function NavDrawergw(){
+  
+    const stepvar = false;
 
     return (
         <ThemeProvider theme = {theme}>
@@ -65,8 +156,8 @@ function NavDrawergw(){
                     <Divider sx={{ borderBottomWidth: 2, bgcolor: theme.sidebar.divider.primary}}/>
                     
                     <Box paddingLeft={1} sx={{height:"85%"}}>
-                    <List justifyContent="center" >
-                        <ListItem disablePadding sx={{height:"60px"}}>
+                    <List disablePadding justifyContent="center" >
+                        <ListItem disablePadding sx={{height:"50px"}}>
                             <ListItemButton >
                                 <ListItemIcon>
                                     <HomeIcon />
@@ -74,30 +165,7 @@ function NavDrawergw(){
                                 <ListItemText primary="Home"/>
                             </ListItemButton>
                         </ListItem>
-                        {/* <ListItem disablePadding sx={{height:"60px"}}>
-                            <ListItemButton >
-                                <ListItemIcon>
-                                    <PersonAddIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Add Child"/>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding sx={{height:"60px"}}>
-                            <ListItemButton >
-                                <ListItemIcon>
-                                    <FilePresentIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Add Bulk Data"/>
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding sx={{height:"60px"}}>
-                            <ListItemButton >
-                                <ListItemIcon>
-                                    <FormatListBulletedIcon />
-                                </ListItemIcon>
-                                <ListItemText primary="Children List"/>
-                            </ListItemButton>
-                        </ListItem> */}
+                        <ProcessItems processVar={stepvar}/>
                     </List>
                     </Box>
                     <Divider sx={{ borderBottomWidth: 2, bgcolor: theme.sidebar.divider.primary}}/>

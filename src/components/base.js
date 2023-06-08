@@ -14,7 +14,8 @@ import Cardlist from './allcards';
 import Addchild from './casemanager/addchild';
 import AddchildXL from './casemanager/addchildxl';
 import { Outlet } from "react-router-dom";
-
+import PdfGrid from './document';
+import CreateUser from './admin/createuser';
 
 const drawerWidth = 240;
 
@@ -108,7 +109,10 @@ function Base({navBar}) {
           >
             <Toolbar />
             {/* <Addchild /> */}
-            <Cardlist />
+            {/* <Cardlist /> */}
+
+            {/* <PdfGrid /> */}
+            <CreateUser />
           </Box>
           </Box>
       </ThemeProvider>

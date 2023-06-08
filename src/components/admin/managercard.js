@@ -5,7 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Media } from 'reactstrap';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 
@@ -20,7 +19,7 @@ const theme = createTheme({
 function ManagerCard() {
   return (
     <ThemeProvider theme={theme}>
-    <Card sx={{display:"flex", height:"200px", maxWidth:"360px"}}>
+    <Card sx={{display:"flex", height:"200px"}}>
       <Box display="flex" justifyContent="space-between" alignItems="center" margin={2}> 
       <CardMedia
         component="img"
