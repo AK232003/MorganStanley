@@ -45,7 +45,7 @@ function NavDrawergw(){
                     display: "flex",
                     flexDirection: "column",
                 }}>
-                    <Box display="flex" justifyContent="center"  sx={{bgcolor: theme.sidebar.palette.primary, height:"85px"}}>
+                    <Box display="flex" justifyContent="center"  sx={{bgcolor: theme.sidebar.palette.primary, height:"90px"}}>
                         <Box display="flex" justifyContent="center" marginTop={2}>
                             <Avatar alt="Remy Sharp" src="logo_scroll.png" sx={{width:"50px", height:"50px", bgcolor:theme.sidebar.text.primary1}}/>
                                 <Box>
@@ -64,7 +64,7 @@ function NavDrawergw(){
                     </Box>
                     <Divider sx={{ borderBottomWidth: 2, bgcolor: theme.sidebar.divider.primary}}/>
                     
-                    <Box paddingLeft={1} sx={{height:"80%"}}>
+                    <Box paddingLeft={1} sx={{height:"85%"}}>
                     <List justifyContent="center" >
                         <ListItem disablePadding sx={{height:"60px"}}>
                             <ListItemButton >

@@ -11,6 +11,8 @@ import NavDrawergs from './navbardrawerground';
 import NavDraweradmin from './navbardraweradmin';
 import NavDrawercm from './navbardrawercm';
 import Cardlist from './allcards';
+import Addchild from './addchild';
+import AddchildXL from './addchildxl';
 
 
 const drawerWidth = 240;
@@ -84,7 +86,7 @@ function Dashboard() {
                   '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
               }}
               >
-              <NavDraweradmin />
+              <NavDrawercm />
               </Drawer>
               <Drawer
               variant="permanent"
@@ -94,7 +96,7 @@ function Dashboard() {
               }}
               open
               >
-              <NavDraweradmin />
+              <NavDrawercm />
               </Drawer>
           
           </Box>
@@ -104,7 +106,9 @@ function Dashboard() {
               marginTop="10px"
           >
             <Toolbar />
-            <Cardlist />
+            {/* <Cardlist /> */}
+            {/* <Addchild /> */}
+            <AddchildXL />
           </Box>
           </Box>
       </ThemeProvider>

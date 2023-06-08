@@ -2,6 +2,8 @@ import { React, useRef, useState } from "react";
 import { Form, Label, FormGroup, Input, Col, Button } from "reactstrap";
 import { useAuth } from "../context/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
 
 const Login = () => {
   const emailRef = useRef();
@@ -29,7 +31,10 @@ const Login = () => {
 
   return (
     <>
-      <img src="./logo_scroll.png" alt="logo"></img>
+      <Toolbar>
+
+      </Toolbar>
+      {/* <img src="./logo_scroll.png" alt="logo"></img>
       <div
         className="container-md"
         style={{ maxWidth: "500px", marginTop: "100px" }}
@@ -76,7 +81,7 @@ const Login = () => {
             </button>
           </div>
         </form>
-      </div>
+      </div> */}
     </>
   );
 };

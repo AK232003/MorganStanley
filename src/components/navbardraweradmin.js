@@ -45,7 +45,7 @@ function NavDraweradmin(){
                     display: "flex",
                     flexDirection: "column",
                 }}>
-                    <Box display="flex" justifyContent="center"  sx={{bgcolor: theme.sidebar.palette.primary, height:"85px"}}>
+                    <Box display="flex" justifyContent="center"  sx={{bgcolor: theme.sidebar.palette.primary, height:"90px"}}>
                         <Box display="flex" justifyContent="center" marginTop={2}>
                             <Avatar alt="Remy Sharp" src="logo_scroll.png" sx={{width:"50px", height:"50px", bgcolor:theme.sidebar.text.primary1}}/>
                                 <Box>
@@ -64,7 +64,7 @@ function NavDraweradmin(){
                     </Box>
                     <Divider sx={{ borderBottomWidth: 2, bgcolor: theme.sidebar.divider.primary}}/>
                     
-                    <Box paddingLeft={1} sx={{height:"81%"}}>
+                    <Box paddingLeft={1} sx={{height:"85%"}}>
                     <List justifyContent="center" >
                         <ListItem disablePadding sx={{height:"60px"}}>
                             <ListItemButton >
@@ -103,7 +103,7 @@ function NavDraweradmin(){
                     <Divider sx={{ borderBottomWidth: 2, bgcolor: theme.sidebar.divider.primary}}/>
                     <Box paddingLeft={1.5} sx={{bgcolor: theme.sidebar.logout.red}}>
                         <List>
-                            <ListItem disablePadding sx={{height:"60px"}}>
+                            <ListItem disablePadding sx={{height:"60px"}} bottom="0px">
                                 <ListItemButton >
                                     <ListItemIcon>
                                         <LogoutIcon sx={{color: theme.sidebar.logout.white}}/>
