@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from "react";
 import { useLocation,useNavigate } from "react-router-dom";
+import {GiCheckMark} from 'react-icons/gi'
 import img from "../../logo_scroll.png";
 import { List, Card, CardBody, CardTitle} from "reactstrap";
 import { database, db, storage } from "../../firebase";
@@ -329,36 +330,30 @@ const handleCase = (element) => {
 
 
 	return (
-    <div className="container overflow-y-auto bg-[#C1DDB4]">
+    <div className="overflow-y-auto bg-color2">
       <Card
         body
-        className=" !flex-row align-items-center justify-content-center m-2 p-2 mt-4"
+        className=" md:!flex-row !bg-color5/[0.6] m-2 p-2 mt-4"
         style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
       >
-        <CardBody>
-          <List type="unstyled">
-            <h1 className="p-2 m-2"> Child Details for {child["id"]}</h1>
-            {child !== undefined &&
-              keys.map((key) => {
-                return (
-                  <li key={key} className="row m-2 p-1">
-                    {" "}
-                    <strong className="col-3">{key} :</strong>{" "}
-                    <div className="col">{child[key]}</div>
-                  </li>
-                );
-              })}
-          </List>
-        </CardBody>
-        <div className="flex-column align-self-start m-2 p-2 pt-4 col-3">
+        <div className="mt-3 basis-7/12">
+							<ul type="unstyled" className="p-0">
+								<h1 className="p-2 m-2"> Child Details for {child["id"]}</h1>
+								{child!==undefined && keys.map((key)=> {
+									return <li key={key} className="w-full m-2 p-1 flex"> <strong className="w-1/3 ">{key} :</strong> <div className="w-2/3">{child[key]}</div></li>
+								})}
+							</ul>
+			</div>
+      <div className="mt-4 p-2 basis-5/12">
+        <div className="flex-column align-self-start m-2 p-2 pt-4">
           <img alt="Child Photo" src={img} />
           <div className="mt-4 p-2">
             <strong>Steps Completed:</strong>
-            <ul>
-              {step >= 1 && <li>Verification 1</li>}
-              {step >= 2 && <li>Verification 2</li>}
-              {step >= 3 && <li>Verification 3</li>}
-              {step >= 4 && <li>Verification 3</li>}
+            <ul className="p-0">
+              {step >= 1 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 1</li>}
+              {step >= 2 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 2</li>}
+              {step >= 3 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 3</li>}
+              {step >= 4 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 4</li>}
             </ul>
           </div>
           <div className="mt-2 p-2">
@@ -368,54 +363,24 @@ const handleCase = (element) => {
             <label for="changeDeadline">
               <strong>Modify Deadline:</strong>
             </label>
-            <Form onSubmit={(event) => handleDeadLine(event)}>
-              <FormGroup row>
-                <Label for="dob" sm={2}>
-                  {" "}
-                  Date{" "}
-                </Label>
-                <Col sm={10}>
-                  <Input
-                    id="dob"
-                    name="dob"
-                    placeholder="Date of Birth"
-                    type="date"
-                  />
-                </Col>
-              </FormGroup>
-              <FormGroup row>
-                <div className="col-2 m-2">
-                  <Button type="submit" color="primary">
-                    Change Deadline
-                  </Button>
-                </div>
-              </FormGroup>
+            <Form className="mt-2" onSubmit={(event) => handleDeadLine(event)}>
+            <FormGroup > 
+								<Input id="dob" name="dob" placeholder="Date of Birth" type="date" />
+							</FormGroup>
+              <FormGroup>
+								<Button type="submit" color="primary" block>
+									Change Deadline
+								</Button>
+							</FormGroup>
             </Form>
           </div>
-          <div className="m-2 p-2 rounded-2 bg-color3">
-            <Accordion
-              className="overflow-y-scroll overflow-x-hidden h-full"
-              open={open}
-              toggle={toggle}
-            >
-              <Form onSubmit={(event) => handleCase(event)}>
-                <AccordionItem>
-                  <AccordionHeader targetId="1">Edit</AccordionHeader>
-                  <AccordionBody accordionId="1">
-                    <FormGroup row>
-                      <Label for="wid" sm={2}>
-                        {" "}
-                        Worker ID{" "}
-                      </Label>
-                      <Col sm={10}>
-                        <Input
-                          id="wid"
-                          name="wid"
-                          placeholder="Worker ID"
-                          type="text"
-                        />
-                      </Col>
-                    </FormGroup>
+          <div className="m-2 p-2 rounded-2 bg-color2">
+              <Form className=" m-2" onSubmit={(event) => handleCase(event)}>
+                <div className="font-bold text-2xl mb-2" >Edit</div>
+                  <FormGroup >
+											<Label for="wid"> Worker ID </Label>
+												<Input id="wid" name="wid" placeholder="Worker ID" type="text" />
+										</FormGroup>
                     {/* <FormGroup row>
                       <Label for="status" sm={2}>
                         Status
@@ -435,16 +400,12 @@ const handleCase = (element) => {
                         </Button>
                       </div>
                     </FormGroup>
-                  </AccordionBody>
-                </AccordionItem>
               </Form>
-            </Accordion>
           </div>
           {/* Assigned Worker Card */}
 
-          <Card body className="justify-content-center m-2 mt-4 p-2">
-            <CardTitle className="m-1 p-1" tag="h4">
-              {" "}
+          <div className="justify-content-center m-2 mt-4 p-2 bg-color2 rounded-2">
+            <CardTitle className="m-1 p-2" tag="h4">
               Assigned Ground Worker
             </CardTitle>
 
@@ -499,12 +460,10 @@ const handleCase = (element) => {
                 </div> */}
               {/* )} */}
             </CardBody>
-          </Card>
-          <Accordion open={open} toggle={toggle}>
+          </div>
+          <div className="justify-content-center m-2 mt-4 p-2 bg-color2 rounded-2">
             <Form onSubmit={(event) => handleComment(event)}>
-              <AccordionItem>
-                <AccordionHeader targetId="2">Comments</AccordionHeader>
-                <AccordionBody accordionId="2">
+                Comments
                   <FormGroup row>
                     <Label for="mid" sm={2}>
                       {" "}
@@ -525,7 +484,7 @@ const handleCase = (element) => {
                         name="mid"
                         placeholder="Manager ID"
                         type="textarea"
-                      />
+                        />
                     </Col>
                   </FormGroup>
 
@@ -536,10 +495,9 @@ const handleCase = (element) => {
                       </Button>
                     </div>
                   </FormGroup>
-                </AccordionBody>
-              </AccordionItem>
             </Form>
-          </Accordion>
+          </div>
+        </div>
         </div>
       </Card>
     </div>

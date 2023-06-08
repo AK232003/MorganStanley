@@ -1,9 +1,9 @@
 import { React, useState, useEffect } from "react";
-import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Form, FormGroup, FormText, FormFeedback, Label, Input, Col, Button } from 'reactstrap';
+import { Accordion, AccordionBody, AccordionItem, Form, FormGroup, Label, Input, Col, Button } from 'reactstrap';
 import { useNavigate,Link } from "react-router-dom";
 import { database, db,storage } from "../../firebase";
 import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storage";
-
+import {IoIosArrowDropdown} from 'react-icons/io'
 const AddChild = ({user}) => {
 
 	const [open, setOpen] = useState('1');
@@ -90,10 +90,12 @@ const AddChild = ({user}) => {
 	return (
 		<div className="container mt-4" >
 			<Accordion className="overflow-y-scroll overflow-x-hidden h-full" open={open} toggle={toggle}>
-			<Form  onSubmit={(event) => handleSubmitInformation(event)}>
-				<AccordionItem>
-					<AccordionHeader targetId="1">Section-1</AccordionHeader>
-					<AccordionBody accordionId="1">
+			<Form  className="!bg-color5/[0.6] !border-none rounded-2" onSubmit={(event) => handleSubmitInformation(event)}>
+				<AccordionItem className="!bg-transparent">
+					<h4 className="m-2 ms-4 cursor-pointer" onClick={()=> toggle('1')}>Section-1
+					<span><IoIosArrowDropdown className="text-4xl block float-right"></IoIosArrowDropdown></span>
+					</h4>
+					<AccordionBody className="!bg-transparent" accordionId="1">
 							<FormGroup row>
 								<Label for="fullname" sm={2}> Full Name </Label>
 								<Col sm={10}>
@@ -148,7 +150,10 @@ const AddChild = ({user}) => {
 									<Input id="home" name="home" placeholder="Home" type="text" /></Col>
 							</FormGroup>
 							</AccordionBody>
-							<AccordionHeader targetId="2">Section-2</AccordionHeader>
+							<hr className="solid"/>
+							<h4 className="me-2 ms-4 mt-3 mb-3 cursor-pointer" onClick={()=> toggle('2')}>Section-2
+							<span><IoIosArrowDropdown className="text-4xl block float-right"></IoIosArrowDropdown></span>
+							</h4>
 							<AccordionBody accordionId="2">
 							<FormGroup row>
 								<Label for="caseno" sm={2}> Case Number </Label>
@@ -186,9 +191,6 @@ const AddChild = ({user}) => {
 									<Input id="sibling" name="sibling" placeholder="Sibling Details" type="text"/></Col>
 							</FormGroup>
 							<FormGroup row>
-								<Label for="tshs" sm={2}>Total Shelter Home Stay</Label>
-								<Col sm={10}>
-									<Input id="tshs" name="tshs" placeholder="Total Shelter Home Stay" type="text"/></Col>
 							</FormGroup>
 							{/* <FormGroup row>
 								<Label for="cwclr" sm={2}>CWC Last Review</Label>
@@ -247,16 +249,9 @@ const AddChild = ({user}) => {
 				</AccordionItem>
 				<FormGroup row>
 				<div className="col-2 m-2">
-					<Button type="submit" color="primary">
+					<Button type="submit" className="!bg-color3 !border-none !text-textcolor">
 						Submit
 					</Button>
-				</div>
-				<div className="col-2 m-2">
-					<Link to="/caseManager/addExcel">
-					<Button color="primary">
-						Add Excel Sheet
-					</Button>
-					</Link>
 				</div>
 			</FormGroup>			
 		</Form>

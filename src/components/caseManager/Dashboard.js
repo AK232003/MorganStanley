@@ -15,8 +15,8 @@ const Dashboard= ({user}) =>{
     if(user!=="caseManager") navigate("/");
   },[user])
   return (
-    <div className="container m-4 overflow-hidden">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+    <div className="container overflow-hidden">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 m-2">
       {/* <div className="text-textcolor justify-self-start rounded-1 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md "> */}
          <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">Dashboard</div>
       {/* </div> */}

@@ -27,7 +27,7 @@ const ChildrenList = ({user}) => {
             <div className="row">
             {children.map((children) => {
                 return  (
-								<Card body className="col col-sm-5 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/caseManager/list/${children["id"]}`, {state: {children}})}> 
+								<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/caseManager/list/${children["id"]}`, {state: {children}})}> 
 								<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
 								<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" > Assign</button>
 								</div>
@@ -45,7 +45,7 @@ const ChildrenList = ({user}) => {
         </div>)
     }
     return (
-	<div className="container sm:mt-4 overflow-y-scroll bg-[#C1DDB4]">
+	<div className="container lg:mt-4 overflow-y-scroll bg-color2">
 		<div className="row mt-4 h-16">
 			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Assigned")}>Assigned </button>
 			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Unassigned")}> Unassigned</button>

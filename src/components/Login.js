@@ -11,7 +11,7 @@ const Login = ({setuser}) => {
   const navigate = useNavigate();
   useEffect(()=>{
       // setuser(document.cookie.split("=")[1]);
-      // if(document.cookie.split("=")[1]!==null) navigate(document.cookie.split("=")[1]);
+      // if(document.cookie.split("=")[1]!==undefined) navigate(document.cookie.split("=")[1]);
 
   },[])
   async function handleSubmitLogin(e) {

@@ -5,14 +5,6 @@ import { Accordion,AccordionItem, Form, FormGroup,AccordionHeader,AccordionBody,
 
 const AddchildXL = () => {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [open, setOpen] = useState('1');
-  const toggle = (id) => {
-      if (open === id) {
-          setOpen();
-      } else {
-          setOpen(id);
-      }
-  };
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -50,25 +42,20 @@ const AddchildXL = () => {
 
   return (
     <Form className="container mt-4" onSubmit={(event) => handleUpload(event)}>
-        <Accordion  open={open} toggle={toggle}>
-
-			<AccordionItem>
-			{/* <Accordion open={open} toggle={toggle}> */}
-					<AccordionHeader targetId="1">Insert Excel Sheet</AccordionHeader>
-					<AccordionBody accordionId="1">
-					<Label for="excelsheet" sm={2} >Excel Sheet</Label>
-						<Col sm={10}> <Input id="excelsheet" name="excelsheet" type="file" accept=".xlsx"  onChange={handleFileChange}/>
-						</Col>
-					</AccordionBody>
-				</AccordionItem>
+          <div className="row m-2 text-3xl font-bold">Insert Excel Sheet
+          </div>
+          <div className="row m-1">
+            <div className="col-12 col-sm-8 col-lg-6">
+						<Input id="excelsheet" name="excelsheet" type="file" accept=".xlsx" onChange={handleFileChange}/>
+            </div>
+          </div>
 			<FormGroup row>
 				<div className="col-2 m-2">
-					<Button type="submit" color="primary" onClick={handleUpload}>
+					<Button type="submit" className="!bg-color3 !border-none !text-textcolor" onClick={handleUpload}>
 						Submit
 					</Button>
 				</div>
 			</FormGroup>
-        </Accordion>
 		</Form>
   );
 };
