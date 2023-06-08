@@ -67,10 +67,12 @@ const AddChild = ({user}) => {
 					Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
 				  });
 
-				   database.ref(`cases/` + id + `/comments`).set({
-            			 Worker: ["Start"],
+				   	database.ref(`cases/comments/` + id ).set({
+            			Worker: ["Start"],
             		 	Manager: ["Start"],
           			 });
+					 
+					
 
 				  
 			  })

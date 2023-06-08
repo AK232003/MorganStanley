@@ -187,6 +187,7 @@ const ChildProfile= ({user}) => {
 
 	const handleSubmitInformation = (element) => { 
 		element.preventDefault();
+   
 		// console.log(element.target[1].value, assignStatus, child["id"])
 		const usersRef = db.collection("cases").doc(child["id"]);
 		// const usersRef1 = collection(db, "children");
@@ -235,10 +236,17 @@ const ChildProfile= ({user}) => {
 			});
 
 
-      // RealTime Deadline 
+      // RealTime Deadline
+      // ------------------------------ 
+      let currentDate = new Date();
+      let futureDate = new Date(currentDate);
+      futureDate.setMonth(currentDate.getMonth() + 1);
+      console.log(futureDate.toDateString());
+      database.ref(`cases/DeadLine/` + child["id"]).set({
+        DeadLine: futureDate.toDateString(),
+      });
+      // -----------------------------------
 
-      // RealTime Comments 
-        console.log("hi")
         // database.ref("childProfile/"+`${id}`).update({[step] :"In Progress"})
         
 					// AssignStatus: element.target[3].value,
@@ -293,40 +301,40 @@ const ChildProfile= ({user}) => {
 		})
 	}
 
-	const handleDate = (date) => {
-		date.preventDefault();
-		console.log(date.target[0].value);
-
-		const usersRef = db.collection("cases").doc(child["id"]);
-			db.collection("cases").doc(child["id"]).update({
-				"Deadline": date.target[0].value,
-			})
-
-			database.ref("childProfile/" + child["id"]).update({
-					Deadline: date.target[0].value// ISO can also be used
-			});
+// DeadLine Section
+// -----------------------------------
+	const handleDeadLine = (e) => {
+    e.preventDefault();
+    console.log(e.target[0].value)
+    database.ref(`cases/DeadLine/` + child["id"]).update({
+      DeadLine: e.target[0].value,
+    });
 	}
+// ---------------------------------------
+
+// Comment Section(mId to be changed with the current managerId)
+// -----------------------------------------
+	  const handleComment = (e) => {
+      e.preventDefault();
+        database
+          .ref(`cases/comments/` + child["id"] + `/Manager`)
+          .once("value", (snapshot) => {
+            const existingArray = snapshot.val() || [];
+
+            const newArray = [
+              ...existingArray,
+              e.target[1].value + "@" + "mID" + "@" + new Date().toString(),
+            ];
+
+            database
+              .ref(`cases/comments/` + child["id"] + `/Manager`)
+              .set(newArray);
+          });
+	  }
+// -------------------------------------------
+  
 
 
-	const handleComment = (comm) => {
-		comm.preventDefault();
-		// database.ref("childProfile/" + child["id"]).update({
-    //   ManagerMessage: comm.target[1].value, // ISO can also be used
-      console.log("Done")
-      database.ref(`cases/` + child["id"]+ `/comments/Manager`)
-        .once("value", (snapshot) => {
-          const existingArray = snapshot.val() || [];
-
-          const newArray = [
-            ...existingArray,
-            (comm.target[1].value+ "@" + "mID" + "@" + new Date().toString()),
-          ];
-
-          database.ref(`cases/` + child["id"] + `/comments/Manager`).set(newArray);
-        })
-        // workerMessage: "Message"
-    // });
-	}
   const handleAccept = () =>{
     if(step == 1)
     {
@@ -382,7 +390,7 @@ const ChildProfile= ({user}) => {
             <label for="changeDeadline">
               <strong>Modify Deadline:</strong>
             </label>
-            <Form onSubmit={(event) => handleDate(event)}>
+            <Form onSubmit={(event) => handleDeadLine(event)}>
               <FormGroup row>
                 <Label for="dob" sm={2}>
                   {" "}
@@ -495,17 +503,23 @@ const ChildProfile= ({user}) => {
               </div>
 
               <div className="row mt-1">
-                  <div className="col m-1 p-1 bg-color3 rounded-pill">
-                    <Button className="w-full bg-transparent !border-none !text-textcolor" onClick={handleAccept}>
-                      Accept
-                    </Button>
-                  </div>
-                  <div className="col m-1 p-1 bg-color3 rounded-pill">
-                    <Button className="w-full bg-transparent !border-none !text-textcolor" onClick={handleReject}>
-                      Reject
-                    </Button>
-                  </div>
+                <div className="col m-1 p-1 bg-color3 rounded-pill">
+                  <Button
+                    className="w-full bg-transparent !border-none !text-textcolor"
+                    onClick={handleAccept}
+                  >
+                    Accept
+                  </Button>
                 </div>
+                <div className="col m-1 p-1 bg-color3 rounded-pill">
+                  <Button
+                    className="w-full bg-transparent !border-none !text-textcolor"
+                    onClick={handleReject}
+                  >
+                    Reject
+                  </Button>
+                </div>
+              </div>
               {/* {assignedStatus === "Assigned" && (
                 <div className="row mt-1">
                   <div className="col m-1 p-1 bg-color3 rounded-pill">

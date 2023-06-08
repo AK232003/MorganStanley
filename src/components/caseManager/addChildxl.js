@@ -73,6 +73,4 @@ const AddchildXL = () => {
   );
 };
 
-// export const handleFileChange = handleFileChange;
-// export const handleUpload = handleUpload;
 export default AddchildXL;
