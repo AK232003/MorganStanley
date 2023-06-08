@@ -65,17 +65,26 @@ const Report=() => {
 
 	  const handleSubmitInformation1 = ((e) => {
 		e.preventDefault();
-			database.ref("childProfile/"+`${id}`).update({"workerMessage" : e.target[0].value})
+			// database.ref("childProfile/"+`${id}`).update({"workerMessage" : e.target[0].value})
 			// database.ref("childProfile/"+`${id}`).on('value',(snapshot)=>{
 			// 	setStatus(snapshot.val()[step]);
-			});
-	//   })
 
-	const SendComment = (e) => {
-        e.preventDefault();
-        // Handle submit logic here
-        setSubmitted(true);
-      };
+      console.log(e.target);
+      console.log(e.target[0].value);
+      database
+        .ref(`cases/` + id + `/comments/Worker`)
+        .once("value", (snapshot) => {
+          const existingArray = snapshot.val() || [];
+
+          const newArray = [
+            ...existingArray,
+            (e.target[0].value + "@" + "wID" + "@" + new Date().toString()),
+          ];
+
+          database.ref(`cases/` + id + `/comments/Worker`).set(newArray);
+        });
+			});
+
 	return (
     <div className="h-95 w-95 sm:h-9/10 sm:w-2/5 bg-sideBarColor1  rounded-1 ms-3 m-3 sm:m-2 sm:relative drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll">
       <div className="row mt-3 m-2 w-95">
@@ -156,9 +165,9 @@ const Report=() => {
         <Card className="my-4">
           <CardBody>
             <CardTitle tag="h5">Manager Message:</CardTitle>
-            <CardSubtitle className="mb-3">{msg}</CardSubtitle>
+            <CardSubtitle className="mb-3">{"HI"}</CardSubtitle>
 
-            <Form onSubmit={SendComment}>
+            <Form onSubmit={handleSubmitInformation1}>
               <FormGroup>
                 <Label for="comments">Comments:</Label>
                 <Input

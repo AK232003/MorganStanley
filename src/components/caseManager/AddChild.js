@@ -3,6 +3,7 @@ import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Form, FormGro
 import { useNavigate,Link } from "react-router-dom";
 import { database, db,storage } from "../../firebase";
 import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storage";
+
 const AddChild = ({user}) => {
 
 	const [open, setOpen] = useState('1');
@@ -65,6 +66,13 @@ const AddChild = ({user}) => {
 					ManagerID: "",
 					Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
 				  });
+
+				   database.ref(`cases/` + id + `/comments`).set({
+            			 Worker: ["Start"],
+            		 	Manager: ["Start"],
+          			 });
+
+				  
 			  })
 			  .catch((error) => {
 				console.error("Error writing document: ", error);

@@ -233,24 +233,29 @@ const ChildProfile= ({user}) => {
 					"Worker IDs": [element.target[2].value],
 				}) 
 			});
-			database
-				  .ref("childProfile/" + child["id"])
-				  .set({
-					AssignStatus: element.target[3].value,
-					WorkerID: element.target[2].value,
-					ManagerID: element.target[1].value,
-					Step1: "Proposal",
-					Step2: "Proposal",
-					Step3: "Proposal",
-					Step4: "Proposal",
-					Step5: "Proposal",
-					Step6: "Proposal",
-					Step7: "Proposal",
-					Step8: "Proposal",
-					Status: 1,
+
+
+      // RealTime Deadline 
+
+      // RealTime Comments 
+        console.log("hi")
+        // database.ref("childProfile/"+`${id}`).update({[step] :"In Progress"})
+        
+					// AssignStatus: element.target[3].value,
+					// WorkerID: element.target[2].value,
+					// ManagerID: element.target[1].value,
+					// Step1: "Proposal",
+					// Step2: "Proposal",
+					// Step3: "Proposal",
+					// Step4: "Proposal",
+					// Step5: "Proposal",
+					// Step6: "Proposal",
+					// Step7: "Proposal",
+					// Step8: "Proposal",
+					// Status: 1,
 
 					// Deadline: element.target[1].value// ISO can also be used
-				  });
+				  
 
 				  setWid(element.target[2].value)
 				  console.log(wid);
@@ -302,12 +307,25 @@ const ChildProfile= ({user}) => {
 			});
 	}
 
+
 	const handleComment = (comm) => {
 		comm.preventDefault();
-		database.ref("childProfile/" + child["id"]).update({
-			ManagerMessage: comm.target[1].value,// ISO can also be used
-			// workerMessage: "Message"
-	});
+		// database.ref("childProfile/" + child["id"]).update({
+    //   ManagerMessage: comm.target[1].value, // ISO can also be used
+      console.log("Done")
+      database.ref(`cases/` + child["id"]+ `/comments/Manager`)
+        .once("value", (snapshot) => {
+          const existingArray = snapshot.val() || [];
+
+          const newArray = [
+            ...existingArray,
+            (comm.target[1].value+ "@" + "mID" + "@" + new Date().toString()),
+          ];
+
+          database.ref(`cases/` + child["id"] + `/comments/Manager`).set(newArray);
+        })
+        // workerMessage: "Message"
+    // });
 	}
   const handleAccept = () =>{
     if(step == 1)
