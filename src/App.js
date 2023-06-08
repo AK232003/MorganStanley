@@ -6,15 +6,17 @@ import { AuthProvider } from "./context/AuthContext";
 
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import Dashboard from "./components/Dashboard";
+import Base from "./components/base";
+import NavDrawercm from "./components/casemanager/navbardrawercm";
 
 function App() {
   const [data, setData] = useState(null);
+  const a = NavDrawercm()
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Dashboard/>}></Route>
+          <Route path="/" element={<Base navBar={a}/>}></Route>
           <Route path="signup" element={<Signup setdata={setData} />} />
           <Route path="login" element={<Login />} />
         </Routes>

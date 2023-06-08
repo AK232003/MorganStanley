@@ -1,89 +1,116 @@
-import { React, useRef, useState } from "react";
-import { Form, Label, FormGroup, Input, Col, Button } from "reactstrap";
-import { useAuth } from "../context/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
+import * as React from 'react';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
+import Grid from '@mui/material/Grid';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import img from './banner-2.jpg';
+import { Toolbar } from '@mui/material';
 
-const Login = () => {
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const { login } = useAuth();
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+const defaultTheme = createTheme({
+  bgcolor: {
+    primary: "#eeeeee",
+    secondary: "#F4ECEC",
+  },
+  imgtheme: "#eeeeee",
+  text: {
+    t1: "#A72C63",
+    t2: "#FFFFFF",
+  },
+});
 
-  async function handleSubmitLogin(e) {
-    e.preventDefault();
-
-    try {
-      setError("");
-      setLoading(true);
-      console.log(emailRef.current.value, passwordRef.current.value);
-      await login(emailRef.current.value, passwordRef.current.value);
-      navigate("/");
-    } catch {
-      setError("Incorrect Username or Password");
-    }
-
-    setLoading(false);
-  }
+export default function SignInSide() {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get('email'),
+      password: data.get('password'),
+    });
+  };
 
   return (
-    <>
-      <Toolbar>
-
-      </Toolbar>
-      {/* <img src="./logo_scroll.png" alt="logo"></img>
-      <div
-        className="container-md"
-        style={{ maxWidth: "500px", marginTop: "100px" }}
-      >
-        <h1 className="mt-100 text-center"> Login </h1>
-        {error && (
-          <div className="alert alert-danger" role="alert">
-            {error}
-          </div>
-        )}
-        <form onSubmit={handleSubmitLogin} className="d-flex flex-column">
-          <div className="form-outline mb-4">
-            <label className="form-label"> Email </label>
-            <input
-              type="email"
-              id="email"
-              className="form-control form-control-lg"
-              ref={emailRef}
-              required
+    <ThemeProvider theme={defaultTheme}>
+      <Grid container component="main" sx={{ height: '100vh'}}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={6}
+          md={8}
+          lg={8}
+          sx={{
+            backgroundImage: `url(${img})`,
+            backgroundColor: defaultTheme.imgtheme,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <Grid item xs={12} sm={6} md={4} component={Paper} elevation={6} square sx={{ backgroundColor: defaultTheme.bgcolor.secondary}}>
+          <Toolbar />
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: `center`,
+            }}
+          >
+            <Box 
+              component="img"
+              src="logo_scroll.png"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              sx={{width:"250px", height:"100px"}}
+              margin={3}
             />
-          </div>
-          <div className="form-outline mb-4">
-            <label className="form-label"> Password </label>
-            <input
-              type="password"
-              id="pass"
-              className="form-control form-control-lg"
-              ref={passwordRef}
-              required
-            />
-          </div>
-          <div className="d-flex justify-content-around align-items-center mb-4">
-            <p>
-              Don't have an account?<Link to="/signup"> Signup </Link>
-            </p>
-          </div>
-          <div className="d-flex justify-content-around align-items-center mb-4">
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn btn-primary btn-lg btn-block"
-            >
-              Sign in
-            </button>
-          </div>
-        </form>
-      </div> */}
-    </>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin="dense"
+                sx={{bgcolor: defaultTheme.text.t2}}
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+              />
+              <TextField
+                sx={{bgcolor:defaultTheme.text.t2}}
+                margin="dense"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 , bgcolor:defaultTheme.text.t1}}
+              >
+                Sign In
+              </Button>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
   );
-};
-
-export default Login;
+}

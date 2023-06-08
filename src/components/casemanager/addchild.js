@@ -15,7 +15,7 @@ function Addchild(){
 		}
 	};
     return (
-		<Box display="flex" flexDirection="column" justifyContent="center">
+		<Box justifyContent="center">
 			<Accordion className="overflow-y-scroll overflow-x-hidden h-full" open={open} toggle={toggle}>
 			<Form >
 				<AccordionItem>
