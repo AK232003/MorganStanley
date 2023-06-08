@@ -64,7 +64,7 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
           openSide ? "w-72" : "w-24"
         } ${!open && "hidden"} ${
           open && "w-95"
-        } bg-sideBarColor1 duration-300 rounded-1 m-2 absolute top-1 sm:relative drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block z-10`}
+        } bg-sideBarColor1 duration-300 rounded-1 m-2 ms-0 absolute top-1 sm:relative drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block z-10`}
       >
         <FaBars
           className={`h-12 w-12 cursor-pointer top-1 text-textcolor duration-500 visible ${
