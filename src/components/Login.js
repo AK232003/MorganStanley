@@ -1,4 +1,4 @@
-import { React, useRef, useState } from "react";
+import { React, useRef, useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -9,7 +9,11 @@ const Login = ({setuser}) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  useEffect(()=>{
+      // setuser(document.cookie.split("=")[1]);
+      // if(document.cookie.split("=")[1]!==null) navigate(document.cookie.split("=")[1]);
 
+  },[])
   async function handleSubmitLogin(e) {
     e.preventDefault();
 

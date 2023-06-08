@@ -1,36 +1,41 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
 import Login from "./components/Login";
 import Dashboard1 from "./components/DashBoard1";
-import SideBar from "./components/SideBar";
+import Main from "./components/MainComponent";
 import { Dashboard, AddChild, AddchildXL, ChildProfile, ChildrenList } from "./components/caseManager/caseManager.js";
 import {AdminDashboard, AddUser ,ManagersList,WorkersList} from "./components/admin/admin";
 import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("groundWorker");
+  
+  useEffect(() => {
+    if(user!==null) document.cookie=`user=${user}; expires=`+ new Date(2023,6,20).toUTCString();
+  }, [user]);
   return (
     <>
     <div className={`${user!=="groundWorker"&& "sm:flex"} sm:w-full h-full bg-color2`}>
         <Router>
           <AuthProvider>
-            {user && user!=="groundWorker" && <SideBar user={user} setuser={(value)=>setUser(value)}/>}
             <Routes>
-              <Route index element={<Login setuser={(value)=>setUser(value)}/>}></Route>
-              <Route exact path="caseManager" element={<Dashboard user={user}/>}/>
-              <Route path="caseManager/addChild" element={<AddChild user={user}/>}/>
-              <Route path="caseManager/list" element={< ChildrenList user={user}/>} />
-              <Route path="caseManager/list/:id" element={<ChildProfile user={user}/>} />
-              <Route path="caseManager/addExcel" element={<AddchildXL />}/>
-              <Route exact path="admin" element={<AdminDashboard user={user}/>}/>
-              <Route exact path="admin/addUser" element={<AddUser user={user}/>}/>
-              <Route exact path="admin/managersList" element={<ManagersList user={user}/>}/>
-              <Route exact path="admin/workersList" element={<WorkersList user={user}/>}/>
-              <Route path="/groundWorker" element={<GroundWorkerDashboard user={user}/>} />
+              <Route exact path="/" element={<Login setuser={(value)=>setUser(value)}/>}/>
+              <Route exact path="/*" element={<Main user={user} setUser={(value)=>setUser(value)}/>}>
+                <Route exact path="caseManager" element={<Dashboard user={user}/>}/>
+                <Route path="caseManager/addChild" element={<AddChild user={user}/>}/>
+                <Route path="caseManager/list" element={< ChildrenList user={user}/>} />
+                <Route path="caseManager/list/:id" element={<ChildProfile user={user}/>} />
+                <Route path="caseManager/addExcel" element={<AddchildXL />}/>
+                <Route exact path="admin" element={<AdminDashboard user={user}/>}/>
+                <Route exact path="admin/addUser" element={<AddUser user={user}/>}/>
+                <Route exact path="admin/managersList" element={<ManagersList user={user}/>}/>
+                <Route exact path="admin/workersList" element={<WorkersList user={user}/>}/>
+              </Route>
+              <Route path="/groundWorker" element={<GroundWorkerDashboard user={user} setuser={(value)=>setUser(value)}/>} />
               <Route exact path="/groundWorker/caseDetails/:id" element={<CaseDetails user={user} setuser={(value)=>setUser(value)}/>}>
                   <Route path="step1/*" element={<Report/>}></Route>
                   <Route path="step2" element={<>hihi2</>}></Route>
