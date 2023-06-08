@@ -1,12 +1,13 @@
 import {React,useEffect,useState} from "react";
 import { FaBars, FaArrowAltCircleRight  } from 'react-icons/fa';
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../logo_scroll.png";
 
 const GroundWorkerSidebar=({user,setuser,child})=>{
 	const [openSide, toggle] = useState(true);
   const [open,setOpen] =useState(false);
 	const [active,setActive]=useState(0);
+	const navigate=useNavigate();
 	const location=useLocation().pathname;
   const sideBarProperty = "";
   const sideBarIconProperty = "text-xl text-textcolor w-full bg-color3 rounded-1 p-2 flex-column justify-start  gap-x-4 mt-2 cursor-pointer";
@@ -17,6 +18,11 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
   const handdleToggle=()=>{
     if(!open) toggle(!openSide); 
     open?setOpen(false):setOpen(open);
+  }
+	const handleLogout= ()=>{
+    // document.cookie="user=; expires="+ new Date(-99).toUTCString();
+    setuser(null);
+    navigate("/");
   }
 	useEffect(()=>{
 		let tempArr=location.split("/")
@@ -132,7 +138,7 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
 									</ul>}
 								</div>
 							</li>
-							<li> <button className={sideBarIconProperty} onClick={()=>setuser(null)} >
+							<li> <button className={sideBarIconProperty} onClick={()=>handleLogout()} >
                 <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>
                 <span className={`text-base font-medium ms-2 ${!openSide && "hidden"}`}>Logout</span> </button>
 							</li>

@@ -12,6 +12,11 @@ const SideBar=({user,setuser})=>{
   const sideBarProperty = "";
   const sideBarIconProperty = "text-xl text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer";
 
+  const handleLogout= ()=>{
+    // document.cookie="user=; expires="+ new Date(-99).toUTCString();
+    setuser(null);
+    navigate("/");
+  }
   const handdleToggle=()=>{
     if(!open) toggle(!openSide); 
     open?setOpen(false):setOpen(open);
@@ -29,18 +34,6 @@ const SideBar=({user,setuser})=>{
             height="40"
             width="100%"
             className="pt-4"></img>}
-            {user === "groundWorker" && 
-            <ul className="pt-2 ps-0">
-              <li className={sideBarIconProperty} onClick={()=>navigate("/groundWorker")} >
-                <span><FaHome className="text-3xl text-textcolor block float-left"></FaHome></span>
-                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Dashboard</span>
-              </li>
-              <li className={sideBarIconProperty} onClick={()=>setuser(null)} >
-                <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>
-                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Logout</span>
-              </li>
-            </ul>
-            }
             {user === "caseManager" &&
             <ul className="pt-2 ps-0">
               <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager")} >
@@ -59,7 +52,7 @@ const SideBar=({user,setuser})=>{
                 <span><FaRegUserCircle className="text-3xl text-textcolor block float-left"></FaRegUserCircle></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Children List</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>setuser(null)} >
+              <li className={sideBarIconProperty} onClick={handleLogout} >
                 <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Logout</span>
               </li>
@@ -83,7 +76,7 @@ const SideBar=({user,setuser})=>{
                 <span><FaClipboardList className="text-3xl text-textcolor block float-left"></FaClipboardList></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Workers List</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>setuser(null)} >
+              <li className={sideBarIconProperty} onClick={()=>handleLogout()} >
                 <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Logout</span>
               </li>
