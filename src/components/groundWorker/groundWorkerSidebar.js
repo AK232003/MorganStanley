@@ -6,7 +6,7 @@ import { database, db, storage } from "../../firebase";
 
 const GroundWorkerSidebar=({user,setuser,child})=>{
 	const [openSide, toggle] = useState(true);
-  	const [open,setOpen] =useState(false);
+  const [open,setOpen] =useState(false);
 	const [active,setActive]=useState(0);
 
 	const [status, setStatus] = useState(4);

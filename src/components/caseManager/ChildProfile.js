@@ -20,6 +20,7 @@ const ChildProfile= ({user}) => {
 	const [gwId,setGWID]=useState("");
 	const [report,setReport]=useState("");
   const [step, setStep] = useState(0);
+  const [substep, setSubStep] = useState(0);
 	// const [assignedStatus,setAssignedStatus]=useState("");
 
 	const navigate=useNavigate();
@@ -39,10 +40,14 @@ const ChildProfile= ({user}) => {
 	useEffect(() => {
     if (user !== "caseManager") navigate("/");
     console.log("Hi there")
+
+    // Set Setps Completed in the Process
+    // --------------------------------
     database.ref(`cases/Process/` + child["id"] + "/isComplete/").on("value", (snapshot) => {
       console.log("Steps Completed", snapshot.val());
       setStep(snapshot.val());
     });
+    // ---------------------------------
 
 
     //  Set Deadline From Database
@@ -55,127 +60,9 @@ const ChildProfile= ({user}) => {
       });
     // -----------------------
 
-
-
-  
-
-    // setKeys(Object.keys(child));
-    // const ref = database.ref("childProfile/" + child["id"]);
-
-    // ref.on("value", (snapshot) => {
-    //   console.log(snapshot.val().WorkerID);
-    //   setWid(snapshot.val().WorkerID);
-    //   setWmsg(snapshot.val().workerMessage);
-    // });
   }, [child, user]);
 
 
-	const handleSubmitInformation = (element) => { 
-		element.preventDefault();
-   
-		// console.log(element.target[1].value, assignStatus, child["id"])
-		const usersRef = db.collection("cases").doc(child["id"]);
-		// const usersRef1 = collection(db, "children");
-		const usersRef2 = db.collection("children").doc(child["id"]);
-		// const docsSnap = await getDocs(colRef);
-		// getDocs(usersRef1).then((snap) =>{
-		// 	snap.forEach(d => console.log(d.data()))
-		// })
-
-		usersRef.get().then((doc) => {
-		if(!doc.exists) {
-			usersRef2.get().then((d) => {
-				console.log(d.data()["Case Number"])
-				db.collection("cases").doc(child["id"]).set({	
-					"CCI or SAA Name": "",
-					"Bal Asha Enrolment": d.data()["Date Of Birth"],
-					"Date of Admission": d.data()["Date Of Birth"],
-					"Photo Publication Report": "",
-					"Photo Publication Text": "",
-					"TV Telecasting Text": "",
-					"TV Telecasting Report": "",
-					"Final Report Police": "",
-					"Final Report Police Text": "",
-					"Medical Report AV": "",
-					"Medical Text AV":"",
-					"Previous Organization Final Report": "",
-					"DCPU Text": "",
-					"NOC Report": "",
-					"CWC Text": "",
-					"LFA Report": "",
-					"CCI or SAA Report": "",
-					"Bal Asha Investigation Report": "",
-					"Final Report District Wonan and Child Development": "",
-					"Free for Adoption": d.data()["Date Of Birth"],
-					"MER": d.data()["Date Of Birth"],
-					"CSR": d.data()["Date Of Birth"],
-					"Carings Upload": d.data()["Date Of Birth"],
-					"Date of Last Follow up": d.data()["Date Of Birth"],
-					"Last Follow up": "",
-					"Remark of Bal Asha Social Work": "",
-					"Remark": "",
-					// "Deadline": element.target[1].value,
-					"Manager ID": element.target[1].value,
-					"Worker IDs": [element.target[2].value],
-				}) 
-			});
-
-
-     
-
-        // database.ref("childProfile/"+`${id}`).update({[step] :"In Progress"})
-        
-					// AssignStatus: element.target[3].value,
-					// WorkerID: element.target[2].value,
-					// ManagerID: element.target[1].value,
-					// Step1: "Proposal",
-					// Step2: "Proposal",
-					// Step3: "Proposal",
-					// Step4: "Proposal",
-					// Step5: "Proposal",
-					// Step6: "Proposal",
-					// Step7: "Proposal",
-					// Step8: "Proposal",
-					// Status: 1,
-
-					// Deadline: element.target[1].value// ISO can also be used
-				  
-
-				  setWid(element.target[2].value)
-				  console.log(wid);
-		}
-
-		else {
-			console.log("Here2", doc.exists);
-			usersRef2.get().then((d) => {
-			var pathRef = db.collection("cases").doc(child["id"])
-			updateDoc(pathRef , {
-				// "Deadline": element.target[1].value,
-				"Manager ID": element.target[1].value,
-				// "Worker IDs": element.target[3].value !== "" ? arrayUnion(element.target[3].value) : arrayUnion(),
-				"Worker IDs": arrayUnion(element.target[2].value),
-			
-		}); 
-			});
-			
-		}
-	});
-		// database
-		// 		  .ref("childProfile/" + child["id"])
-		// 		  .set({
-		// 			AssignStatus: element.target[3].value,
-		// 			WorkerID: element.target[2].value,
-		// 			ManagerID: element.target[1].value,
-		// 			// Deadline: element.target[1].value// ISO can also be used
-		// 		  });
-		
-		// setWid(element.target[2].value)
-		// console.log(wid);
-		
-		db.collection("children").doc(child["id"]).update({
-			"Status": element.target[3].value,
-		})
-	}
 
 // Case Creation Section(Worker Assigned to Children)
 // (mId to be changed to the manager Id)
@@ -184,29 +71,29 @@ const handleCase = (element) => {
   // Case Creation
   element.preventDefault();
 
-  // const usersRef = db.collection("cases").doc(child["id"]);
-  // const usersRef2 = db.collection("children").doc(child["id"]);
+  const usersRef = db.collection("cases").doc(child["id"]);
+  const usersRef2 = db.collection("children").doc(child["id"]);
 
-  // usersRef.get().then((doc) => {
+  usersRef.get().then((doc) => {
     
-  //   if (!doc.exists) {
+    if (!doc.exists) {
       // Initial Case Report
-      // usersRef2.get().then((d) => {
-      //   console.log(d.data()["Case Number"]);
-      //   db.collection("cases")
-      //     .doc(child["id"])
-      //     .set({
-      //       "Bal Asha Enrolment": d.data()["Date Of Birth"],
-      //       "Date of Admission": d.data()["Date Of Birth"],
+      usersRef2.get().then((d) => {
+        console.log(d.data()["Case Number"]);
+        db.collection("cases")
+          .doc(child["id"])
+          .set({
+            "Bal Asha Enrolment": d.data()["Date Of Birth"],
+            "Date of Admission": d.data()["Date Of Birth"],
 
-      //       "Date of Last Follow up": d.data()["Date Of Birth"],
-      //       "Last Follow up": "",
-      //       "Remark of Bal Asha Social Work": "",
-      //       Remark: "",
-      //       "Manager ID": "MId",
-      //       "Worker IDs": [element.target[2].value],
-      //     });
-      // });
+            "Date of Last Follow up": d.data()["Date Of Birth"],
+            "Last Follow up": "",
+            "Remark of Bal Asha Social Work": "",
+            "Remark": "",
+            "Manager ID": "MId",
+            "Worker IDs": [element.target[2].value],
+          });
+      });
     
       // Process Track
       database.ref(`cases/Process/` + child["id"]).update({
@@ -266,19 +153,19 @@ const handleCase = (element) => {
       console.log("Success!")
       
 
-    // } 
-    // else
-    // {
-    // // Reassign to different worker
-    //   console.log("Reassigning to Worker: ", element.target[2].value);
-    //   usersRef2.get().then((d) => {
-    //     var pathRef = db.collection("cases").doc(child["id"]);
-    //     updateDoc(pathRef, {
-    //       "Worker IDs": arrayUnion(element.target[2].value),
-    //     });
-    //   });
-    // }
-  // });
+    } 
+    else
+    {
+    // Reassign to different worker
+      console.log("Reassigning to Worker: ", element.target[2].value);
+      usersRef2.get().then((d) => {
+        var pathRef = db.collection("cases").doc(child["id"]);
+        updateDoc(pathRef, {
+          "Worker IDs": arrayUnion(element.target[2].value),
+        });
+      });
+    }
+  });
  
 
   // RealTime Deadline
@@ -331,21 +218,114 @@ const handleCase = (element) => {
 // -------------------------------------------
   
 
+// Handle Accpet Section 
+// --------------------------------------
+  const handleAccept = (e) =>{
+    e.preventDefault()
+    console.log("HI there!")
+    setStep(1)
+    setSubStep(1)
+    console.log(step, substep)
+    console.log("Accepted")
+    const caseDocRef = db.collection("cases").doc(child["id"]);
+    const taskDocRef = db
+      .collection("task")
+      .doc(child["id"] + step.toString() + substep.toString());
 
-  const handleAccept = () =>{
-    // if(step == 1)
-    // {
-        
-    //     database
-    //       .ref("childProfile/" + `${child["id"]}`)
-    //       .update({ Step1: "Completed" }); 
-    // }
-    
+    taskDocRef
+      .get()
+      .then((taskDocSnapshot) => {
+        if (taskDocSnapshot.exists) {
+          const taskData = taskDocSnapshot.data();
+          caseDocRef
+            .update(taskData)
+            .then(() => {
+              console.log("Fields added successfully");
+            })
+            .catch((error) => {
+              console.error("Error updating case document: ", error);
+            });
+        } else {
+          console.log("Task document does not exist");
+        }
+      })
+      .catch((error) => {
+        console.error("Error retrieving task document: ", error);
+      });
+
+
+    if(step === 1)
+    {
+       database.ref(`cases/Process/` + child["id"] + `/Step1/Step1`).update({
+         isComplete: true,
+         stat: "Complete",
+       });
+       let isStep1Complete = true;
+       for(let i=1; i<=5; i++)
+       {
+          database.ref(`cases/Process/` + child["id"] + `/Step1/Step${i}/isComplete`).once("value", (snapshot) => {
+            isStep1Complete = snapshot.val() && isStep1Complete;
+          });
+       }
+       if(isStep1Complete){
+         database.ref(`cases/Process/` + child["id"]).update({
+           isComplete: 1,
+         });
+       }
+    }
+    else 
+    {
+       database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
+         isComplete: true,
+         stat: "Complete",
+       });
+       database.ref(`cases/Process/` + child["id"] ).update({
+         isComplete: step,
+       });
+    }   
   }
-  const handleReject = () =>{
+  // ----------------------------------
+
+
+// Handle Reject Section
+  // -------------------------------------
+  const handleReject = (e) =>{
+    e.preventDefault();
     console.log("Rejected");
-  }
+    const taskDocRef = db
+      .collection("task")
+      .doc(child["id"] + step.toString() + substep.toString());
+     taskDocRef
+       .delete()
+       .then(() => {
+         console.log("Document successfully deleted");
+       })
+       .catch((error) => {
+         console.error("Error deleting document: ", error);
+       });
 
+    if (step === 1) {
+      database
+        .ref(`cases/Process/` + child["id"] + `/Step1/Step${substep}`)
+        .update({
+          isComplete: false,
+          text: "",
+          docs: "",
+          stat: "In Progress",
+        });
+    } 
+    else {
+      database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
+        isComplete: false,
+        text: "",
+        docs: "",
+        stat: "In Progress",
+      });
+
+    }
+
+  }
+// ---------------------------------------------
 
 
 	return (
@@ -375,10 +355,10 @@ const handleCase = (element) => {
           <div className="mt-4 p-2">
             <strong>Steps Completed:</strong>
             <ul>
-              {step === 1 && <li>Verification 1</li>}
-              {step === 2 && <li>Verification 2</li>}
-              {step === 3 && <li>Verification 3</li>}
-              {step === 4 && <li>Verification 3</li>}
+              {step >= 1 && <li>Verification 1</li>}
+              {step >= 2 && <li>Verification 2</li>}
+              {step >= 3 && <li>Verification 3</li>}
+              {step >= 4 && <li>Verification 3</li>}
             </ul>
           </div>
           <div className="mt-2 p-2">

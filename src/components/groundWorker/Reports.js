@@ -12,7 +12,7 @@ import {
   Input,
   Button,
 } from "reactstrap";
-import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storage";
+import { getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
 import { database, db, storage } from "../../firebase";
 const Report=() => {
   const location = useLocation();
@@ -31,35 +31,73 @@ const Report=() => {
   mapOfTypes.set("fileMisingReport", ["File Missing Report", "Step3"]);
   mapOfTypes.set("medicalReport", ["Medical Report", "Step4"]);
   mapOfTypes.set("siReport", ["SI Report", "Step5"]);
+
+  const [substep, setSubStep] = useState(1);
+
   useEffect(() => {
     // const ref = database.ref("childProfile"+`${id}`)
     setType(location.pathname.split("/")[5]);
-    setStep(mapOfTypes.get(type)[1]);
-    database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
-      setStatus(snapshot.val()[step]);
-      setMsg(snapshot.val()["ManagerMessage"]);
-    });
+    // setStep(mapOfTypes.get(type)[1]);
+    // database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
+    //   setStatus(snapshot.val()[step]);
+    //   setMsg(snapshot.val()["ManagerMessage"]);
+    // });
   }, [location]);
   const handleSubmitInformation = (e) => {
     e.preventDefault();
+    setStep(1);
+    setSubStep(1);
     const imageRef = storageRef(
       storage,
       `documents/${id}/NewsPublicationReport`
     );
-    uploadBytes(imageRef, imageUpload).then((snapshot) => {
-      getDownloadURL(snapshot.ref).then((url) => {
-        db.collection("cases").doc(id).update({
-          "Photo Publication Report": url,
-          "Photo Publication Text": e.target[0].value,
-        });
+
+    uploadBytes(imageRef, imageUpload)
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref)
+          .then((url) => {
+            db.collection("task")
+              .doc(id + step.toString() + substep.toString())
+              .set({
+                "Photo Publication Report": url,
+                "Photo Publication Text": e.target[0].value,
+              })
+              .then(() => {
+                if (step === 1) {
+                  database
+                    .ref(`cases/Process/` + id + `/Step1/Step`+`${substep}`)
+                    .update({
+                      isComplete: false,
+                      text: id + step.toString() + substep.toString(),
+                      docs: url,
+                      stat: "In Review",
+                    });
+                } else {
+                  database.ref(`cases/Process/` + id + `/Step`+`${step}`).update({
+                    isComplete: false,
+                    text: id + step.toString() + "0",
+                    docs: url,
+                    stat: "In Review",
+                  });
+                }
+              })
+              .catch((error) => {
+                console.error("Error creating document: ", error);
+              });
+          })
+          .catch((error) => {
+            console.error("Error getting download URL: ", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error uploading bytes: ", error);
       });
-    });
 
-    database.ref("childProfile/" + `${id}`).update({ [step]: "In Progress" });
-    database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
-      setStatus(snapshot.val()[step]);
-    });
-
+    // database.ref("childProfile/" + `${id}`).update({ [step]: "In Progress" });
+    // database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
+    //   setStatus(snapshot.val()[step]);
+    // });
+    console.log("Success!")
     setSubmitted(true);
   };
 
