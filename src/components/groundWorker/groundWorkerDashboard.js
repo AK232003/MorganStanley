@@ -22,8 +22,7 @@ const GroundWorkerDashboard = ({ user, setuser }) => {
           GroundWorker Dashboard
         </div>
         <div className="col-auto align-self-end justify-self-end">
-
-        <Button onClick={()=>handleLogout()}  className="!bg-color4">
+        <Button onClick={()=>handleLogout()}  className="!bg-logoutButton align-items-center">
                 <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>
                 <span className="text-base font-medium ms-2  text-textcolor">Logout</span> </Button>
         </div>

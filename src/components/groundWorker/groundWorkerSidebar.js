@@ -12,9 +12,9 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
 	const [status, setStatus] = useState(4);
 	const navigate=useNavigate();
 	const location=useLocation().pathname;
-  	const sideBarProperty = "";
-  	const sideBarIconProperty =
-    "text-xl text-textcolor w-full bg-color3 rounded-1 p-2 flex-column justify-start gap-x-4 mt-2 cursor-pointer transition duration-300 hover:bg-gray-400 position-relative overflow-hidden";
+  const sideBarProperty = "";
+  const sideBarIconProperty = "text-xl text-textcolor bg-color3/[0.2] rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer";
+  const logoutIconProperty = "text-xl text-textcolor bg-logoutButton rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-logoutButton/[0.8] cursor-pointer";
 	const toggleAccordion=(id)=>{
 		if(active===id) setActive(0);
 		else setActive(id);
@@ -84,9 +84,8 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
         {user === "groundWorker" && (
           <ul className="pt-2 ps-0">
             {/* Step-1 Button */}
-            <li>
+            <li className={sideBarIconProperty}>
               <div
-                className={sideBarIconProperty}
                 onClick={() => toggleAccordion(1)}
               >
                 <span>
@@ -219,10 +218,8 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
               </div>
             </li> */}
             {/* Step-2 Button */}
-            <li>
-              {" "}
+            <li className={sideBarIconProperty}>
               <button
-                className={sideBarIconProperty}
                 onClick={() => handleStep2()}
                 disabled={!(status === 2)}
               >
@@ -240,10 +237,8 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
             </li>
 
             {/* Step-3 Button */}
-            <li>
-              {" "}
+            <li className={sideBarIconProperty}>
               <button
-                className={sideBarIconProperty}
                 onClick={() => handleStep2()}
                 disabled={!(status === 3)}
               >
@@ -261,10 +256,8 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
             </li>
 
             {/* Step-4 Button */}
-            <li>
-              {" "}
+            <li className={sideBarIconProperty}>
               <button
-                className={sideBarIconProperty}
                 onClick={() => handleStep2()}
                 disabled={!(status === 4)}
               >
@@ -282,10 +275,9 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
             </li>
 
             {/* Logout Button */}
-            <li>
+            <li className={logoutIconProperty}>
               {" "}
               <button
-                className={sideBarIconProperty}
                 onClick={() => handleLogout()}
               >
                 <span>

@@ -88,8 +88,8 @@ const AddChild = ({user}) => {
     if(user!=="caseManager") navigate("/");
   },[user])
 	return (
-		<div className="container mt-4" >
-			<Accordion className="overflow-y-scroll overflow-x-hidden h-full" open={open} toggle={toggle}>
+		<div className="container mt-4 bg-color2" >
+			<Accordion className="overflow-y-scroll overflow-x-hidden" open={open} toggle={toggle}>
 			<Form  className="!bg-color5/[0.6] !border-none rounded-2" onSubmit={(event) => handleSubmitInformation(event)}>
 				<AccordionItem className="!bg-transparent">
 					<h4 className="m-2 ms-4 cursor-pointer" onClick={()=> toggle('1')}>Section-1

@@ -1,15 +1,17 @@
 import React, {useState,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import { List, Card, CardBody,Input} from "reactstrap";
+import { FaSearch } from "react-icons/fa";
 import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../logo_scroll.png";
-import { List, Card, CardBody} from "reactstrap";
 
 const AssignedList=({id})=>{
 	const navigate = useNavigate();
 
 	const[children, setChildren] = useState([]);
 	const [filter,setFilter]=useState("Completed")
+	const [search,setSearch] = useState("");
 	const childrenCollectionRef = collection(db, "children");
 	useEffect(() => {
 			const getChildren = async () => {
@@ -41,12 +43,27 @@ const AssignedList=({id})=>{
 			</div>)
 	}
 	return (
-<div className="container sm:mt-4 overflow-y-scroll rounded-3 bg-[#C1DDB4]">
+<div className="container sm:mt-4 overflow-y-scroll rounded-3 bg-color2">
 	<div className="row mt-4 h-16">
+			<div className="col-8 col-md-10 w-full p-2">
+			<div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
+			<span><FaSearch className="text-lg text-black block float-left me-2"></FaSearch></span>
+			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={"Search"} onChange={(event)=>setSearch(event.target.value)}></input>
+			</div>
+			</div>
+			<div className="col-4 col-md-2 mt-2 md:p-2 p-1">
+			<Input type="select" name="filter" id="filter" className="rounded-md w-full h-auto text-2xl p-2 border-0 !bg-color3 shadow-md" onChange={(event)=>setFilter(event.target.value)}>
+				<option>Name</option>
+				<option>District</option>
+				<option>Case Number</option>
+			</Input>
+			</div>
+		</div>
+	{/* <div className="row mt-4 h-16">
 		<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Assigned")}>Assigned </button>
 		<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Unassigned")}> Unassigned</button>
 		<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Completed")}> Completed</button>
-	</div>
+	</div> */}
 		{children.length>0? childrenLists() :<div className="spinner-border m-5 p-4" style={{position: "relative" ,top: "50%", left: "50%"}} role="status"></div>}
 </div>
 );
