@@ -18,10 +18,12 @@ const ChildProfile= ({user}) => {
 	const [text,setText]=useState("");
 	const [gwId,setGWID]=useState("");
 	const [report,setReport]=useState("");
-	const [assignedStatus,setAssignedStatus]=useState("");
+  const [step, setStep] = useState(1);
+	// const [assignedStatus,setAssignedStatus]=useState("");
 	const [date, setDate]=useState(null);
 	const navigate=useNavigate();
 	const [open, setOpen] = useState('1');
+  // const [temp, setTemp] = useState('1');
 	const [imageUpload, setImageUpload] = useState(null);
 	const toggle = (id) => {
 		if (open === id) {
@@ -30,27 +32,157 @@ const ChildProfile= ({user}) => {
 			setOpen(id);
 		}
 	};
-	useEffect(()=>{
-		if(user!=="caseManager") navigate("/");
-	},[user])
-	// useEffect(()=>{
-	// 	db.collection("cases").doc(child["id"]).get().then((d) =>{
-	// 		setText(d.data()["Photo Publication Text"])
-	// 		setReport(d.data()["Photo Publication Report"])
-	// 		setGWID(d.data()["Worker IDs"].slice(-1)[0])
-	// 		setAssignedStatus(d.data()["Status"]);
-	// 		console.log(d.data())
-	// 	});
+  let temp = 0;
 
-	// 	setKeys(Object.keys(child));
-	// 	const ref = database.ref("childProfile/" + child["id"]);
-	
-	// 	ref.on('value', (snapshot) => {
-	// 		console.log(snapshot.val().WorkerID)
-	// 		setWid(snapshot.val().WorkerID)
-	// 		setWmsg(snapshot.val().workerMessage)
-	// });
-	// },[child]);
+  
+
+	useEffect(() => {
+    if (user !== "caseManager") navigate("/");
+    database.ref(`childProfile/${child["id"]}/Status`).on("value", (snapshot) => {
+      setStep(snapshot.val());
+      console.log("Step", snapshot.val());
+     });
+    if (step === 1) {
+      database
+        .ref(`childProfile/${child["id"]}/Step1`)
+        .on("value", (snapshot) => {
+          if (snapshot.val() === "In Progress") {
+            db.collection("cases")
+              .doc(child["id"])
+              .get()
+              .then((d) => {
+                setText(d.data()["Photo Publication Text"]);
+                setReport(d.data()["Photo Publication Report"]);
+                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
+                temp = 1;
+                console.log("HIHI1")
+                // setAssignedStatus(d.data()["Status"]);
+                console.log(d.data());
+              });
+          }
+        });
+
+      database
+        .ref(`childProfile/${child["id"]}/Step2`)
+        .on("value", (snapshot) => {
+          if (snapshot.val() === "In Progress") {
+            db.collection("cases")
+              .doc(child["id"])
+              .get()
+              .then((d) => {
+                setText(d.data()["TV Telecasting Text"]);
+                setReport(d.data()["TV Telecasting Report"]);
+                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
+                temp = 2;
+                console.log("HIHI2");
+                // setAssignedStatus(d.data()["Status"]);
+                console.log(d.data());
+              });
+          }
+        });
+
+      database
+        .ref(`childProfile/${child["id"]}/Step3`)
+        .on("value", (snapshot) => {
+          if (snapshot.val() === "In Progress") {
+            db.collection("cases")
+              .doc(child["id"])
+              .get()
+              .then((d) => {
+                setText(d.data()["Final Report Police Text"]);
+                setReport(d.data()["Final Report Police"]);
+                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
+                temp = 3;
+                console.log("HIHI3");
+                // setAssignedStatus(d.data()["Status"]);
+                console.log(d.data());
+              });
+          }
+        });
+
+      database
+        .ref(`childProfile/${child["id"]}/Step4`)
+        .on("value", (snapshot) => {
+          if (snapshot.val() === "In Progress") {
+            db.collection("cases")
+              .doc(child["id"])
+              .get()
+              .then((d) => {
+                setText(d.data()["Medical Text AV"]);
+                setReport(d.data()["Medical Report AV"]);
+                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
+                temp = 4;
+                console.log("HIHI4");
+                // setAssignedStatus(d.data()["Status"]);
+                console.log(d.data());
+              });
+          }
+        });
+
+      database
+        .ref(`childProfile/${child["id"]}/Step5`)
+        .on("value", (snapshot) => {
+          if (snapshot.val() === "In Progress") {
+            db.collection("cases")
+              .doc(child["id"])
+              .get()
+              .then((d) => {
+                setText(d.data()["Medical Text AV"]);
+                setReport(d.data()["Previous Organization Final Report"]);
+                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
+                temp = 5;
+                console.log("HIHI5");
+                // setAssignedStatus(d.data()["Status"]);
+                console.log(d.data());
+              });
+          }
+        });
+    } else if (step === 2) {
+      db.collection("cases")
+        .doc(child["id"])
+        .get()
+        .then((d) => {
+          setText(d.data()["DCPU Text"]);
+          setReport(d.data()["NOC Report"]);
+          setGWID(d.data()["Worker IDs"].slice(-1)[0]);
+          // setAssignedStatus(d.data()["Status"]);
+          console.log(d.data());
+        });
+    } else if (step === 3) {
+      db.collection("cases")
+        .doc(child["id"])
+        .get()
+        .then((d) => {
+          setText(d.data()["CWC Text"]);
+          setReport(d.data()["LFA Report"]);
+          setGWID(d.data()["Worker IDs"].slice(-1)[0]);
+          // setAssignedStatus(d.data()["Status"]);
+          console.log(d.data());
+        });
+    } else if (step === 4) {
+      db.collection("cases")
+        .doc(child["id"])
+        .get()
+        .then((d) => {
+          setText(d.data()["CCI or SAA Report"]);
+          setReport(d.data()["Bal Asha Investigation Report"]);
+          setGWID(d.data()["Worker IDs"].slice(-1)[0]);
+          // setAssignedStatus(d.data()["Status"]);
+          console.log(d.data());
+        });
+    }
+
+  
+
+    // setKeys(Object.keys(child));
+    // const ref = database.ref("childProfile/" + child["id"]);
+
+    // ref.on("value", (snapshot) => {
+    //   console.log(snapshot.val().WorkerID);
+    //   setWid(snapshot.val().WorkerID);
+    //   setWmsg(snapshot.val().workerMessage);
+    // });
+  }, [child, user]);
 
 
 	const handleSubmitInformation = (element) => { 
@@ -177,6 +309,19 @@ const ChildProfile= ({user}) => {
 			// workerMessage: "Message"
 	});
 	}
+  const handleAccept = () =>{
+    if(step == 1)
+    {
+        
+        database
+          .ref("childProfile/" + `${child["id"]}`)
+          .update({ Step1: "Completed" }); 
+    }
+    
+  }
+  const handleReject = () =>{
+    console.log("Rejected");
+  }
 
 
 
@@ -305,6 +450,60 @@ const ChildProfile= ({user}) => {
               </Form>
             </Accordion>
           </div>
+          {/* Assigned Worker Card */}
+
+          <Card body className="justify-content-center m-2 mt-4 p-2">
+            <CardTitle className="m-1 p-1" tag="h4">
+              {" "}
+              Assigned Ground Worker
+            </CardTitle>
+
+            <CardBody>
+              <div className="row">
+                <div className="col"> Worker ID</div>
+                <div className="col">{gwId}</div>
+              </div>
+              <div className="row">
+                <div className="col"> Task Text</div>
+                <div className="col">{text}</div>
+              </div>
+              <div className="row">
+                <div className="col"> Related Files</div>
+                <div className="col">
+                  <a href={report} target="_blank" rel="noopener noreferrer">
+                    Report Link
+                  </a>
+                </div>
+              </div>
+
+              <div className="row mt-1">
+                  <div className="col m-1 p-1 bg-color3 rounded-pill">
+                    <Button className="w-full bg-transparent !border-none !text-textcolor" onClick={handleAccept}>
+                      Accept
+                    </Button>
+                  </div>
+                  <div className="col m-1 p-1 bg-color3 rounded-pill">
+                    <Button className="w-full bg-transparent !border-none !text-textcolor" onClick={handleReject}>
+                      Reject
+                    </Button>
+                  </div>
+                </div>
+              {/* {assignedStatus === "Assigned" && (
+                <div className="row mt-1">
+                  <div className="col m-1 p-1 bg-color3 rounded-pill">
+                    <Button className="w-full bg-transparent !border-none !text-textcolor">
+                      Accept
+                    </Button>
+                  </div>
+                  <div className="col m-1 p-1 bg-color3 rounded-pill">
+                    <Button className="w-full bg-transparent !border-none !text-textcolor">
+                      Reject
+                    </Button>
+                  </div>
+                </div> */}
+              {/* )} */}
+            </CardBody>
+          </Card>
           <Accordion open={open} toggle={toggle}>
             <Form onSubmit={(event) => handleComment(event)}>
               <AccordionItem>
@@ -345,49 +544,6 @@ const ChildProfile= ({user}) => {
               </AccordionItem>
             </Form>
           </Accordion>
-
-          {/* Assigned Worker Card */}
-
-          <Card body className="justify-content-center m-2 mt-4 p-2">
-            <CardTitle className="m-1 p-1" tag="h4">
-              {" "}
-              Assigned Ground Worker
-            </CardTitle>
-
-            <CardBody>
-              <div className="row">
-                <div className="col"> Worker ID</div>
-                <div className="col">{gwId}</div>
-              </div>
-              <div className="row">
-                <div className="col"> Task Text</div>
-                <div className="col">{text}</div>
-              </div>
-              <div className="row">
-                <div className="col"> Related Files</div>
-                <div className="col">
-                  <a href={report} target="_blank" rel="noopener noreferrer">
-                    Report Link
-                  </a>
-                </div>
-              </div>
-              {assignedStatus === "Assigned" && (
-                <div className="row mt-1">
-                  <div className="col m-1 p-1 bg-color3 rounded-pill">
-                    <Button className="w-full bg-transparent !border-none !text-textcolor">
-                      Accept
-                    </Button>
-                  </div>
-                  <div className="col m-1 p-1 bg-color3 rounded-pill">
-                    <Button className="w-full bg-transparent !border-none !text-textcolor">
-                      Reject
-                    </Button>
-                  </div>
-                </div>
-              )}
-            </CardBody>
-          </Card>
-		  _--------
         </div>
       </Card>
     </div>

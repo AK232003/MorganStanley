@@ -43,21 +43,21 @@ const Report=() => {
 	},[location])
 	const handleSubmitInformation = ((e) => {
 		e.preventDefault();
-		// const imageRef = storageRef(storage, `documents/${id}/NewsPublicationReport`);
-		// uploadBytes(imageRef, imageUpload)
-		// 	.then((snapshot) => {
-		// 	  getDownloadURL(snapshot.ref).then((url) => {
-		// 		db.collection("cases").doc(id).update({
-		// 		  "Photo Publication Report": url,
-		// 		  "Photo Publication Text": e.target[0].value
-		// 		})
-		// 	  })
-		// 	})
+		const imageRef = storageRef(storage, `documents/${id}/NewsPublicationReport`);
+		uploadBytes(imageRef, imageUpload)
+			.then((snapshot) => {
+			  getDownloadURL(snapshot.ref).then((url) => {
+				db.collection("cases").doc(id).update({
+				  "Photo Publication Report": url,
+				  "Photo Publication Text": e.target[0].value
+				})
+			  })
+			})
 
-		// 	database.ref("childProfile/"+`${id}`).update({[step] :"In Progress"})
-		// 	database.ref("childProfile/"+`${id}`).on('value',(snapshot)=>{
-		// 		setStatus(snapshot.val()[step]);
-		// 	})
+			database.ref("childProfile/"+`${id}`).update({[step] :"In Progress"})
+			database.ref("childProfile/"+`${id}`).on('value',(snapshot)=>{
+				setStatus(snapshot.val()[step]);
+			})
 
 		setSubmitted(true);
 	  
@@ -84,13 +84,17 @@ const Report=() => {
           {mapOfTypes.get(type)[0]}
         </div>
         <div className="col-auto p-0"></div>
-        <div className="col-auto p-0 justify-self-end ">
+        <div className="font-medium bg-color2 justify-self-center p-2">
+          {" "}
+          {status}
+        </div>{" "}
+        {/* <div className="col-auto p-0 justify-self-end ">
           {" "}
           <div className="w-auto rounded-pill font-medium bg-color2 justify-self-center p-2">
             {" "}
             {status}
           </div>{" "}
-        </div>
+        </div> */}
       </div>
 
       <div className="row m-2 mt-3 w-95">
