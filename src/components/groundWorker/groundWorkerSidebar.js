@@ -2,35 +2,46 @@ import {React,useEffect,useState} from "react";
 import { FaBars, FaArrowAltCircleRight  } from 'react-icons/fa';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../logo_scroll.png";
+import { database, db, storage } from "../../firebase";
 
 const GroundWorkerSidebar=({user,setuser,child})=>{
 	const [openSide, toggle] = useState(true);
-  const [open,setOpen] =useState(false);
+  	const [open,setOpen] =useState(false);
 	const [active,setActive]=useState(0);
+
+	const [status, setStatus] = useState(4);
 	const navigate=useNavigate();
 	const location=useLocation().pathname;
-  const sideBarProperty = "";
-  const sideBarIconProperty =
+  	const sideBarProperty = "";
+  	const sideBarIconProperty =
     "text-xl text-textcolor w-full bg-color3 rounded-1 p-2 flex-column justify-start gap-x-4 mt-2 cursor-pointer transition duration-300 hover:bg-gray-400 position-relative overflow-hidden";
 	const toggleAccordion=(id)=>{
 		if(active===id) setActive(0);
 		else setActive(id);
 	}
-  const handdleToggle=()=>{
-    if(!open) toggle(!openSide); 
-    open?setOpen(false):setOpen(open);
-  }
+  	const handdleToggle=()=>{
+    	if(!open) toggle(!openSide); 
+    	open?setOpen(false):setOpen(open);
+  	}
+  	const handleStep2=()=>{
+		alert("Hi Button Pressed");
+		console.log(child)
+  	}
 	const handleLogout= ()=>{
     // document.cookie="user=; expires="+ new Date(-99).toUTCString();
-    setuser(null);
-    navigate("/");
-  }
+    	setuser(null);
+    	navigate("/");
+  	}
 	useEffect(()=>{
-		let tempArr=location.split("/")
-		if(tempArr.length>4) {
-			setActive(Number(tempArr[4][4]));
-		}
-	},[location])
+    let tempArr = location.split("/");
+    if (tempArr.length > 4) {
+      setActive(Number(tempArr[4][4]));
+    }
+	database.ref("childProfile/RB123/status").on('value',(snapshot)=>{
+			setStatus(snapshot.val())
+			console.log(snapshot.val())
+		})
+	},[location, child])
 	return (
     <>
       <div
@@ -212,7 +223,8 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
               {" "}
               <button
                 className={sideBarIconProperty}
-                onClick={() => toggleAccordion(2)}
+                onClick={() => handleStep2()}
+                disabled={!(status === 2)}
               >
                 <span>
                   <FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight>
@@ -232,7 +244,8 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
               {" "}
               <button
                 className={sideBarIconProperty}
-                onClick={() => toggleAccordion(3)}
+                onClick={() => handleStep2()}
+                disabled={!(status === 3)}
               >
                 <span>
                   <FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight>
@@ -252,7 +265,8 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
               {" "}
               <button
                 className={sideBarIconProperty}
-                onClick={() => toggleAccordion(4)}
+                onClick={() => handleStep2()}
+                disabled={!(status === 4)}
               >
                 <span>
                   <FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight>

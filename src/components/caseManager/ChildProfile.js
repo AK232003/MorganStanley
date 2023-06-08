@@ -33,24 +33,24 @@ const ChildProfile= ({user}) => {
 	useEffect(()=>{
 		if(user!=="caseManager") navigate("/");
 	},[user])
-	useEffect(()=>{
-		db.collection("cases").doc(child["id"]).get().then((d) =>{
-			setText(d.data()["Photo Publication Text"])
-			setReport(d.data()["Photo Publication Report"])
-			setGWID(d.data()["Worker IDs"].slice(-1)[0])
-			setAssignedStatus(d.data()["Status"]);
-			console.log(d.data())
-		});
+	// useEffect(()=>{
+	// 	db.collection("cases").doc(child["id"]).get().then((d) =>{
+	// 		setText(d.data()["Photo Publication Text"])
+	// 		setReport(d.data()["Photo Publication Report"])
+	// 		setGWID(d.data()["Worker IDs"].slice(-1)[0])
+	// 		setAssignedStatus(d.data()["Status"]);
+	// 		console.log(d.data())
+	// 	});
 
-		setKeys(Object.keys(child));
-		const ref = database.ref("childProfile/" + child["id"]);
+	// 	setKeys(Object.keys(child));
+	// 	const ref = database.ref("childProfile/" + child["id"]);
 	
-		ref.on('value', (snapshot) => {
-			console.log(snapshot.val().WorkerID)
-			setWid(snapshot.val().WorkerID)
-			setWmsg(snapshot.val().workerMessage)
-	});
-	},[child]);
+	// 	ref.on('value', (snapshot) => {
+	// 		console.log(snapshot.val().WorkerID)
+	// 		setWid(snapshot.val().WorkerID)
+	// 		setWmsg(snapshot.val().workerMessage)
+	// });
+	// },[child]);
 
 
 	const handleSubmitInformation = (element) => { 
@@ -99,7 +99,6 @@ const ChildProfile= ({user}) => {
 					// "Deadline": element.target[1].value,
 					"Manager ID": element.target[1].value,
 					"Worker IDs": [element.target[2].value],
-					"Status": element.target[3].value,
 				}) 
 			});
 			database
@@ -116,6 +115,7 @@ const ChildProfile= ({user}) => {
 					Step6: "Proposal",
 					Step7: "Proposal",
 					Step8: "Proposal",
+					Status: 1,
 
 					// Deadline: element.target[1].value// ISO can also be used
 				  });
@@ -133,7 +133,7 @@ const ChildProfile= ({user}) => {
 				"Manager ID": element.target[1].value,
 				// "Worker IDs": element.target[3].value !== "" ? arrayUnion(element.target[3].value) : arrayUnion(),
 				"Worker IDs": arrayUnion(element.target[2].value),
-				"Status": element.target[3].value,
+			
 		}); 
 			});
 			
@@ -181,144 +181,217 @@ const ChildProfile= ({user}) => {
 
 
 	return (
-	<div className="container overflow-y-auto bg-[#C1DDB4]"> 
-		<Card body className=" !flex-row align-items-center justify-content-center m-2 p-2 mt-4" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  > 
-			<CardBody>
-							<List type="unstyled">
-								<h1 className="p-2 m-2"> Child Details for {child["id"]}</h1>
-								{child!==undefined && keys.map((key)=> {
-									return <li key={key} className="row m-2 p-1"> <strong className="col-3">{key} :</strong> <div className="col">{child[key]}</div></li>
-								})}
-							</List>
-				</CardBody>
-						<div className="flex-column align-self-start m-2 p-2 pt-4 col-3"><img alt="Child Photo" src={img}/>
-						<div className="mt-4 p-2">
-								<strong> Steps Done:</strong>
-								<ul>
-									<li> Verification 1</li>
-									<li> Verification 2</li>
-									<li> Verification 3</li>
-								</ul>
-						</div>
-						<div className="mt-2 p-2">
-								<strong> Deadline:</strong> 29/10/2023
-						</div>
-						<div className="mt-2 p-2">
-							<label for="changeDeadline"><strong>Modify Deadline:</strong></label>
-							<Form onSubmit={(event) => handleDate(event)}>
-							<FormGroup row> 
-											<Label for="dob" sm={2}> Date </Label>
-												<Col sm={10}>
-												<Input id="dob" name="dob" placeholder="Date of Birth" type="date" />
-												</Col>
-							</FormGroup>
-							<FormGroup row>
-											<div className="col-2 m-2">
-												<Button type="submit" color="primary">
-													Change Deadline
-												</Button>
-											</div>
-							</FormGroup>
-							</Form>
-						</div>
-						<div className="m-2 p-2 rounded-2 bg-color3">
-						<Accordion className="overflow-y-scroll overflow-x-hidden h-full" open={open} toggle={toggle}>
-							<Form onSubmit={(event) => handleSubmitInformation(event)}>
-								<AccordionItem>
-								<AccordionHeader targetId="1">Edit</AccordionHeader>
-									<AccordionBody accordionId="1">
-										<FormGroup row>
-											<Label for="mid" sm={2}> Manager ID </Label>
-											<Col sm={10}>
-												<Input id="mid" name="mid" placeholder="Manager ID" type="text" /></Col>
-										</FormGroup>
-										<FormGroup row>
-											<Label for="wid" sm={2}> Worker ID </Label>
-											<Col sm={10}>
-												<Input id="wid" name="wid" placeholder="Worker ID" type="text" /></Col>
-										</FormGroup>
-										<FormGroup row>
-											<Label for="status" sm={2}>Status</Label>
-											<Col sm={10}>
-											<Input id="status" name="status" type="select" >
-													<option>Not Assigned</option>	
-													<option>Assigned</option>
-													<option>Completed </option>
-												</Input>
-											</Col>
-										</FormGroup>
-										<FormGroup row>
-											<div className="col-2 m-2">
-												<Button type="submit" color="primary">
-													Submit
-												</Button>
-											</div>
-										</FormGroup>
-									</AccordionBody>
-								</AccordionItem>
-							</Form>
-						</Accordion>
+    <div className="container overflow-y-auto bg-[#C1DDB4]">
+      <Card
+        body
+        className=" !flex-row align-items-center justify-content-center m-2 p-2 mt-4"
+        style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
+      >
+        <CardBody>
+          <List type="unstyled">
+            <h1 className="p-2 m-2"> Child Details for {child["id"]}</h1>
+            {child !== undefined &&
+              keys.map((key) => {
+                return (
+                  <li key={key} className="row m-2 p-1">
+                    {" "}
+                    <strong className="col-3">{key} :</strong>{" "}
+                    <div className="col">{child[key]}</div>
+                  </li>
+                );
+              })}
+          </List>
+        </CardBody>
+        <div className="flex-column align-self-start m-2 p-2 pt-4 col-3">
+          <img alt="Child Photo" src={img} />
+          <div className="mt-4 p-2">
+            <strong> Steps Done:</strong>
+            <ul>
+              <li> Verification 1</li>
+              <li> Verification 2</li>
+              <li> Verification 3</li>
+            </ul>
+          </div>
+          <div className="mt-2 p-2">
+            <strong> Deadline:</strong> 29/10/2023
+          </div>
+          <div className="mt-2 p-2">
+            <label for="changeDeadline">
+              <strong>Modify Deadline:</strong>
+            </label>
+            <Form onSubmit={(event) => handleDate(event)}>
+              <FormGroup row>
+                <Label for="dob" sm={2}>
+                  {" "}
+                  Date{" "}
+                </Label>
+                <Col sm={10}>
+                  <Input
+                    id="dob"
+                    name="dob"
+                    placeholder="Date of Birth"
+                    type="date"
+                  />
+                </Col>
+              </FormGroup>
+              <FormGroup row>
+                <div className="col-2 m-2">
+                  <Button type="submit" color="primary">
+                    Change Deadline
+                  </Button>
+                </div>
+              </FormGroup>
+            </Form>
+          </div>
+          <div className="m-2 p-2 rounded-2 bg-color3">
+            <Accordion
+              className="overflow-y-scroll overflow-x-hidden h-full"
+              open={open}
+              toggle={toggle}
+            >
+              <Form onSubmit={(event) => handleSubmitInformation(event)}>
+                <AccordionItem>
+                  <AccordionHeader targetId="1">Edit</AccordionHeader>
+                  <AccordionBody accordionId="1">
+                    <FormGroup row>
+                      <Label for="mid" sm={2}>
+                        {" "}
+                        Manager ID{" "}
+                      </Label>
+                      <Col sm={10}>
+                        <Input
+                          id="mid"
+                          name="mid"
+                          placeholder="Manager ID"
+                          type="text"
+                        />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="wid" sm={2}>
+                        {" "}
+                        Worker ID{" "}
+                      </Label>
+                      <Col sm={10}>
+                        <Input
+                          id="wid"
+                          name="wid"
+                          placeholder="Worker ID"
+                          type="text"
+                        />
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <Label for="status" sm={2}>
+                        Status
+                      </Label>
+                      <Col sm={10}>
+                        <Input id="status" name="status" type="select">
+                          <option>Not Assigned</option>
+                          <option>Assigned</option>
+                          <option>Completed </option>
+                        </Input>
+                      </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                      <div className="col-2 m-2">
+                        <Button type="submit" color="primary">
+                          Submit
+                        </Button>
+                      </div>
+                    </FormGroup>
+                  </AccordionBody>
+                </AccordionItem>
+              </Form>
+            </Accordion>
+          </div>
+          <Accordion open={open} toggle={toggle}>
+            <Form onSubmit={(event) => handleComment(event)}>
+              <AccordionItem>
+                <AccordionHeader targetId="2">Comments</AccordionHeader>
+                <AccordionBody accordionId="2">
+                  <FormGroup row>
+                    <Label for="mid" sm={2}>
+                      {" "}
+                      {wid}{" "}
+                    </Label>
+                    <Col sm={10}>
+                      <div>{wmsg}</div>
+                    </Col>
+                  </FormGroup>
+                  <FormGroup row>
+                    <Label for="mid" sm={2}>
+                      {" "}
+                      Manager ID{" "}
+                    </Label>
+                    <Col sm={10}>
+                      <Input
+                        id="mid"
+                        name="mid"
+                        placeholder="Manager ID"
+                        type="textarea"
+                      />
+                    </Col>
+                  </FormGroup>
 
-						</div>
-						<Accordion open={open} toggle={toggle}>
-							<Form onSubmit={(event) => handleComment(event)}>
-								<AccordionItem>
-								<AccordionHeader targetId="2">Comments</AccordionHeader>
-									<AccordionBody accordionId="2">
-										<FormGroup row>
-											<Label for="mid" sm={2}> {wid} </Label>
-											<Col sm={10}>
-												<div>{wmsg}</div></Col>
-										</FormGroup>
-										<FormGroup row>
-											<Label for="mid" sm={2}> Manager ID </Label>
-											<Col sm={10}>
-												<Input id="mid" name="mid" placeholder="Manager ID" type="textarea" /></Col>
-										</FormGroup>
-										
-										<FormGroup row>
-											<div className="col-2 m-2">
-												<Button type="submit" color="primary">
-													Submit
-												</Button>
-											</div>
-										</FormGroup>
-									</AccordionBody>
-								</AccordionItem>
-							</Form>
-						</Accordion>
-						<Card body className="justify-content-center m-2 mt-4 p-2" > 
-	<CardTitle className="m-1 p-1" tag="h4"> Assigned Ground Worker</CardTitle>
-			<CardBody >
-				<div className="row">
-					<div className="col"> Worker ID</div>
-					<div className="col">
-					{gwId}
-					</div>
-				</div>
-				<div className="row">
-					<div className="col"> Task Text</div>
-					<div className="col">
-					{text}
-					</div>
-				</div>
-				<div className="row">
-					<div className="col"> Related Files</div>
-					<div className="col">
-					<a href={report} target="_blank" rel="noopener noreferrer">Report Link</a>
-					</div>
-				</div>
-				{assignedStatus==="Assigned" && <div className="row mt-1">
-					<div className="col m-1 p-1 bg-color3 rounded-pill"><Button className="w-full bg-transparent !border-none !text-textcolor">Accept</Button></div>
-					<div className="col m-1 p-1 bg-color3 rounded-pill"><Button className="w-full bg-transparent !border-none !text-textcolor">Reject</Button></div>
-				</div>}
-				</CardBody>
-		</Card>
-						</div>
-			</Card>
-	
-	</div>
-	);
+                  <FormGroup row>
+                    <div className="col-2 m-2">
+                      <Button type="submit" color="primary">
+                        Submit
+                      </Button>
+                    </div>
+                  </FormGroup>
+                </AccordionBody>
+              </AccordionItem>
+            </Form>
+          </Accordion>
+
+          {/* Assigned Worker Card */}
+
+          <Card body className="justify-content-center m-2 mt-4 p-2">
+            <CardTitle className="m-1 p-1" tag="h4">
+              {" "}
+              Assigned Ground Worker
+            </CardTitle>
+
+            <CardBody>
+              <div className="row">
+                <div className="col"> Worker ID</div>
+                <div className="col">{gwId}</div>
+              </div>
+              <div className="row">
+                <div className="col"> Task Text</div>
+                <div className="col">{text}</div>
+              </div>
+              <div className="row">
+                <div className="col"> Related Files</div>
+                <div className="col">
+                  <a href={report} target="_blank" rel="noopener noreferrer">
+                    Report Link
+                  </a>
+                </div>
+              </div>
+              {assignedStatus === "Assigned" && (
+                <div className="row mt-1">
+                  <div className="col m-1 p-1 bg-color3 rounded-pill">
+                    <Button className="w-full bg-transparent !border-none !text-textcolor">
+                      Accept
+                    </Button>
+                  </div>
+                  <div className="col m-1 p-1 bg-color3 rounded-pill">
+                    <Button className="w-full bg-transparent !border-none !text-textcolor">
+                      Reject
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardBody>
+          </Card>
+		  _--------
+        </div>
+      </Card>
+    </div>
+  );
 }
 
 export default ChildProfile;
