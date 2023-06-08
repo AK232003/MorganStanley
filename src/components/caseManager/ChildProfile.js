@@ -12,15 +12,16 @@ import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, 
 const ChildProfile= ({user}) => {
 	const {state}=useLocation();
 	const [child,setChild]=useState(state["children"]);
+  const [deadLine, setDeadLine] = useState("");
 	const [wid, setWid]=useState("");
 	const [wmsg, setWmsg]=useState("");
 	const [keys,setKeys]=useState(Object.keys(child));
 	const [text,setText]=useState("");
 	const [gwId,setGWID]=useState("");
 	const [report,setReport]=useState("");
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(0);
 	// const [assignedStatus,setAssignedStatus]=useState("");
-	const [date, setDate]=useState(null);
+
 	const navigate=useNavigate();
 	const [open, setOpen] = useState('1');
   // const [temp, setTemp] = useState('1');
@@ -32,145 +33,29 @@ const ChildProfile= ({user}) => {
 			setOpen(id);
 		}
 	};
-  let temp = 0;
 
-  
+  let temp = 0
 
 	useEffect(() => {
     if (user !== "caseManager") navigate("/");
-    database.ref(`childProfile/${child["id"]}/Status`).on("value", (snapshot) => {
+    console.log("Hi there")
+    database.ref(`cases/Process/` + child["id"] + "/isComplete/").on("value", (snapshot) => {
+      console.log("Steps Completed", snapshot.val());
       setStep(snapshot.val());
-      console.log("Step", snapshot.val());
-     });
-    if (step === 1) {
-      database
-        .ref(`childProfile/${child["id"]}/Step1`)
-        .on("value", (snapshot) => {
-          if (snapshot.val() === "In Progress") {
-            db.collection("cases")
-              .doc(child["id"])
-              .get()
-              .then((d) => {
-                setText(d.data()["Photo Publication Text"]);
-                setReport(d.data()["Photo Publication Report"]);
-                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
-                temp = 1;
-                console.log("HIHI1")
-                // setAssignedStatus(d.data()["Status"]);
-                console.log(d.data());
-              });
-          }
-        });
+    });
 
-      database
-        .ref(`childProfile/${child["id"]}/Step2`)
-        .on("value", (snapshot) => {
-          if (snapshot.val() === "In Progress") {
-            db.collection("cases")
-              .doc(child["id"])
-              .get()
-              .then((d) => {
-                setText(d.data()["TV Telecasting Text"]);
-                setReport(d.data()["TV Telecasting Report"]);
-                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
-                temp = 2;
-                console.log("HIHI2");
-                // setAssignedStatus(d.data()["Status"]);
-                console.log(d.data());
-              });
-          }
-        });
 
-      database
-        .ref(`childProfile/${child["id"]}/Step3`)
-        .on("value", (snapshot) => {
-          if (snapshot.val() === "In Progress") {
-            db.collection("cases")
-              .doc(child["id"])
-              .get()
-              .then((d) => {
-                setText(d.data()["Final Report Police Text"]);
-                setReport(d.data()["Final Report Police"]);
-                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
-                temp = 3;
-                console.log("HIHI3");
-                // setAssignedStatus(d.data()["Status"]);
-                console.log(d.data());
-              });
-          }
-        });
+    //  Set Deadline From Database
+    //  -----------------------
+    database
+      .ref(`cases/DeadLine/` + child["id"] + "/DeadLine")
+      .on("value", (snapshot) => {
+        setDeadLine(snapshot.val());
+        console.log("DeadLine", snapshot.val());
+      });
+    // -----------------------
 
-      database
-        .ref(`childProfile/${child["id"]}/Step4`)
-        .on("value", (snapshot) => {
-          if (snapshot.val() === "In Progress") {
-            db.collection("cases")
-              .doc(child["id"])
-              .get()
-              .then((d) => {
-                setText(d.data()["Medical Text AV"]);
-                setReport(d.data()["Medical Report AV"]);
-                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
-                temp = 4;
-                console.log("HIHI4");
-                // setAssignedStatus(d.data()["Status"]);
-                console.log(d.data());
-              });
-          }
-        });
 
-      database
-        .ref(`childProfile/${child["id"]}/Step5`)
-        .on("value", (snapshot) => {
-          if (snapshot.val() === "In Progress") {
-            db.collection("cases")
-              .doc(child["id"])
-              .get()
-              .then((d) => {
-                setText(d.data()["Medical Text AV"]);
-                setReport(d.data()["Previous Organization Final Report"]);
-                setGWID(d.data()["Worker IDs"].slice(-1)[0]);
-                temp = 5;
-                console.log("HIHI5");
-                // setAssignedStatus(d.data()["Status"]);
-                console.log(d.data());
-              });
-          }
-        });
-    } else if (step === 2) {
-      db.collection("cases")
-        .doc(child["id"])
-        .get()
-        .then((d) => {
-          setText(d.data()["DCPU Text"]);
-          setReport(d.data()["NOC Report"]);
-          setGWID(d.data()["Worker IDs"].slice(-1)[0]);
-          // setAssignedStatus(d.data()["Status"]);
-          console.log(d.data());
-        });
-    } else if (step === 3) {
-      db.collection("cases")
-        .doc(child["id"])
-        .get()
-        .then((d) => {
-          setText(d.data()["CWC Text"]);
-          setReport(d.data()["LFA Report"]);
-          setGWID(d.data()["Worker IDs"].slice(-1)[0]);
-          // setAssignedStatus(d.data()["Status"]);
-          console.log(d.data());
-        });
-    } else if (step === 4) {
-      db.collection("cases")
-        .doc(child["id"])
-        .get()
-        .then((d) => {
-          setText(d.data()["CCI or SAA Report"]);
-          setReport(d.data()["Bal Asha Investigation Report"]);
-          setGWID(d.data()["Worker IDs"].slice(-1)[0]);
-          // setAssignedStatus(d.data()["Status"]);
-          console.log(d.data());
-        });
-    }
 
   
 
@@ -236,16 +121,7 @@ const ChildProfile= ({user}) => {
 			});
 
 
-      // RealTime Deadline
-      // ------------------------------ 
-      let currentDate = new Date();
-      let futureDate = new Date(currentDate);
-      futureDate.setMonth(currentDate.getMonth() + 1);
-      console.log(futureDate.toDateString());
-      database.ref(`cases/DeadLine/` + child["id"]).set({
-        DeadLine: futureDate.toDateString(),
-      });
-      // -----------------------------------
+     
 
         // database.ref("childProfile/"+`${id}`).update({[step] :"In Progress"})
         
@@ -301,6 +177,126 @@ const ChildProfile= ({user}) => {
 		})
 	}
 
+// Case Creation Section(Worker Assigned to Children)
+// (mId to be changed to the manager Id)
+// ----------------------------------------
+const handleCase = (element) => {
+  // Case Creation
+  element.preventDefault();
+
+  // const usersRef = db.collection("cases").doc(child["id"]);
+  // const usersRef2 = db.collection("children").doc(child["id"]);
+
+  // usersRef.get().then((doc) => {
+    
+  //   if (!doc.exists) {
+      // Initial Case Report
+      // usersRef2.get().then((d) => {
+      //   console.log(d.data()["Case Number"]);
+      //   db.collection("cases")
+      //     .doc(child["id"])
+      //     .set({
+      //       "Bal Asha Enrolment": d.data()["Date Of Birth"],
+      //       "Date of Admission": d.data()["Date Of Birth"],
+
+      //       "Date of Last Follow up": d.data()["Date Of Birth"],
+      //       "Last Follow up": "",
+      //       "Remark of Bal Asha Social Work": "",
+      //       Remark: "",
+      //       "Manager ID": "MId",
+      //       "Worker IDs": [element.target[2].value],
+      //     });
+      // });
+    
+      // Process Track
+      database.ref(`cases/Process/` + child["id"]).update({
+        isComplete: 0,
+      });
+      database.ref(`cases/Process/` + child["id"] + "/Step1").update({
+        isComplete: false,
+      });
+      database.ref(`cases/Process/` + child["id"] + "/Step1/Step1").update({
+        isComplete: false,
+        text: "",
+        docs: "",
+        stat: "In Progress",
+      });
+      database.ref(`cases/Process/` + child["id"] + "/Step1/Step2").update({
+        isComplete: false,
+        text: "",
+        docs: "",
+        stat: "In Progress",
+      });
+      database.ref(`cases/Process/` + child["id"] + "/Step1/Step3").update({
+        isComplete: false,
+        text: "",
+        docs: "",
+        stat: "In Progress",
+      });
+      database.ref(`cases/Process/` + child["id"] + "/Step1/Step4").update({
+        isComplete: false,
+        text: "",
+        docs: "",
+        stat: "In Progress",
+      });
+      database.ref(`cases/Process/` + child["id"] + "/Step1/Step5").update({
+        isComplete: false,
+        text: "",
+        docs: "",
+        stat: "In Progress",
+      });
+      database.ref(`cases/Process/` + child["id"] +"/Step2").update({
+        isComplete: false,
+        text: "",
+        docs:"",
+        stat: "In Progress",
+      });
+      database.ref(`cases/Process/` + child["id"] + "/Step3").update({
+        isComplete: false,
+        text: "",
+        docs: "",
+        stat: "In Progress",
+      });
+      database.ref(`cases/Process/` + child["id"] + "/Step4").update({
+        isComplete: false,
+        text: "",
+        docs: "",
+        stat: "In Progress",
+      });
+      console.log("Success!")
+      
+
+    // } 
+    // else
+    // {
+    // // Reassign to different worker
+    //   console.log("Reassigning to Worker: ", element.target[2].value);
+    //   usersRef2.get().then((d) => {
+    //     var pathRef = db.collection("cases").doc(child["id"]);
+    //     updateDoc(pathRef, {
+    //       "Worker IDs": arrayUnion(element.target[2].value),
+    //     });
+    //   });
+    // }
+  // });
+ 
+
+  // RealTime Deadline
+  // ------------------------------
+  let currentDate = new Date();
+  let futureDate = new Date(currentDate);
+  futureDate.setMonth(currentDate.getMonth() + 1);
+  console.log(futureDate.toDateString());
+  database.ref(`cases/DeadLine/` + child["id"]).set({
+    DeadLine: futureDate.toDateString(),
+  });
+  setDeadLine(futureDate.toString());
+  // -----------------------------------
+}
+// ----------------------------------------
+
+
+
 // DeadLine Section
 // -----------------------------------
 	const handleDeadLine = (e) => {
@@ -309,6 +305,7 @@ const ChildProfile= ({user}) => {
     database.ref(`cases/DeadLine/` + child["id"]).update({
       DeadLine: e.target[0].value,
     });
+    setDeadLine(e.target[0].value)
 	}
 // ---------------------------------------
 
@@ -336,13 +333,13 @@ const ChildProfile= ({user}) => {
 
 
   const handleAccept = () =>{
-    if(step == 1)
-    {
+    // if(step == 1)
+    // {
         
-        database
-          .ref("childProfile/" + `${child["id"]}`)
-          .update({ Step1: "Completed" }); 
-    }
+    //     database
+    //       .ref("childProfile/" + `${child["id"]}`)
+    //       .update({ Step1: "Completed" }); 
+    // }
     
   }
   const handleReject = () =>{
@@ -376,15 +373,16 @@ const ChildProfile= ({user}) => {
         <div className="flex-column align-self-start m-2 p-2 pt-4 col-3">
           <img alt="Child Photo" src={img} />
           <div className="mt-4 p-2">
-            <strong> Steps Done:</strong>
+            <strong>Steps Completed:</strong>
             <ul>
-              <li> Verification 1</li>
-              <li> Verification 2</li>
-              <li> Verification 3</li>
+              {step === 1 && <li>Verification 1</li>}
+              {step === 2 && <li>Verification 2</li>}
+              {step === 3 && <li>Verification 3</li>}
+              {step === 4 && <li>Verification 3</li>}
             </ul>
           </div>
           <div className="mt-2 p-2">
-            <strong> Deadline:</strong> 29/10/2023
+            <strong> Deadline:</strong> {deadLine}
           </div>
           <div className="mt-2 p-2">
             <label for="changeDeadline">
@@ -420,24 +418,10 @@ const ChildProfile= ({user}) => {
               open={open}
               toggle={toggle}
             >
-              <Form onSubmit={(event) => handleSubmitInformation(event)}>
+              <Form onSubmit={(event) => handleCase(event)}>
                 <AccordionItem>
                   <AccordionHeader targetId="1">Edit</AccordionHeader>
                   <AccordionBody accordionId="1">
-                    <FormGroup row>
-                      <Label for="mid" sm={2}>
-                        {" "}
-                        Manager ID{" "}
-                      </Label>
-                      <Col sm={10}>
-                        <Input
-                          id="mid"
-                          name="mid"
-                          placeholder="Manager ID"
-                          type="text"
-                        />
-                      </Col>
-                    </FormGroup>
                     <FormGroup row>
                       <Label for="wid" sm={2}>
                         {" "}
@@ -452,7 +436,7 @@ const ChildProfile= ({user}) => {
                         />
                       </Col>
                     </FormGroup>
-                    <FormGroup row>
+                    {/* <FormGroup row>
                       <Label for="status" sm={2}>
                         Status
                       </Label>
@@ -463,11 +447,11 @@ const ChildProfile= ({user}) => {
                           <option>Completed </option>
                         </Input>
                       </Col>
-                    </FormGroup>
+                    </FormGroup> */}
                     <FormGroup row>
                       <div className="col-2 m-2">
                         <Button type="submit" color="primary">
-                          Submit
+                          Assign
                         </Button>
                       </div>
                     </FormGroup>

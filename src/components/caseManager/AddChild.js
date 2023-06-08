@@ -58,14 +58,14 @@ const AddChild = ({user}) => {
 			}).then(() => {
 				console.log("Document successfully written with ID: ", id);
 				// Create an entry in the Realtime Database for the child profile
-				database
-				  .ref("childProfile/" + id)
-				  .set({
-					AssignStatus: "Not Assigned",
-					WorkerID: "",
-					ManagerID: "",
-					Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
-				  });
+				// database
+				//   .ref("childProfile/" + id)
+				//   .set({
+				// 	AssignStatus: "Not Assigned",
+				// 	WorkerID: "",
+				// 	ManagerID: "",
+				// 	Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
+				//   });
 
 				   	database.ref(`cases/comments/` + id ).set({
             			Worker: ["Start"],
