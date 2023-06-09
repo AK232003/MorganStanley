@@ -8,7 +8,7 @@ import img from "../../logo_scroll.png";
 
 const ManagersList = ({user}) => {
 	const navigate=useNavigate();
-	const [filter,setFilter]=useState("Completed")
+	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
 	useEffect(()=>{
 		if(user!=="admin") navigate("/");
@@ -27,7 +27,14 @@ const ManagersList = ({user}) => {
     const managerLists=()=>{
         return (
             <div className="row">
-            {manager.map((manager) => {
+            {manager.filter(manager => {
+				if(search === "Search" || search === "") {
+					return manager;
+				}
+				else if(manager[filter].toLowerCase().includes(search.toLowerCase())){
+					return manager;
+				}
+				}).map((manager) => {
                 return  (
 								<Card body className="col col-sm-5 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={manager["UserID"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
 								<div><img alt="Child Photo" src={manager["Image"]!==undefined?manager["Image"]:img} className="w-60 h-40"/>
@@ -56,8 +63,6 @@ const ManagersList = ({user}) => {
 			<div className="col-4 col-md-2 mt-2 md:p-2 p-1">
 			<Input type="select" name="filter" id="filter" className="rounded-md w-full h-auto text-2xl p-2 border-0 !bg-color3 shadow-md" onChange={(event)=>setFilter(event.target.value)}>
 				<option>Name</option>
-				<option>District</option>
-				<option>Case Number</option>
 			</Input>
 			</div>
 		</div>

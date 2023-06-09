@@ -3,14 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { List, Card, CardBody,Input} from "reactstrap";
 import { FaSearch } from "react-icons/fa";
 import { db } from "../../firebase"
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query } from "firebase/firestore";
 import img from "../../logo_scroll.png";
 
 const AssignedList=({id})=>{
 	const navigate = useNavigate();
 
 	const[children, setChildren] = useState([]);
-	const [filter,setFilter]=useState("Completed")
+	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
 	const childrenCollectionRef = collection(db, "children");
 	useEffect(() => {
@@ -23,7 +23,14 @@ const AssignedList=({id})=>{
 	const childrenLists=()=>{
 			return (
 					<div className="row">
-					{children.map((children) => {
+					{children.filter(children => {
+						if(search === "Search" || search === "") {
+							return children;
+						}
+						else if(children[filter].toLowerCase().includes(search.toLowerCase())){
+							return children;
+						}
+					}).map((children) => {
 							return  (
 							<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${children["id"]}`, {state: {children}})}> 
 							<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
@@ -31,7 +38,7 @@ const AssignedList=({id})=>{
 							</div>
 							<CardBody>
 											<List type="unstyled">
-											<li > <strong>Name :</strong> {children["Age"]}</li>
+											<li > <strong>Name :</strong> {children["Name"]}</li>
 											<li > <strong>Age :</strong> {children["Age"]}</li>
 											<li > <strong>District :</strong> {children["District"]}</li>
 											<li > <strong>State :</strong> {children["State"]}</li>

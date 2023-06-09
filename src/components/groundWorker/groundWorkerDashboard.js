@@ -16,13 +16,13 @@ const GroundWorkerDashboard = ({ user, setuser }) => {
   }, [user]);
   return (
     <div className="container m-auto">
-      <div className="row">
+      <div className="row justify-between">
         {/* <div className="text-textcolor justify-self-start rounded-1 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md "> */}
         <div className="col-auto font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl mt-4">
           GroundWorker Dashboard
         </div>
-        <div className="col-auto align-self-end justify-self-end">
-        <Button onClick={()=>handleLogout()}  className="!bg-logoutButton align-items-center">
+        <div className="col-auto align-self-end">
+        <Button onClick={()=>handleLogout()}  className="!bg-logoutButton ">
                 <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>
                 <span className="text-base font-medium ms-2  text-textcolor">Logout</span> </Button>
         </div>

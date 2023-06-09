@@ -8,7 +8,7 @@ import img from "../../logo_scroll.png";
 
 const ChildrenList = ({user}) => {
 	const navigate=useNavigate();
-	const [filter,setFilter]=useState("Completed")
+	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
 	useEffect(()=>{
 		if(user!=="caseManager") navigate("/");
@@ -26,22 +26,29 @@ const ChildrenList = ({user}) => {
     const childrenLists=()=>{
         return (
             <div className="row mt-2">
-            {children.map((children) => {
+            {children.filter(children => {
+				if(search === "Search" || search === "") {
+					return children;
+				}
+				else if(children[filter].toLowerCase().includes(search.toLowerCase())){
+					return children;
+				}
+				}).map((children) => {
                 return  (
-								<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/caseManager/list/${children["id"]}`, {state: {children}})}> 
-								<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
-								<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" > Assign</button>
-								</div>
-								<CardBody>
-												<List type="unstyled">
-												<li > <strong>Name :</strong> {children["Age"]}</li>
-												<li > <strong>Age :</strong> {children["Age"]}</li>
-												<li > <strong>District :</strong> {children["District"]}</li>
-												<li > <strong>State :</strong> {children["State"]}</li>
-												<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
-												</List>
-									</CardBody>
-								</Card>
+				<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/caseManager/list/${children["id"]}`, {state: {children}})}> 
+				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
+				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" > Assign</button>
+				</div>
+				<CardBody>
+								<List type="unstyled">
+								<li > <strong>Name :</strong> {children["Name"]}</li>
+								<li > <strong>Age :</strong> {children["Age"]}</li>
+								<li > <strong>District :</strong> {children["District"]}</li>
+								<li > <strong>State :</strong> {children["State"]}</li>
+								<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
+								</List>
+					</CardBody>
+				</Card>
             )})}
         </div>)
     }
