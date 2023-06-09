@@ -35,7 +35,7 @@ const AddUser = ({user}) => {
   return (
     <>
       <div
-        className="container overflow-auto bg-color2 sm:!mt-4"
+        className="overflow-auto bg-color2"
       >
         <h1 className="mt-3 text-center"> Signup</h1>
         {error && (

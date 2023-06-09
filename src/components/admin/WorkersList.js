@@ -50,7 +50,7 @@ const WorkersList = ({user}) => {
         </div>)
     }
     return (
-	<div className="container sm:mt-4 overflow-y-scroll bg-color2">
+	<div className="container mt-2 overflow-y-scroll bg-color2">
 		<h2>Workers List</h2>
 		<div className="row mt-4 h-16">
 			<div className="col-8 col-md-10 w-full p-2">

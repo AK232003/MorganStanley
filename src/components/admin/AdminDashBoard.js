@@ -14,7 +14,7 @@ const AdminDashboard= ({user}) =>{
     if(user!=="admin") navigate("/");
   },[user])
   return (
-    <div className="container overflow-hidden">
+    <div className="overflow-hidden">
       <div className="row m-2">
       <div className="col-6 text-textcolor justify-self-start rounded-4 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md ">
          <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">Dashboard</div>
