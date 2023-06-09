@@ -51,7 +51,7 @@ const ManagersList = ({user}) => {
         </div>)
     }
     return (
-	<div className="container slgm:mt-4 overflow-y-scroll bg-color2">
+	<div className="container lg:mt-4 overflow-y-scroll bg-color2">
 		<h2>Managers List</h2>
 		<div className="row mt-4 h-16">
 			<div className="col-8 col-md-10 w-full p-2">

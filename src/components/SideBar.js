@@ -4,9 +4,8 @@ import {BsPeopleFill}from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
 import logo from "../logo_scroll.png";
 
-const SideBar=({user,setuser})=>{
-	const [openSide, toggle] = useState(true);
-  const [open,setOpen] =useState(false);
+const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
+
   const navigate=useNavigate();
 
   const sideBarProperty = "";
@@ -18,17 +17,11 @@ const SideBar=({user,setuser})=>{
     setuser(null);
     navigate("/");
   }
-  const handdleToggle=()=>{
-    if(!open) toggle(!openSide); 
-    open?setOpen(false):setOpen(open);
-  }
+  
 	return (
     <>
-    <div className={`h-14 w-14 ${!open && "row"} md:!hidden rounded-1 m-2 p-1 relative bg-sideBarColor1 opacity-90 top-1 z-0 left-3 ${open&& "opacity-0"} overflow-hidden`}>
-          <FaBars className="h-full w-full p-0 cursor-pointer text-textcolor visible" onClick={() =>{ setOpen(!open); toggle(true)}}></FaBars>
-    </div>
 	<div className={`h-screen sm:h-9/10 px-4 pb-4 pt-3 ${openSide ? "w-72" : "w-24"} ${!open && "hidden"} 
-  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-1 md:relative absolute top-0 drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}>
+  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-none md:relative  absolute left-0 md:top-14 top-0 drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}>
           <FaBars className={`h-12 w-12 cursor-pointer top-1 text-textcolor duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()}></FaBars>
             {user === "caseManager" &&
             <>
