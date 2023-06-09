@@ -35,17 +35,16 @@ const AddUser = ({user}) => {
   return (
     <>
       <div
-        className="container-md"
-        style={{ maxWidth: "500px", marginTop: "100px" }}
+        className="container overflow-auto bg-color2 sm:!mt-4"
       >
-        <h1 className="mt-100 text-center"> Signup</h1>
+        <h1 className="mt-3 text-center"> Signup</h1>
         {error && (
           <div className="alert alert-danger" role="alert">
             {error}
           </div>
         )}
-        <form className="d-flex flex-column">
-        <div className="form-outline mb-4">
+        <form className="d-flex flex-column overflow-y-auto">
+        <div className="form-outline mb-2">
             <label className="form-label"> Name </label>
             <input
               type="text"
@@ -55,7 +54,7 @@ const AddUser = ({user}) => {
               required
             />
           </div>
-          <div className="form-outline mb-4">
+          <div className="form-outline mb-2">
             <label className="form-label"> Email </label>
             <input
               type="text"
@@ -65,7 +64,7 @@ const AddUser = ({user}) => {
               required
             />
           </div>
-          <div className="form-outline mb-4">
+          <div className="form-outline mb-2">
             <label className="form-label"> Password </label>
             <input
               type="text"
@@ -75,7 +74,7 @@ const AddUser = ({user}) => {
               required
             />
           </div>
-          <div className="form-outline mb-4">
+          <div className="form-outline mb-2">
             <label className="form-label"> Phone Number </label>
             <input
               type="text"
@@ -110,11 +109,11 @@ const AddUser = ({user}) => {
               <option>GroundWorker</option>
               </input>
           </div> */}
-          <div className="d-flex justify-content-around align-items-center mb-4">
+          <div className="flex flex-col justify-content-center md:flex-row mb-4">
             <button
               type="button"
               disabled={loading}
-              className="btn btn-primary btn-lg btn-block"
+              className="btn btn-primary btn-lg w-30 m-1"
               onClick={(e) => createUser(e, "GroundWorker")}
             >
               Create User
@@ -122,7 +121,7 @@ const AddUser = ({user}) => {
             <button
               type="button"
               disabled={loading}
-              className="btn btn-primary btn-lg btn-block"
+              className="btn btn-primary btn-lg w-30 m-1"
               onClick={(e) => createUser(e, "admin")}
             >
               Create Admin
@@ -131,7 +130,7 @@ const AddUser = ({user}) => {
             <button
               type="button"
               disabled={loading}
-              className="btn btn-primary btn-lg btn-block"
+              className="btn btn-primary btn-lg w-30 m-1"
               onClick={(e) => createUser(e, "CaseManager")}
             >
               Create Manager
