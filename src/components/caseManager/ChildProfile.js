@@ -336,17 +336,17 @@ const handleCase = (element) => {
         className=" md:!flex-row !bg-color5/[0.6] m-2 p-2 mt-4"
         style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
       >
-        <div className="mt-3 basis-7/12">
+        <div className="mt-3">
+            <div className="row"> 
+								<h1 className="col-6 p-2 m-2"> Child Details for {child["id"]}</h1>
+                <img className="col-4" alt="Child Photo" src={img} />
+            </div>
 							<ul type="unstyled" className="p-0">
-								<h1 className="p-2 m-2"> Child Details for {child["id"]}</h1>
 								{child!==undefined && keys.map((key)=> {
 									return <li key={key} className="w-full m-2 p-1 flex"> <strong className="w-1/3 ">{key} :</strong> <div className="w-2/3">{child[key]}</div></li>
 								})}
+            <li className="w-full m-2 p-1 flex" > <strong className="w-1/3"> Deadline:</strong> <div className="w-2/3">{deadLine}</div></li>
 							</ul>
-			</div>
-      <div className="mt-4 p-2 basis-5/12">
-        <div className="flex-column align-self-start m-2 p-2 pt-4">
-          <img alt="Child Photo" src={img} />
           <div className="mt-4 p-2">
             <strong>Steps Completed:</strong>
             <ul className="p-0">
@@ -355,11 +355,9 @@ const handleCase = (element) => {
               {step >= 3 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 3</li>}
               {step >= 4 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 4</li>}
             </ul>
-          </div>
-          <div className="mt-2 p-2">
-            <strong> Deadline:</strong> {deadLine}
-          </div>
-          <div className="mt-2 p-2">
+			</div>
+      </div>
+          {/* <div className="mt-2 p-2">
             <label for="changeDeadline">
               <strong>Modify Deadline:</strong>
             </label>
@@ -373,26 +371,14 @@ const handleCase = (element) => {
 								</Button>
 							</FormGroup>
             </Form>
-          </div>
-          <div className="m-2 p-2 rounded-2 bg-color2">
+          </div> */}
+          {/* <div className="m-2 p-2 rounded-2 bg-color2">
               <Form className=" m-2" onSubmit={(event) => handleCase(event)}>
                 <div className="font-bold text-2xl mb-2" >Edit</div>
                   <FormGroup >
 											<Label for="wid"> Worker ID </Label>
 												<Input id="wid" name="wid" placeholder="Worker ID" type="text" />
 										</FormGroup>
-                    {/* <FormGroup row>
-                      <Label for="status" sm={2}>
-                        Status
-                      </Label>
-                      <Col sm={10}>
-                        <Input id="status" name="status" type="select">
-                          <option>Not Assigned</option>
-                          <option>Assigned</option>
-                          <option>Completed </option>
-                        </Input>
-                      </Col>
-                    </FormGroup> */}
                     <FormGroup row>
                       <div className="col-2 m-2">
                         <Button type="submit" color="primary">
@@ -404,7 +390,7 @@ const handleCase = (element) => {
           </div>
           {/* Assigned Worker Card */}
 
-          <div className="justify-content-center m-2 mt-4 p-2 bg-color2 rounded-2">
+         {/* <div className="justify-content-center m-2 mt-4 p-2 bg-color2 rounded-2">
             <CardTitle className="m-1 p-2" tag="h4">
               Assigned Ground Worker
             </CardTitle>
@@ -445,20 +431,6 @@ const handleCase = (element) => {
                   </Button>
                 </div>
               </div>
-              {/* {assignedStatus === "Assigned" && (
-                <div className="row mt-1">
-                  <div className="col m-1 p-1 bg-color3 rounded-pill">
-                    <Button className="w-full bg-transparent !border-none !text-textcolor">
-                      Accept
-                    </Button>
-                  </div>
-                  <div className="col m-1 p-1 bg-color3 rounded-pill">
-                    <Button className="w-full bg-transparent !border-none !text-textcolor">
-                      Reject
-                    </Button>
-                  </div>
-                </div> */}
-              {/* )} */}
             </CardBody>
           </div>
           <div className="justify-content-center m-2 mt-4 p-2 bg-color2 rounded-2">
@@ -496,11 +468,9 @@ const handleCase = (element) => {
                     </div>
                   </FormGroup>
             </Form>
-          </div>
-        </div>
-        </div>
+          </div> */}
       </Card>
-    </div>
+    </div> 
   );
 }
 

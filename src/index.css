@@ -6,7 +6,7 @@
   height: 100vh;
   margin: 0px;
   background: #C1DDB4;
-  overflow:hidden;
+  /* overflow:hidden; */
 }
 #loginpage{
   background-repeat: no-repeat;

@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { List, Card, CardBody, Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
+import { List, Card, CardBody, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { FaSearch } from "react-icons/fa";
 import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../logo_scroll.png";
 
-const ChildrenList = ({user}) => {
+const CasesInDetails = ({user}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("")
 	const [search,setSearch] = useState("");
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggle = () => setDropdownOpen(!dropdownOpen);
+  const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
+	const [modal, setModal] = useState(false);
+	const [caseSelected,setCase]=useState("");
 
+  const toggleModal = (caseno) =>{
+		setModal(!modal);
+		console.log(typeof(caseno));
+		if(typeof(caseno)==="string") setCase(caseno);
+		else setCase("");
+	};
 	useEffect(()=>{
 		if(user!=="caseManager") navigate("/");
 	},[user])
@@ -38,8 +46,9 @@ const ChildrenList = ({user}) => {
 				}
 				}).map((children) => {
                 return  (
-				<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/caseManager/profiles/${children["id"]}`, {state: {children}})}> 
+				<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
 				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
+				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={(event)=>toggleModal(children["Case Number"])}> Assign</button>
 				</div>
 				<CardBody>
 								<List type="unstyled">
@@ -64,7 +73,7 @@ const ChildrenList = ({user}) => {
 			</div>
 			</div>
 			<div className="col-auto col-lg-2 mt-2 md:p-2 p-1">
-			<Dropdown isOpen={dropdownOpen} toggle={toggle}  direction="down" onChange={(event)=>console.log(event)}>
+			<Dropdown isOpen={dropdownOpen} toggle={toggleDropDown}  direction="down" onChange={(event)=>console.log(event)}>
         <DropdownToggle size="lg" className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md" caret>{filter===""?"Select Filter":filter}</DropdownToggle>
         <DropdownMenu className="text-textcolor">
           <DropdownItem onClick={()=>setFilter("Name")}>Name</DropdownItem>
@@ -74,6 +83,20 @@ const ChildrenList = ({user}) => {
       </Dropdown>
 			</div>
 		</div>
+		<Modal centered isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>Assign Worker</ModalHeader>
+        <ModalBody>
+          {caseSelected}
+        </ModalBody>
+        <ModalFooter>
+          <Button color="primary" onClick={toggleModal}>
+            Do Something
+          </Button>{' '}
+          <Button color="secondary" onClick={toggleModal}>
+            Cancel
+          </Button>
+        </ModalFooter>
+      </Modal>
 		{/* <div className="row mt-4 h-16">
 			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Assigned")}>Assigned </button>
 			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Unassigned")}> Unassigned</button>
@@ -84,4 +107,4 @@ const ChildrenList = ({user}) => {
  );
 }
 
-export default ChildrenList;
+export default CasesInDetails;

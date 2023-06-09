@@ -7,7 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/Login";
 import Dashboard1 from "./components/DashBoard1";
 import Main from "./components/MainComponent";
-import { Dashboard, AddChild, AddchildXL, ChildProfile, ChildrenList } from "./components/caseManager/caseManager.js";
+import { Dashboard, AddChild, CasesInDetails, ChildProfile, ChildrenList } from "./components/caseManager/caseManager.js";
 import {AdminDashboard, AddUser ,ManagersList,WorkersList} from "./components/admin/admin";
 import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
@@ -27,9 +27,9 @@ function App() {
               <Route exact path="/*" element={<Main user={user} setUser={(value)=>setUser(value)}/>}>
                 <Route exact path="caseManager" element={<Dashboard user={user}/>}/>
                 <Route path="caseManager/addChild" element={<AddChild user={user}/>}/>
-                <Route path="caseManager/list" element={< ChildrenList user={user}/>} />
-                <Route path="caseManager/list/:id" element={<ChildProfile user={user}/>} />
-                <Route path="caseManager/addExcel" element={<AddchildXL />}/>
+                <Route path="caseManager/reports" element={< CasesInDetails user={user}/>} />
+                <Route path="caseManager/profiles" element={< ChildrenList user={user}/>} />
+                <Route path="caseManager/profiles/:id" element={<ChildProfile user={user}/>} />
                 <Route exact path="admin" element={<AdminDashboard user={user}/>}/>
                 <Route exact path="admin/addUser" element={<AddUser user={user}/>}/>
                 <Route exact path="admin/managersList" element={<ManagersList user={user}/>}/>
