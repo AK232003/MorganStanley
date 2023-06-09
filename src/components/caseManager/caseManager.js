@@ -1,6 +1,7 @@
 import AddChild from "./AddChild";
 import Dashboard from "./Dashboard";
 import ChildProfile from "./ChildProfile";
-import CasesInDetails from "./CasesInDetails";
+import AssignCases from "./AssignCases";
 import ChildrenList from "./ChildrenList";
-export {AddChild, Dashboard, ChildProfile,ChildrenList, CasesInDetails};
+import TaskStatus from "./taskStatus";
+export {AddChild, Dashboard, ChildProfile,ChildrenList, AssignCases, TaskStatus};

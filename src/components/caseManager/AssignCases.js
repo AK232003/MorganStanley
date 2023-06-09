@@ -6,7 +6,7 @@ import { db, database } from "../../firebase"
 import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc } from "firebase/firestore";
 import img from "../../logo_scroll.png";
 
-const CasesInDetails = ({user}) => {
+const AssignCases = ({user}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("")
 	const [search,setSearch] = useState("");
@@ -139,6 +139,7 @@ const CasesInDetails = ({user}) => {
 		console.log(typeof(caseno));
 		setModalReport(!modalReport);
 		if(typeof(caseno)==="string"){
+			setCase(caseno)
 			setChild(children.filter(child => child["id"]===caseno)[0]);
 		}
 		else{
@@ -151,7 +152,7 @@ const CasesInDetails = ({user}) => {
 		console.log(typeof(caseno));
 		if(typeof(caseno)==="string"){
 			setCase(caseno);
-			setChild(children.filter(child => child["id"]==caseno));
+			setChild(children.filter(child => child["id"]===caseno)[0]);
 			console.log(child);
 		}
 		else setCase("");
@@ -274,4 +275,4 @@ const CasesInDetails = ({user}) => {
  );
 }
 
-export default CasesInDetails;
+export default AssignCases;
