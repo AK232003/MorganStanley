@@ -16,6 +16,7 @@ import AddchildXL from './casemanager/addchildxl';
 import { Outlet } from "react-router-dom";
 import PdfGrid from './document';
 import CreateUser from './admin/createuser';
+import ChildDetails from './casemanager/childdetail';
 
 const drawerWidth = 240;
 
@@ -43,7 +44,7 @@ function Base({navBar}) {
                   width: { sm: `calc(100% - ${drawerWidth}px)` },
                   ml: { sm: `${drawerWidth}px` },
                   bgcolor: theme.appbar.bgcolor,
-                  height: {height:"65px", sm:"85px"}
+                  height: {height:"65px", sm:"65px"}
               }}
           >
               <Toolbar>
@@ -62,8 +63,8 @@ function Base({navBar}) {
                       component="img"
                       src="logo_scroll.png"
                       sx={{
-                          marginTop:{marginTop:10, sm:2},
-                          height: {height:"45px", sm:"55px"},
+                          marginTop:{marginTop:10, sm:1},
+                          height: {height:"45px", sm:"45px"},
                           width: {width: "120px", sm:"160px"}
                       }}
                       justifyContent="center"
@@ -112,7 +113,8 @@ function Base({navBar}) {
             {/* <Cardlist /> */}
 
             {/* <PdfGrid /> */}
-            <CreateUser />
+            {/* <CreateUser /> */}
+            <ChildDetails />
           </Box>
           </Box>
       </ThemeProvider>

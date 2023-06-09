@@ -45,8 +45,8 @@ function NavDraweradmin(){
                     display: "flex",
                     flexDirection: "column",
                 }}>
-                    <Box display="flex" justifyContent="center"  sx={{bgcolor: theme.sidebar.palette.primary, height:"90px"}}>
-                        <Box display="flex" justifyContent="center" marginTop={2}>
+                    <Box display="flex" justifyContent="center"  sx={{bgcolor: theme.sidebar.palette.primary, height:{height:"90px", sm:"65px"}}}>
+                        <Box display="flex" justifyContent="center" sx={{marginTop:{marginTop:"1.4rem", sm:"0.7rem"}}}>
                             <Avatar alt="Remy Sharp" src="logo_scroll.png" sx={{width:"50px", height:"50px", bgcolor:theme.sidebar.text.primary1}}/>
                                 <Box>
                                 <Box display="flex" marginLeft={2} marginRight={1} marginTop={0} justifyContent="center">
@@ -100,10 +100,8 @@ function NavDraweradmin(){
                         </ListItem>
                     </List>
                     </Box>
-                    <Divider sx={{ borderBottomWidth: 2, bgcolor: theme.sidebar.divider.primary}}/>
-                    <Box paddingLeft={1.5} sx={{bgcolor: theme.sidebar.logout.red}}>
-                        <List>
-                            <ListItem disablePadding sx={{height:"60px"}} bottom="0px">
+                    <Box display="flex" justifyContent="center" position="fixed" bottom={0} sx={{width:"240px", bgcolor: theme.sidebar.logout.red}}>
+                            <ListItem display="flex" flexDirection="row" sx={{height:"65px"}}>
                                 <ListItemButton >
                                     <ListItemIcon>
                                         <LogoutIcon sx={{color: theme.sidebar.logout.white}}/>
@@ -111,7 +109,6 @@ function NavDraweradmin(){
                                     <ListItemText primary="Log Out" sx={{color: theme.sidebar.logout.white}}/>
                                 </ListItemButton>
                             </ListItem>
-                        </List>
                     </Box>
                 </Box>
 

@@ -96,7 +96,7 @@ function ProcessItems({processVar}){
                             </ListItemButton>
                             </List>
                         </Collapse>
-                        <ListItem disablePadding sx={{height:"50px"}}>
+                        <ListItem disablePadding sx={{height:"40px", marginBottom:"0.5rem"}}>
                             <ListItemButton >
                                 <ListItemIcon>
                                     <LooksTwoIcon />
@@ -104,7 +104,7 @@ function ProcessItems({processVar}){
                                 <ListItemText primary="NOC Certificate"/>
                             </ListItemButton>
                         </ListItem>
-                        <ListItem disablePadding sx={{height:"50px"}}>
+                        <ListItem disablePadding sx={{height:"40px", marginBottom:"0.7rem"}}>
                             <ListItemButton >
                                 <ListItemIcon>
                                     <Looks3Icon />
@@ -112,7 +112,7 @@ function ProcessItems({processVar}){
                                 <ListItemText primary="LFA Certificate"/>
                             </ListItemButton>
                         </ListItem>
-                        <ListItem disablePadding sx={{height:"50px"}}>
+                        <ListItem disablePadding sx={{height:"40px", marginTop:"0.7rem"}}>
                             <ListItemButton >
                                 <ListItemIcon>
                                     <Looks4Icon/>
@@ -126,7 +126,7 @@ function ProcessItems({processVar}){
 
 function NavDrawergw(){
   
-    const stepvar = false;
+    const stepvar = true;
 
     return (
         <ThemeProvider theme = {theme}>
@@ -136,8 +136,8 @@ function NavDrawergw(){
                     display: "flex",
                     flexDirection: "column",
                 }}>
-                    <Box display="flex" justifyContent="center"  sx={{bgcolor: theme.sidebar.palette.primary, height:"90px"}}>
-                        <Box display="flex" justifyContent="center" marginTop={2}>
+                    <Box display="flex" justifyContent="center"  sx={{bgcolor: theme.sidebar.palette.primary, height:{height:"90px", sm:"65px"}}}>
+                        <Box display="flex" justifyContent="center" sx={{marginTop:{marginTop:"1.4rem", sm:"0.7rem"}}}>
                             <Avatar alt="Remy Sharp" src="logo_scroll.png" sx={{width:"50px", height:"50px", bgcolor:theme.sidebar.text.primary1}}/>
                                 <Box>
                                 <Box display="flex" marginLeft={2} marginRight={1} marginTop={0} justifyContent="center">
@@ -153,11 +153,12 @@ function NavDrawergw(){
                             </Box> 
                         </Box>
                     </Box>
-                    <Divider sx={{ borderBottomWidth: 2, bgcolor: theme.sidebar.divider.primary}}/>
+                    {/* <Divider sx={{ borderBottomWidth: 2, bgcolor: theme.sidebar.divider.primary}}/> */}
                     
-                    <Box paddingLeft={1} sx={{height:"85%"}}>
+                    <Box display="flex" flexDirection="column" overflow="auto">
+                    <Box paddingLeft={1}>
                     <List disablePadding justifyContent="center" >
-                        <ListItem disablePadding sx={{height:"50px"}}>
+                        <ListItem disablePadding sx={{height:"40px"}}>
                             <ListItemButton >
                                 <ListItemIcon>
                                     <HomeIcon />
@@ -167,11 +168,9 @@ function NavDrawergw(){
                         </ListItem>
                         <ProcessItems processVar={stepvar}/>
                     </List>
-                    </Box>
-                    <Divider sx={{ borderBottomWidth: 2, bgcolor: theme.sidebar.divider.primary}}/>
-                    <Box paddingLeft={1.5} sx={{bgcolor: theme.sidebar.logout.red}}>
-                        <List>
-                            <ListItem disablePadding sx={{height:"60px"}}>
+                    </Box >
+                    <Box display="flex" justifyContent="center" position="fixed" bottom={0} sx={{width:"240px", bgcolor: theme.sidebar.logout.red}}>
+                            <ListItem display="flex" flexDirection="row" sx={{height:"65px"}}>
                                 <ListItemButton >
                                     <ListItemIcon>
                                         <LogoutIcon sx={{color: theme.sidebar.logout.white}}/>
@@ -179,7 +178,7 @@ function NavDrawergw(){
                                     <ListItemText primary="Log Out" sx={{color: theme.sidebar.logout.white}}/>
                                 </ListItemButton>
                             </ListItem>
-                        </List>
+                    </Box>
                     </Box>
                 </Box>
 
