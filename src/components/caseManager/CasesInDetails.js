@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { List, Card, CardBody, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { List, Card, CardBody, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalHeader, ModalBody, ModalFooter,Form, FormGroup,Label, Input } from "reactstrap";
 import { FaSearch } from "react-icons/fa";
-import { db } from "../../firebase"
-import { collection, getDocs } from "firebase/firestore";
+import { db, database } from "../../firebase"
+import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc } from "firebase/firestore";
 import img from "../../logo_scroll.png";
 
 const CasesInDetails = ({user}) => {
@@ -11,22 +11,158 @@ const CasesInDetails = ({user}) => {
 	const [filter,setFilter]=useState("")
 	const [search,setSearch] = useState("");
 	const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
 	const [modal, setModal] = useState(false);
+	const [modalReport, setModalReport] = useState(false);
 	const [caseSelected,setCase]=useState("");
+	const [children, setChildren] = useState([]);
+	const [deadLine, setDeadLine] = useState("");
+	const [child, setChild] = useState(null);
+	const [keys,setKeys]=useState(null);
+	const childrenCollectionRef = collection(db, "children");
+  const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
+	// Case Creation Section(Worker Assigned to Children)
+// (mId to be changed to the manager Id)
+// ----------------------------------------
+	const handleCase = (element) => {
+		// Case Creation
+		element.preventDefault();
+	
+		const usersRef = db.collection("cases").doc(child["id"]);
+		const usersRef2 = db.collection("children").doc(child["id"]);
+	
+		usersRef.get().then((doc) => {
+			
+			if (!doc.exists) {
+				// Initial Case Report
+				usersRef2.get().then((d) => {
+					console.log(d.data()["Case Number"]);
+					db.collection("cases")
+						.doc(child["id"])
+						.set({
+							"Bal Asha Enrolment": d.data()["Date Of Birth"],
+							"Date of Admission": d.data()["Date Of Birth"],
+	
+							"Date of Last Follow up": d.data()["Date Of Birth"],
+							"Last Follow up": "",
+							"Remark of Bal Asha Social Work": "",
+							"Remark": "",
+							"Manager ID": "MId",
+							"Worker IDs": [element.target[2].value],
+						});
+				});
+			
+				// Process Track
+				database.ref(`cases/Process/` + child["id"]).update({
+					isComplete: 0,
+				});
+				database.ref(`cases/Process/` + child["id"] + "/Step1").update({
+					isComplete: false,
+				});
+				database.ref(`cases/Process/` + child["id"] + "/Step1/Step1").update({
+					isComplete: false,
+					text: "",
+					docs: "",
+					stat: "In Progress",
+				});
+				database.ref(`cases/Process/` + child["id"] + "/Step1/Step2").update({
+					isComplete: false,
+					text: "",
+					docs: "",
+					stat: "In Progress",
+				});
+				database.ref(`cases/Process/` + child["id"] + "/Step1/Step3").update({
+					isComplete: false,
+					text: "",
+					docs: "",
+					stat: "In Progress",
+				});
+				database.ref(`cases/Process/` + child["id"] + "/Step1/Step4").update({
+					isComplete: false,
+					text: "",
+					docs: "",
+					stat: "In Progress",
+				});
+				database.ref(`cases/Process/` + child["id"] + "/Step1/Step5").update({
+					isComplete: false,
+					text: "",
+					docs: "",
+					stat: "In Progress",
+				});
+				database.ref(`cases/Process/` + child["id"] +"/Step2").update({
+					isComplete: false,
+					text: "",
+					docs:"",
+					stat: "In Progress",
+				});
+				database.ref(`cases/Process/` + child["id"] + "/Step3").update({
+					isComplete: false,
+					text: "",
+					docs: "",
+					stat: "In Progress",
+				});
+				database.ref(`cases/Process/` + child["id"] + "/Step4").update({
+					isComplete: false,
+					text: "",
+					docs: "",
+					stat: "In Progress",
+				});
+				console.log("Success!")
+				
+	
+			} 
+			else
+			{
+			// Reassign to different worker
+				console.log("Reassigning to Worker: ", element.target[2].value);
+				usersRef2.get().then((d) => {
+					var pathRef = db.collection("cases").doc(child["id"]);
+					updateDoc(pathRef, {
+						"Worker IDs": arrayUnion(element.target[2].value),
+					});
+				});
+			}
+		});
+  // RealTime Deadline
+  // ------------------------------
+  let currentDate = new Date();
+  let futureDate = new Date(currentDate);
+  futureDate.setMonth(currentDate.getMonth() + 1);
+  console.log(futureDate.toDateString());
+  database.ref(`cases/DeadLine/` + child["id"]).set({
+    DeadLine: futureDate.toDateString(),
+  });
+  setDeadLine(futureDate.toString());
+  // -----------------------------------
+}
 
+  const toggleModalReport = (caseno) =>{
+		console.log(typeof(caseno));
+		setModalReport(!modalReport);
+		if(typeof(caseno)==="string"){
+			setChild(children.filter(child => child["id"]===caseno)[0]);
+		}
+		else{
+			setCase("");
+			setChild(null);
+		}
+	};
   const toggleModal = (caseno) =>{
 		setModal(!modal);
 		console.log(typeof(caseno));
-		if(typeof(caseno)==="string") setCase(caseno);
+		if(typeof(caseno)==="string"){
+			setCase(caseno);
+			setChild(children.filter(child => child["id"]==caseno));
+			console.log(child);
+		}
 		else setCase("");
 	};
 	useEffect(()=>{
 		if(user!=="caseManager") navigate("/");
 	},[user])
+	useEffect(()=>{
+		if(child!==null) setKeys(Object.keys(child));
+	},[child])
 
-    const[children, setChildren] = useState([]);
-    const childrenCollectionRef = collection(db, "children");
     useEffect(() => {
         const getChildren = async () => {
             const data = await getDocs(childrenCollectionRef);
@@ -34,6 +170,7 @@ const CasesInDetails = ({user}) => {
         };
         getChildren();
     }, [])
+
     const childrenLists=()=>{
         return (
             <div className="row mt-2">
@@ -48,7 +185,7 @@ const CasesInDetails = ({user}) => {
                 return  (
 				<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
 				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
-				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={(event)=>toggleModal(children["Case Number"])}> Assign</button>
+				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(children["Case Number"])}> Assign</button>
 				</div>
 				<CardBody>
 								<List type="unstyled">
@@ -58,6 +195,7 @@ const CasesInDetails = ({user}) => {
 								<li > <strong>State :</strong> {children["State"]}</li>
 								<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
 								</List>
+				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModalReport(children["id"])}> Case Report</button>
 					</CardBody>
 				</Card>
             )})}
@@ -83,11 +221,25 @@ const CasesInDetails = ({user}) => {
       </Dropdown>
 			</div>
 		</div>
+		{/* Assign Worker */}
 		<Modal centered isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Assign Worker</ModalHeader>
+        <ModalHeader toggle={toggleModal}>Assign Worker for {caseSelected}</ModalHeader>
         <ModalBody>
-          {caseSelected}
+              <Form className=" m-2" onSubmit={(event) => handleCase(event)}>
+                  <FormGroup >
+											<Label for="wid"> Select Worker ID/Name </Label>
+												<Input id="wid" name="wid" placeholder="Worker ID" type="text" />
+										</FormGroup>
+                    <FormGroup row>
+                      <div className="col-2">
+                        <Button type="submit" color="primary">
+                          Assign
+                        </Button>
+                      </div>
+                    </FormGroup>
+              </Form>
         </ModalBody>
+
         <ModalFooter>
           <Button color="primary" onClick={toggleModal}>
             Do Something
@@ -95,6 +247,21 @@ const CasesInDetails = ({user}) => {
           <Button color="secondary" onClick={toggleModal}>
             Cancel
           </Button>
+        </ModalFooter>
+      </Modal>
+			{/* Case Details */}
+		<Modal centered isOpen={modalReport} toggle={toggleModalReport} fullscreen="md" size="lg">
+        <ModalHeader toggle={toggleModalReport}>Case Details for {caseSelected}</ModalHeader>
+        <ModalBody>
+				<ul type="unstyled" className="p-0">
+								{child!==null && keys!==null && keys.map((key)=> {
+									return <li key={key} className="w-full m-2 p-1 flex"> <strong className="w-1/3 ">{key} :</strong> <div className="w-2/3">{child[key]}</div></li>
+								})}
+            <li className="w-full m-2 p-1 flex" > <strong className="w-1/3"> Deadline:</strong> <div className="w-2/3">{deadLine}</div></li>
+							</ul>
+        </ModalBody>
+
+        <ModalFooter>
         </ModalFooter>
       </Modal>
 		{/* <div className="row mt-4 h-16">

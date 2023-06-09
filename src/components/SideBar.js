@@ -32,7 +32,7 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
               </li>
               <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager/reports")} >
                 <span><BsPeopleFill className="text-3xl text-textcolor block float-left"></BsPeopleFill></span>
-                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Case Report</span>
+                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Case Details</span>
               </li>
               <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager/profiles")}>
                 <span><FaRegUserCircle className="text-3xl text-textcolor block float-left"></FaRegUserCircle></span>
