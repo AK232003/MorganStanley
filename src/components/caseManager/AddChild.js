@@ -285,8 +285,8 @@ const AddChild = ({user}) => {
 							</FormGroup>
 					</AccordionBody> */}
 				</AccordionItem>
-				<FormGroup row>
-				<div className="col-2 m-2">
+				<FormGroup row >
+				<div className="m-2 justify-items-center">
 					<Button type="submit" className="!bg-color3 !border-none !text-textcolor">
 						Submit
 					</Button>

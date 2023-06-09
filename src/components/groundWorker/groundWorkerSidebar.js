@@ -2,6 +2,7 @@ import {React,useEffect,useState} from "react";
 import { FaBars, FaArrowAltCircleRight  } from 'react-icons/fa';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../logo_scroll.png";
+import { Accordion,AccordionItem } from "reactstrap";
 import { database, db, storage } from "../../firebase";
 
 const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
@@ -11,7 +12,8 @@ const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
 	const location=useLocation().pathname;
   const sideBarIconProperty = "text-xl text-textcolor bg-color3/[0.2] rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer";
   const logoutIconProperty = "text-xl text-textcolor bg-logoutButton rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-logoutButton/[0.8] cursor-pointer";
-	const [active,setActive]=useState(location.split("/").length>4?location.split("/")[4]:"0");
+	const [active,setActive]=useState(location.split("/").length>=4?location.split("/")[4]:"0");
+  console.log(active,location.split("/")[4],location.split("/").length>=4?location.split("/")[4]:"0")
 
   const toggleAccordion=(id)=>{
 		if(active===id) setActive("0");
@@ -60,13 +62,13 @@ const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
             className="pt-4"
           ></img>
         )}
-        {user === "groundWorker" && (
-          <ul className="pt-2 ps-0">
+          <Accordion className="pt-2 ps-0">
             {/* Step-1 Button */}
-            <li className={sideBarIconProperty}>
-              <div
-                onClick={() => toggleAccordion("step1")}
-              >
+            <ul>
+              <AccordionItem
+            className={sideBarIconProperty}
+                onClick={() => toggleAccordion("1")}>
+              <li >
                 <span>
                   <FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight>
                 </span>
@@ -136,8 +138,8 @@ const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
                     </li>
                   </ul>
                 )}
-              </div>
-            </li>
+              </li>
+            </AccordionItem>
 
             {/* <li>
               <div
@@ -197,11 +199,13 @@ const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
               </div>
             </li> */}
             {/* Step-2 Button */}
+            <AccordionItem>
+
             <li className={sideBarIconProperty}>
               <button
                 onClick={() => handleStep2()}
                 disabled={!(status === 2)}
-              >
+                >
                 <span>
                   <FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight>
                 </span>
@@ -209,11 +213,12 @@ const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
                   className={`text-base font-medium ms-2  ${
                     !openSide && "hidden"
                   }`}
-                >
+                  >
                   Step-2: Get NOC Certificate
                 </span>{" "}
               </button>
             </li>
+                  </AccordionItem>
 
             {/* Step-3 Button */}
             <li className={sideBarIconProperty}>
@@ -272,7 +277,8 @@ const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
               </button>
             </li>
           </ul>
-        )}
+
+          </Accordion>
       </div>
     </>
   );
