@@ -123,7 +123,7 @@ const Report=() => {
   // ---------------------------------------
 
   return (
-    <div className="h-95 w-95 sm:h-9/10 sm:w-2/5 bg-sideBarColor1  rounded-1 ms-3 m-3 sm:m-2 sm:relative drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll">
+    <div className="w-95 md:w-3/5 bg-sideBarColor1  rounded-1 mx-2 md:ms-3 mt-3 md:me-0 drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll"> 
       <div className="row mt-3 m-2 w-95">
         <div className="col p-0 font-bold text-3xl">
           {" "}

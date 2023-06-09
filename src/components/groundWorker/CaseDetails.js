@@ -19,21 +19,24 @@ const CaseDetails= ({user,setuser})=>{
 		setKeys(Object.keys(child))
 	},[child,user]);
 	return (
-		<div className={`flex flex-row w-full`}>
+		<div className={`flex flex-row w-full bg-color2 overflow-hidden`}>
 		<div className="flex pd-0">
 			<GroundWorkerSidebar user={user} setuser={setuser} child={child} open={open} setOpen={(value)=>setOpen(value)} handdleToggle={()=>handleToggle()} openSide={openSide} toggle={toggle}/>
 		</div>
-		<div className={`flex flex-col w-full ${open && "blur-sm"}`}>
+		<div className={`flex flex-col w-full  ${open && "blur-sm"}`}>
 			<NavBar user={"/"+user} open={open} setOpen={(value)=>setOpen(value)} toggle={toggle}/>
-		<div className="h-95 w-95 sm:h-9/10 sm:w-2/5 bg-sideBarColor1  rounded-1 ms-3 mt-3 me-0 sm:m-2 sm:relative drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll"> 
-			<List type="unstyled">
-				<div className="p-2 m-2 font-bold text-3xl "> Child Details for {child["id"]}</div>
-				{child!==undefined && keys.map((key)=> {
-					return <li key={key} className="row m-2 p-1"> <strong className="col-3">{key} :</strong> <div className="col">{child[key]}</div></li>
-				})}
-			</List>
-		</div>
+			<div className="max-h-70 lg:h-full flex flex-col md:flex-row  w-full mt-0 m-2 bg-color2 overflow-hidden">
+			<div className=" w-95 md:w-3/5 bg-sideBarColor1  rounded-1 mx-2 md:ms-3 mt-3 md:me-0 drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll"> 
+				<List type="unstyled">
+					<div className="p-2 m-2 font-bold text-3xl "> Child Details for {child["id"]}</div>
+					{child!==undefined && keys.map((key)=> {
+						return <li key={key} className="row m-2 md:m-1 p-1"> <strong className="col-4 ms-1 p-0">{key}:</strong> <div className="col p-0 text-clip">{ child[key]}</div></li>
+					})}
+				</List>
+			</div>
+			
 			<Outlet/>
+		</div>
 		</div>
 		</div>
 	)
