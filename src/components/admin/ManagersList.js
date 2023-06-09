@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { List, Card, CardBody,Input} from "reactstrap";
+import { List, Card, CardBody,Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from "reactstrap";
 import { FaSearch } from "react-icons/fa";
 import { db,database } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
@@ -10,6 +10,8 @@ const ManagersList = ({user}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
+	const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggle = () => setDropdownOpen(!dropdownOpen);
 	useEffect(()=>{
 		if(user!=="admin") navigate("/");
 	},[user])
@@ -54,16 +56,21 @@ const ManagersList = ({user}) => {
 	<div className="container mt-4 overflow-y-scroll bg-color2">
 		<h2>Managers List</h2>
 		<div className="row mt-4 h-16">
-			<div className="col-8 col-md-10 w-full p-2">
+			<div className="col-6 col-lg-10 w-full p-2">
 			<div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
 			<span><FaSearch className="text-lg text-black block float-left me-2"></FaSearch></span>
 			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={"Search"} onChange={(event)=>setSearch(event.target.value)}></input>
 			</div>
 			</div>
-			<div className="col-4 col-md-2 mt-2 md:p-2 p-1">
-			<Input type="select" name="filter" id="filter" className="rounded-md w-full h-auto text-2xl p-2 border-0 !bg-color3 shadow-md" onChange={(event)=>setFilter(event.target.value)}>
-				<option>Name</option>
-			</Input>
+			<div className="col-auto col-lg-2 mt-2 md:p-2 p-1">
+			<Dropdown isOpen={dropdownOpen} toggle={toggle}  direction="down" onChange={(event)=>console.log(event)}>
+        <DropdownToggle size="lg" className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md" caret>{filter===""?"Select Filter":filter}</DropdownToggle>
+        <DropdownMenu className="text-textcolor">
+          <DropdownItem onClick={()=>setFilter("Name")}>Name</DropdownItem>
+          <DropdownItem onClick={()=>setFilter("District")}>District</DropdownItem>
+          <DropdownItem onClick={()=>setFilter("District")}>Case Number</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
 			</div>
 		</div>
 		{/* <div className="row mt-4 h-16">

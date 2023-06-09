@@ -6,15 +6,15 @@ import { database, db, storage } from "../../firebase";
 
 const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
 
-	const [active,setActive]=useState(0);
-	const [status, setStatus] = useState(4);
+  const [status, setStatus] = useState(4);
 	const navigate=useNavigate();
 	const location=useLocation().pathname;
   const sideBarIconProperty = "text-xl text-textcolor bg-color3/[0.2] rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer";
   const logoutIconProperty = "text-xl text-textcolor bg-logoutButton rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-logoutButton/[0.8] cursor-pointer";
+	const [active,setActive]=useState(location.split("/").length>4?location.split("/")[4]:"0");
 
   const toggleAccordion=(id)=>{
-		if(active===id) setActive(0);
+		if(active===id) setActive("0");
 		else setActive(id);
 	}
   	const handleStep2=()=>{
@@ -65,7 +65,7 @@ const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
             {/* Step-1 Button */}
             <li className={sideBarIconProperty}>
               <div
-                onClick={() => toggleAccordion(1)}
+                onClick={() => toggleAccordion("step1")}
               >
                 <span>
                   <FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight>
@@ -75,9 +75,9 @@ const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
                     !openSide && "hidden"
                   }`}
                 >
-                  Step-1: Document Completition
+                  Step-1: Document Completion
                 </span>
-                {active === 1 && openSide && (
+                {active === "step1" && openSide && (
                   <ul className="pt-1 text-base font-medium">
                     <li>
                       <Link
