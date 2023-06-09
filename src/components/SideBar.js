@@ -1,16 +1,12 @@
-import {React,useState} from "react";
+import {React} from "react";
 import { FaBars, FaRegUserCircle, FaArrowAltCircleRight, FaChild, FaHome, FaUserPlus,FaRegListAlt, FaClipboardList  } from 'react-icons/fa';
 import {BsPeopleFill}from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
-import logo from "../logo_scroll.png";
 
 const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
-
   const navigate=useNavigate();
-
-  const sideBarProperty = "";
   const sideBarIconProperty = "text-xl text-textcolor bg-color3/[0.2] rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer";
-  const logoutIconProperty = `${openSide ? "w-4/5" : "w-12"} text-xl text-textcolor bg-logoutButton rounded-1 p-2 items-center gap-x-4 mt-2 hover:bg-logoutButton/[0.8] cursor-pointer justify-items-center fixed bottom-3`;
+  const logoutIconProperty = `${openSide ? "w-60" : "w-12"} text-xl text-textcolor duration-300 bg-logoutButton rounded-1 p-2 items-center gap-x-4 mt-2 hover:bg-logoutButton/[0.8] cursor-pointer justify-items-center fixed bottom-3`;
 
   const handleLogout= ()=>{
     // document.cookie="user=; expires="+ new Date(-99).toUTCString();
@@ -21,7 +17,7 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
 	return (
     <>
 	<div className={`h-screen sm:h-9/10 px-4 pb-4 pt-3 ${openSide ? "w-72" : "w-24"} ${!open && "hidden"} 
-  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-none md:relative  absolute left-0 md:top-14 top-0 drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}>
+  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-none me-2 md:relative  absolute left-0 md:top-14 top-0 drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}>
           <FaBars className={`h-12 w-12 cursor-pointer top-1 text-textcolor duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()}></FaBars>
             {user === "caseManager" &&
             <>

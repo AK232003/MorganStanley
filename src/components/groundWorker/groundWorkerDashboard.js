@@ -1,11 +1,18 @@
-import { React, useEffect } from "react";
+import { React, useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowAltCircleRight } from "react-icons/fa";
 import AssignedList from "./AssignedList";
 import { Button } from "reactstrap";
+import NavBar from "../Navbar";
 
 const GroundWorkerDashboard = ({ user, setuser }) => {
   const navigate = useNavigate();
+  const [open,setOpen] =useState(false);
+	const [openSide, toggle] = useState(true);
+	const handleToggle=()=>{
+    if(!open) toggle(!openSide); 
+    open?setOpen(false):setOpen(open);
+  }
   const handleLogout= ()=>{
     // document.cookie="user=; expires="+ new Date(-99).toUTCString();
     setuser(null);
@@ -15,6 +22,8 @@ const GroundWorkerDashboard = ({ user, setuser }) => {
     if (user !== "groundWorker") navigate("/");
   }, [user]);
   return (
+    <>
+    <NavBar user={"/"+user} open={open} setOpen={(value)=>setOpen(value)} toggle={toggle}/>
     <div className="container m-auto">
       <div className="row justify-between">
         {/* <div className="text-textcolor justify-self-start rounded-1 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md "> */}
@@ -29,6 +38,7 @@ const GroundWorkerDashboard = ({ user, setuser }) => {
       </div>
         <AssignedList id={"groundWorker Id will be passed here"}/>
     </div>
+    </>
   );
 };
 export default GroundWorkerDashboard;

@@ -4,25 +4,19 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import logo from "../../logo_scroll.png";
 import { database, db, storage } from "../../firebase";
 
-const GroundWorkerSidebar=({user,setuser,child})=>{
-	const [openSide, toggle] = useState(true);
-  const [open,setOpen] =useState(false);
-	const [active,setActive]=useState(0);
+const GroundWorkerSidebar=({user,setuser,child,open,handdleToggle,openSide})=>{
 
+	const [active,setActive]=useState(0);
 	const [status, setStatus] = useState(4);
 	const navigate=useNavigate();
 	const location=useLocation().pathname;
-  const sideBarProperty = "";
   const sideBarIconProperty = "text-xl text-textcolor bg-color3/[0.2] rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer";
   const logoutIconProperty = "text-xl text-textcolor bg-logoutButton rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-logoutButton/[0.8] cursor-pointer";
-	const toggleAccordion=(id)=>{
+
+  const toggleAccordion=(id)=>{
 		if(active===id) setActive(0);
 		else setActive(id);
 	}
-  	const handdleToggle=()=>{
-    	if(!open) toggle(!openSide); 
-    	open?setOpen(false):setOpen(open);
-  	}
   	const handleStep2=()=>{
 		alert("Hi Button Pressed");
 		console.log(child)
@@ -45,26 +39,11 @@ const GroundWorkerSidebar=({user,setuser,child})=>{
 	return (
     <>
       <div
-        className={`h-14 w-14 ${
-          !open && "row"
-        } sm:!hidden rounded-1 m-2 p-1 relative bg-sideBarColor1 opacity-90 top-4 left-5 z-0 ${
-          open && "opacity-0"
-        } overflow-hidden`}
-      >
-        <FaBars
-          className="h-full w-full p-0 cursor-pointer text-textcolor visible"
-          onClick={() => {
-            setOpen(!open);
-            toggle(true);
-          }}
-        ></FaBars>
-      </div>
-      <div
-        className={`h-95 sm:h-9/10 px-4 pb-4 pt-3 ${
+        className={`h-screen sm:h-9/10 px-4 pb-4 pt-3 ${
           openSide ? "w-72" : "w-24"
         } ${!open && "hidden"} ${
-          open && "w-95"
-        } bg-sideBarColor1 duration-300 rounded-1 m-2 ms-0 absolute top-1 sm:relative drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block z-10`}
+          open && "w-1/2 opacity-100"
+        } bg-sideBarColor1 duration-300 rounded-1 md:relative absolute md:top-14 top-0 drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}
       >
         <FaBars
           className={`h-12 w-12 cursor-pointer top-1 text-textcolor duration-500 visible ${
