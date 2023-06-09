@@ -7,7 +7,7 @@ import { AuthProvider } from "./context/AuthContext";
 import Login from "./components/Login";
 import Dashboard1 from "./components/DashBoard1";
 import Main from "./components/MainComponent";
-import { Dashboard, AddChild, AssignCases, ChildProfile, ChildrenList,TaskStatus } from "./components/caseManager/caseManager.js";
+import { Dashboard, AddChild, AssignCases, ChildProfile, ChildrenList,TaskStatus,TaskComments } from "./components/caseManager/caseManager.js";
 import {AdminDashboard, AddUser ,ManagersList,WorkersList} from "./components/admin/admin";
 import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
@@ -30,6 +30,7 @@ function App() {
                 <Route path="caseManager/reports" element={< AssignCases user={user}/>} />
                 <Route path="caseManager/profiles" element={< ChildrenList user={user}/>} />
                 <Route path="caseManager/taskStatus" element={< TaskStatus user={user}/>} />
+                <Route path="caseManager/taskComments" element={< TaskComments user={user}/>} />
                 <Route path="caseManager/profiles/:id" element={<ChildProfile user={user}/>} />
                 <Route exact path="admin" element={<AdminDashboard user={user}/>}/>
                 <Route exact path="admin/addUser" element={<AddUser user={user}/>}/>

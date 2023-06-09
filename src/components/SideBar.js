@@ -1,5 +1,5 @@
 import {React} from "react";
-import { FaBars, FaRegUserCircle, FaTasks, FaArrowAltCircleRight, FaChild, FaHome, FaUserPlus,FaRegListAlt, FaClipboardList  } from 'react-icons/fa';
+import { FaBars, FaRegUserCircle, FaTasks, FaArrowAltCircleRight, FaChild, FaHome, FaUserPlus,FaRegListAlt, FaClipboardList,FaComments  } from 'react-icons/fa';
 import {BsPeopleFill}from 'react-icons/bs'
 import { useNavigate } from "react-router-dom";
 
@@ -41,6 +41,10 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
               <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager/taskStatus")} >
                 <span><FaTasks className="text-3xl text-textcolor block float-left"></FaTasks></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Task Status</span>
+              </li>
+              <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager/taskComments")} >
+                <span><FaComments className="text-3xl text-textcolor block float-left"></FaComments></span>
+                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Task Comments</span>
               </li>
             </ul>
               <div className={logoutIconProperty} onClick={handleLogout} >
