@@ -7,7 +7,7 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   const navigate=useNavigate();
   const sideBarIconProperty = "text-lg text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color6 cursor-pointer";
   const logoutIconProperty = `${openSide ? "w-64" : "w-24"} text-xl text-logoutContent duration-300 bg-logoutButton rounded-0 p-3 items-center :bg-logoutButton cursor-pointer justify-items-center fixed bottom-0`;
-  const sideIconProperty = `${openSide ? "w-64" : "w-24"} md:h-20 h-16 text-xl text-color2 duration-300 bg-sideBarColor2 rounded-0 p-3 items-center :bg-sideBarColor2 cursor-pointer justify-items-center`;
+  const sideIconProperty = `${openSide ? "w-64" : "w-24"} h-16 text-xl text-color2 duration-300 bg-sideBarColor2 rounded-0 p-2 items-center :bg-sideBarColor2 cursor-pointer justify-items-center`;
 
   const handleLogout= ()=>{
     // document.cookie="user=; expires="+ new Date(-99).toUTCString();

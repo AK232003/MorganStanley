@@ -8,7 +8,7 @@ import { FaBars } from "react-icons/fa";
 const NavBar = ({user,open,setOpen,toggle}) => {
 
     return (
-    <Navbar className="!bg-sideBarColor2 md:h-20 h-16">
+    <Navbar className="!bg-sideBarColor2 h-16">
         {user!=="groundWorker" && 
         <div className={`h-14 w-14 ${!open && "row"} md:!hidden z-0 relative left-2 md:left-5 top-1 md:top-0 ${open&& "opacity-0"} overflow-hidden z-3 me-2`}>
           <FaBars className="md:h-14 md:w-14 h-8 w-8  p-1 cursor-pointer text-sideBarColor1 visible" onClick={() =>{ setOpen(!open); toggle(true)}}></FaBars>
