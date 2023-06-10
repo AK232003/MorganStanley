@@ -34,7 +34,16 @@ const Login = ({setUser, setId}) => {
 
 
   useEffect(()=>{
-
+    setUser(localStorage.getItem('user'))
+    setuserType(localStorage.getItem('user'))
+    if (localStorage.getItem('user')=== "GroundWorker" ) {
+      navigate("groundWorker");
+     } else if(localStorage.getItem('user') === "CaseManager"){
+       navigate("caseManager");
+     }
+     else if(localStorage.getItem('user')=== "Admin") {
+       navigate("admin");
+    }
     // fetchData()
   },[])    
   async function handleSubmitLogin(e) {
@@ -46,10 +55,11 @@ const Login = ({setUser, setId}) => {
       console.log(emailRef.current.value, passwordRef.current.value);
       const userHash = await login(emailRef.current.value, passwordRef.current.value);
       console.log(userHash)
-
+      let id=null;
       database.ref(`Users/${userHash[0]}/userID/`).once('value')
       .then((snapshot) => {
         setId(snapshot.val());
+        id=snapshot.val();
         console.log(snapshot.val(), "id");
       })
       .catch((error) => {
@@ -57,19 +67,24 @@ const Login = ({setUser, setId}) => {
       });
       setUser(userHash[1]);
       if (userHash[1] === "GroundWorker" ) {
-         console.log("ground worker route")
+         console.log("ground worker route");
+         localStorage.setItem('user',userHash[1]);
+        //  localStorage.setItem('user',id);
          setUser("groundWorker");
          navigate("groundWorker");
         } else if(userHash[1] === "CaseManager"){
-         console.log("case manager route")
-         setUser("CaseManager")
-         navigate("caseManager");
+          localStorage.setItem('user',userHash[1]);
+          // localStorage.setItem('user',id);
+          console.log("case manager route")
+          setUser("CaseManager")
+          navigate("caseManager");
         }
         else if(userHash[1] === "Admin") {
+          localStorage.setItem('user',userHash[1]);
+          // localStorage.setItem('user',id);
           console.log("admin route")
          setUser("Admin")
           navigate("admin");
-        
        }
     } catch {
       setError("Incorrect Username or Password");

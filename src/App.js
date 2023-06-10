@@ -16,7 +16,7 @@ function App() {
   const [user, setUser] = useState("CaseManager");
   const [id, setId] = useState(null);
   useEffect(() => {
-
+    setUser(localStorage.getItem('user'))
   }, [user]);
   return (
     <>
@@ -45,7 +45,7 @@ function App() {
                   <Main
                     user={user}
                     id={id}
-                    setuser={(value) => setUser(value)}
+                    setUser={(value) => setUser(value)}
                     setId={(value) => setId(value)}
                   />
                 }

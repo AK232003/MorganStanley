@@ -14,7 +14,7 @@ const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
     open?setOpen(false):setOpen(open);
   }
   const handleLogout= ()=>{
-
+    localStorage.setItem('user',null);
     setuser(null);
     setId(null);
     navigate("/");

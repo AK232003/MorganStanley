@@ -33,7 +33,7 @@ const GroundWorkerSidebar = ({
     console.log(child);
   };
   const handleLogout = () => {
-
+    localStorage.setItem('user',null);
     setuser(null);
     setId(null);
     navigate("/");
