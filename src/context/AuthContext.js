@@ -18,8 +18,8 @@ export function AuthProvider({ children }) {
       .then((userCredential) => {
         var user = userCredential.user;
 
-        return db
-          .collection('Users').doc(user.uid)
+        if(userType==="Admin"){ 
+          return db.collection('Users').doc(user.uid)
           .set({
             userType: userType,
             Name: name,
@@ -44,10 +44,62 @@ export function AuthProvider({ children }) {
             console.error("Error creating user node:", error);
             return false;
           });
-      })
-      .catch((error) => {
-        console.error("Error Signing up:", error);
-      });
+        }
+        else if(userType==="CaseManager"){
+          return db.collection('Users').doc(user.uid)
+          .set({
+            userType: userType,
+            Name: name,
+            Phone: phoneno,
+            UserID: id,
+            PhoneNo: phoneno,
+            CasesList: [],
+            WorkersList: [],
+            TotalCasesCompleted: 0,
+            TotalCasesStep1: 0,
+            TotalCasesStep2: 0,
+            TotalCasesStep3: 0,
+            TotalCasesStep4: 0,
+            Image: imageUrl
+          })
+          .then(() => {
+            console.log("Signup successful!");
+            return true;
+          })
+          .catch((error) => {
+            console.error("Error creating user node:", error);
+            return false;
+          });
+        }
+        else if(userType==="GroundWorker"){
+          return db.collection('Users').doc(user.uid)
+          .set({
+            userType: userType,
+            Name: name,
+            Phone: phoneno,
+            UserID: id,
+            PhoneNo: phoneno,
+            CasesList: [],
+            TotalCasesCompleted: 0,
+            TotalCasesStep1: 0,
+            TotalCasesStep2: 0,
+            TotalCasesStep3: 0,
+            TotalCasesStep4: 0,
+            Image: imageUrl
+          })
+          .then(() => {
+            console.log("Signup successful!");
+            return true;
+          })
+          .catch((error) => {
+            console.error("Error creating user node:", error);
+            return false;
+          });
+        }
+        })
+        .catch((error) => {
+          console.error("Error Signing up:", error);
+        });
   }
 
   function login(email, password) {
