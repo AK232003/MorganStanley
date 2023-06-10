@@ -8,44 +8,44 @@ import img from "../../logo_scroll.png";
 
 const AssignedList=({id})=>{
 	const navigate = useNavigate();
-
-	const[children, setChildren] = useState([]);
+	
+	const [children, setChildren] = useState([]);
 	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
 	const childrenCollectionRef = collection(db, "children");
 	useEffect(() => {
-			const getChildren = async () => {
-					const data = await getDocs(childrenCollectionRef);
-					setChildren(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
-			};
-			getChildren();
+		const getChildren = async () => {
+			const data = await getDocs(childrenCollectionRef);
+			setChildren(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
+		};
+		getChildren();
 	}, [])
 	const childrenLists=()=>{
-			return (
-					<div className="row">
-					{children.filter(children => {
-						if(search === "Search" || search === "") {
-							return children;
-						}
-						else if(children[filter].toLowerCase().includes(search.toLowerCase())){
-							return children;
-						}
-					}).map((children) => {
-							return  (
-							<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${children["id"]}`, {state: {children}})}> 
-							<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
-							</div>
-							<CardBody>
-											<List type="unstyled">
-											<li > <strong>Name :</strong> {children["Name"]}</li>
-											<li > <strong>Age :</strong> {children["Age"]}</li>
-											<li > <strong>District :</strong> {children["District"]}</li>
-											<li > <strong>State :</strong> {children["State"]}</li>
-											<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
-											</List>
-								</CardBody>
-							</Card>
-					)})}
+		return (
+			<div className="row">
+			{children.filter(children => {
+				if(search === "Search" || search === "") {
+					return children;
+				}
+				else if(children[filter].toLowerCase().includes(search.toLowerCase())){
+					return children;
+				}
+			}).map((children) => {
+					return  (
+					<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${children["id"]}`, {state: {children}})}> 
+						<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
+						</div>
+						<CardBody>
+							<List type="unstyled">
+								<li > <strong>Name :</strong> {children["Name"]}</li>
+								<li > <strong>Age :</strong> {children["Age"]}</li>
+								<li > <strong>District :</strong> {children["District"]}</li>
+								<li > <strong>State :</strong> {children["State"]}</li>
+								<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
+							</List>
+						</CardBody>
+					</Card>
+				)})}
 			</div>)
 	}
 	return (

@@ -12,7 +12,7 @@ import {AdminDashboard, AddUser ,ManagersList,WorkersList, ChildrenProfile} from
 import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
 function App() {
-  const [user, setUser] = useState("admin");
+  const [user, setUser] = useState("groundWorker");
   
   useEffect(() => {
     if(user!==null) document.cookie=`user=${user}; expires=`+ new Date(2023,6,20).toUTCString();

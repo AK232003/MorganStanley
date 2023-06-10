@@ -1,18 +1,39 @@
 import { React, useRef, useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Button } from "reactstrap";
+
+import { collection, getDocs, setDoc, doc, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
+// import addProcess from "./addCase";
+import { addProcessOrphaned } from "./addCase";
 
 const Login = ({setuser}) => {
+
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const [caseData, setCaseData] = useState([]);
+  const fetchData = async () => {
+    await getDocs(collection(db, "cases"))
+    .then((querySnapshot) => {
+      const newData = querySnapshot.docs
+        .map((doc) => ({...doc.data(), id:doc.id}));
+      setCaseData(newData)
+      console.log(newData);
+      console.log(querySnapshot.metadata.fromCache)
+    })
+  }
+
+
   useEffect(()=>{
       // setuser(document.cookie.split("=")[1]);
       // if(document.cookie.split("=")[1]!==undefined) navigate(document.cookie.split("=")[1]);
-
+    fetchData()
   },[])
   async function handleSubmitLogin(e) {
     e.preventDefault();
@@ -41,7 +62,11 @@ const Login = ({setuser}) => {
     setLoading(false);
   }
   return (
+
     <div id="loginpage" className="w-100">
+    <Button onClick={() => addProcessOrphaned("test3")}>
+      this
+    </Button>
       <div className="grid mt-4 place-content-center">
         <div
           className="rounded-5"

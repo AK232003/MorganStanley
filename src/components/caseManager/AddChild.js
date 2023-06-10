@@ -3,6 +3,7 @@ import { Accordion, AccordionBody, AccordionItem, Form, FormGroup, Label, Input,
 import { useNavigate,Link } from "react-router-dom";
 import { database, db, storage } from "../../firebase";
 import * as XLSX from "xlsx";
+import { setDoc, doc } from "firebase/firestore";
 import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storage";
 import {IoIosArrowDropdown} from 'react-icons/io'
 const AddChild = ({user}) => {
@@ -57,85 +58,38 @@ const AddChild = ({user}) => {
 		element.preventDefault();
 		console.log(element);
 
-		// await setDoc(doc(db, "children", element.target[11].value), {
-		// 	Name: element.target[1].value,
-		// 	Gender: element.target[2].value,
-		// 	"Date of Birth": element.target[3].value,
-		// 	Age: element.target[4].value,
-		// 	"Child Category": element.target[5].value,
-		// 	State: element.target[7].value,
-		// 	District: element.target[8].value,
-		// 	Home: element.target[9].value,
-		// 	"Case Number": element.target[11].value,
-		// 	"Reason For Admission": element.target[12].value,
-		// 	"Reason For Flagging": element.target[13].value,
-		// 	"Last Visit Since": element.target[14].value,
-		// 	"Last Call Since": element.target[15].value,
-		// 	Guardian: element.target[16].value,
-		// 	Sibling: element.target[17].value,
-		// 	"Total Shelter Home Stay": element.target[18].value,
-		// 	"Case History": element.target[19].value,
-		// })
-		// const id = element["Case Number"].split("/").join("");
-		// const id = element.target[11].value.split("/").join("");
-		// const imageRef = storageRef(storage, `children/${id}`);
-		// let dt = new Date();
-		// dt.setMonth(dt.getMonth()+1);
-		// console.log(dt);
-		// uploadBytes(imageRef, imageUpload)
-    //   .then((snapshot) => {
-    //     getDownloadURL(snapshot.ref)
-    //       .then((url) => {
-		// 	db.collection("children").doc(id).set({
-		// 		"Name": element.target[1].value,
-		// 		"Gender": element.target[2].value,
-		// 		"Date Of Birth": element.target[3].value,
-		// 		"Age": element.target[4].value,
-		// 		"Child Category":element.target[5].value,
-		// 		"Image": url,
-		// 		"State": element.target[7].value,
-		// 		"District": element.target[8].value,
-		// 		"Home": element.target[9].value,
-		// 		"Case Number": element.target[11].value,
-		// 		"Reason For Admission": element.target[12].value,
-		// 		"Reason For Flagging": element.target[13].value,
-		// 		"Last Visit Since": element.target[14].value,
-		// 		"Last Call Since": element.target[15].value,
-		// 		"Guardian": element.target[16].value,
-		// 		"Sibling": element.target[17].value,
-		// 		"Total Shelter Home Stay": element.target[18].value,
-		// 		// "CWC Last Review": element.target[19].value,
-		// 		// "Last CWC Order": element.target[20].value,
-		// 		"Case History": element.target[19].value,
-		// 		// "Documents Completed": element.target[23].value,
-		// 		// "Documents Pending": element.target[24].value,
-		// 		// "News Paper Publications Pending": element.target[25].value,
-		// 		// "Police Report Pending": element.target[26].value,
-		// 		// "Surrender Pending": element.target[27].value,
-		// 		// "Status": element.target[28].value
-		// 	}).then(() => {
-		// 		console.log("Document successfully written with ID: ", id);
-		// 		// Create an entry in the Realtime Database for the child profile
-		// 		// database
-		// 		//   .ref("childProfile/" + id)
-		// 		//   .set({
-		// 		// 	AssignStatus: "Not Assigned",
-		// 		// 	WorkerID: "",
-		// 		// 	ManagerID: "",
-		// 		// 	Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
-		// 		//   });
+		const id = element.target[9].value.split("/").join("")
+		let url 
+		// const storage = getStorage()
+		const imageRef = storageRef(storage, `children/${id}`)
+		uploadBytes(imageRef, imageUpload)
+      	.then((snapshot) => {
+        getDownloadURL(snapshot.ref)
+          .then((url) => {
+			setDoc(doc(db, "children", id), {
+				Name: element.target[0].value,
+				Gender: element.target[1].value,
+				"Date of Birth": element.target[2].value,
+				Age: element.target[3].value,
+				"Child Category": element.target[4].value,
+				Image: url,
+				State: element.target[6].value,
+				District: element.target[7].value,
+				Home: element.target[8].value,
+				"Case Number": element.target[9].value,
+				"Reason For Admission": element.target[10].value,
+				"Reason For Flagging": element.target[11].value,
+				"Last Visit Since": element.target[12].value,
+				"Last Call Since": element.target[13].value,
+				Guardian: element.target[14].value,
+				Sibling: element.target[15].value,
+				"Total Shelter Home Stay": element.target[16].value,
+				"Case History": element.target[17].value,
+			})})
+		})
 
-		// 		   	database.ref(`cases/comments/` + id ).set({
-    //         			Worker: ["Start"],
-    //         		 	Manager: ["Start"],
-    //       			 });
-		// 	  })
-		// 	  .catch((error) => {
-		// 		console.error("Error writing document: ", error);
-		// 	  });
-    //       })
-		console.log(user);   
-      // })
+		
+
 	}
 	const navigate=useNavigate();
   useEffect(()=>{
@@ -178,7 +132,7 @@ const AddChild = ({user}) => {
 										<option> Abandoned / Family not traceable</option>
 										<option> Surrendered</option>
 										<option> Orphaned - No Guardians </option>
-										<option> Child Admitted in CCI by Family </option>
+										{/* <option> Child Admitted in CCI by Family </option> */}
 										<option> Admitted by Guardians </option>
 									</Input>
 								</Col>
@@ -246,22 +200,111 @@ const AddChild = ({user}) => {
 							</FormGroup>
 							<FormGroup row>
 							</FormGroup>
-							{/* <FormGroup row>
-								<Label for="cwclr" sm={2}>CWC Last Review</Label>
-								<Col sm={10}>
-									<Input id="cwclr" name="cwclr" placeholder="CWC last review" type="date"/></Col>
-							</FormGroup>
-							<FormGroup row>
-								<Label for="cwclo" sm={2}>Last CWC Order</Label>
-								<Col sm={10}>
-									<Input id="cwclo" name="cwclo" placeholder="CWC last order" type="text"/></Col>
-							</FormGroup> */}
+
 							<FormGroup row>
 								<Label for="casehistory" sm={2}>Case History</Label>
 								<Col sm={10}>
 									<Input id="casehistory" name="casehistory" placeholder="Case History" type="textarea"/></Col>
 							</FormGroup>
 							</AccordionBody>
+
+				</AccordionItem>
+				<FormGroup row >
+				<div className="m-2 justify-items-center">
+					<Button type="submit" className="!bg-color3 !border-none !text-textcolor">
+						Submit
+					</Button>
+				</div>
+			</FormGroup>			
+		</Form>
+		</Accordion>
+		<div className="row">
+					<Form onSubmit={(event) => handleUpload(event)}>
+          <div className="row m-2 text-3xl font-bold">Insert Excel Sheet
+          </div>
+          <div className="row m-1">
+            <div className="col-12 col-sm-8 col-lg-6">
+						<Input id="excelsheet" name="excelsheet" type="file" accept=".xlsx" onChange={handleFileChange}/>
+            </div>
+          </div>
+			<FormGroup row>
+				<div className="col-2 m-2">
+					<Button type="submit" className="!bg-color3 !border-none !text-textcolor" onClick={handleUpload}>
+						Submit
+					</Button>
+				</div>
+			</FormGroup>
+		</Form>
+		</div>
+		</div>
+	);
+}
+export default AddChild
+
+
+// GARBAGE
+		// const id = element["Case Number"].split("/").join("");
+		// const id = element.target[11].value.split("/").join("");
+		// const imageRef = storageRef(storage, `children/${id}`);
+		// let dt = new Date();
+		// dt.setMonth(dt.getMonth()+1);
+		// console.log(dt);
+		// uploadBytes(imageRef, imageUpload)
+    //   .then((snapshot) => {
+    //     getDownloadURL(snapshot.ref)
+    //       .then((url) => {
+		// 	db.collection("children").doc(id).set({
+		// 		"Name": element.target[1].value,
+		// 		"Gender": element.target[2].value,
+		// 		"Date Of Birth": element.target[3].value,
+		// 		"Age": element.target[4].value,
+		// 		"Child Category":element.target[5].value,
+		// 		"Image": url,
+		// 		"State": element.target[7].value,
+		// 		"District": element.target[8].value,
+		// 		"Home": element.target[9].value,
+		// 		"Case Number": element.target[11].value,
+		// 		"Reason For Admission": element.target[12].value,
+		// 		"Reason For Flagging": element.target[13].value,
+		// 		"Last Visit Since": element.target[14].value,
+		// 		"Last Call Since": element.target[15].value,
+		// 		"Guardian": element.target[16].value,
+		// 		"Sibling": element.target[17].value,
+		// 		"Total Shelter Home Stay": element.target[18].value,
+		// 		// "CWC Last Review": element.target[19].value,
+		// 		// "Last CWC Order": element.target[20].value,
+		// 		"Case History": element.target[19].value,
+		// 		// "Documents Completed": element.target[23].value,
+		// 		// "Documents Pending": element.target[24].value,
+		// 		// "News Paper Publications Pending": element.target[25].value,
+		// 		// "Police Report Pending": element.target[26].value,
+		// 		// "Surrender Pending": element.target[27].value,
+		// 		// "Status": element.target[28].value
+		// 	}).then(() => {
+		// 		console.log("Document successfully written with ID: ", id);
+		// 		// Create an entry in the Realtime Database for the child profile
+		// 		// database
+		// 		//   .ref("childProfile/" + id)
+		// 		//   .set({
+		// 		// 	AssignStatus: "Not Assigned",
+		// 		// 	WorkerID: "",
+		// 		// 	ManagerID: "",
+		// 		// 	Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
+		// 		//   });
+
+		// 		   	database.ref(`cases/comments/` + id ).set({
+    //         			Worker: ["Start"],
+    //         		 	Manager: ["Start"],
+    //       			 });
+		// 	  })
+		// 	  .catch((error) => {
+		// 		console.error("Error writing document: ", error);
+		// 	  });
+    //       })
+		// console.log(user);   
+      // })
+
+
 							{/* <AccordionHeader targetId="3">Section-3</AccordionHeader>
 							<AccordionBody accordionId="3">
 							<FormGroup row>
@@ -300,35 +343,13 @@ const AddChild = ({user}) => {
 								</Col>
 							</FormGroup>
 					</AccordionBody> */}
-				</AccordionItem>
-				<FormGroup row >
-				<div className="m-2 justify-items-center">
-					<Button type="submit" className="!bg-color3 !border-none !text-textcolor">
-						Submit
-					</Button>
-				</div>
-			</FormGroup>			
-		</Form>
-		</Accordion>
-		<div className="row">
-					<Form onSubmit={(event) => handleUpload(event)}>
-          <div className="row m-2 text-3xl font-bold">Insert Excel Sheet
-          </div>
-          <div className="row m-1">
-            <div className="col-12 col-sm-8 col-lg-6">
-						<Input id="excelsheet" name="excelsheet" type="file" accept=".xlsx" onChange={handleFileChange}/>
-            </div>
-          </div>
-			<FormGroup row>
-				<div className="col-2 m-2">
-					<Button type="submit" className="!bg-color3 !border-none !text-textcolor" onClick={handleUpload}>
-						Submit
-					</Button>
-				</div>
-			</FormGroup>
-		</Form>
-		</div>
-		</div>
-	);
-}
-export default AddChild
+												{/* <FormGroup row>
+								<Label for="cwclr" sm={2}>CWC Last Review</Label>
+								<Col sm={10}>
+									<Input id="cwclr" name="cwclr" placeholder="CWC last review" type="date"/></Col>
+							</FormGroup>
+							<FormGroup row>
+								<Label for="cwclo" sm={2}>Last CWC Order</Label>
+								<Col sm={10}>
+									<Input id="cwclo" name="cwclo" placeholder="CWC last order" type="text"/></Col>
+							</FormGroup> */}
