@@ -6,7 +6,7 @@ import { db,database } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../profile.webp";
 
-const WorkersList = ({user}) => {
+const WorkersList = ({user,usersList}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
@@ -18,14 +18,20 @@ const WorkersList = ({user}) => {
 	},[user])
 
     const[worker, setWorker] = useState([]);
-	const workerCollectionRef = database.ref("Users");
+	const workerCollectionRef = db.collection("Users").doc("admin");
+
     useEffect(() => {
-		workerCollectionRef.on('value', (snapshot) => {
-			console.log(snapshot.val())
-			const filteredData = Object.values(snapshot.val()).filter(item => item.userType==="GroundWorker");
-			console.log(filteredData);
-			setWorker(filteredData);
-		  });
+			workerCollectionRef.get().then((d) => {
+				console.log(d.data()["WorkersList"])
+				let workersList=d.data()["WorkersList"].slice(1);
+				db.collection("Users").where('UserID','in',workersList).get().then((docs)=>{
+					let workers=[];
+					if(!docs.empty){
+						docs.forEach((doc)=>{workers.push(doc.data())});
+						setWorker(workers);
+					}
+				})
+			});
     }, [])
     const workerLists=()=>{
         return (

@@ -6,7 +6,7 @@ import { db,database } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../profile.webp";
 
-const ManagersList = ({user}) => {
+const ManagersList = ({user,usersList}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
@@ -17,14 +17,20 @@ const ManagersList = ({user}) => {
 	},[user])
 
     const[manager, setManager] = useState([]);
-    const managerCollectionRef = database.ref("Users");
+		const managerCollectionRef = db.collection("Users").doc("admin");
     useEffect(() => {
-		managerCollectionRef.on('value', (snapshot) => {
-			console.log(snapshot.val())
-			const filteredData = Object.values(snapshot.val()).filter(item => item.userType==="CaseManager");
-			console.log(filteredData);
-			setManager(filteredData);
-		  });
+			managerCollectionRef.get().then((d) => {
+				console.log(d.data()["ManagerList"])
+				let managerList=d.data()["ManagerList"].slice(1);
+				db.collection("Users").where('UserID','in',managerList).get().then((docs)=>{
+					let managers=[];
+
+					if(!docs.empty) {
+						docs.forEach((doc)=>{managers.push(doc.data())});
+						setManager(managers);
+					}
+				})
+			});
     }, [])
     const managerLists=()=>{
         return (

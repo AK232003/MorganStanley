@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
         )
         if(userType==="Admin"){ 
           var docRef = db.collection("Users").doc("admin");
-          if(docRef.exists()) return;
+          // if(docRef.exists()) return;
           return db.collection('Users').doc("admin")
           .set({
             userType: userType,
@@ -55,7 +55,7 @@ export function AuthProvider({ children }) {
           });
         }
         else if(userType==="CaseManager"){
-          return db.collection('Users').doc(user.uid)
+          return db.collection('Users').doc(id)
           .set({
             userType: userType,
             Name: name,
@@ -77,7 +77,7 @@ export function AuthProvider({ children }) {
             db.collection("Users")
               .doc("admin")
               .update({
-                ManagerList: db.FieldValue.arrayUnion(id.toString),
+                ManagerList: arrayUnion(id),
               });
             return true;
           })
@@ -89,7 +89,7 @@ export function AuthProvider({ children }) {
           
         }
         else if(userType==="GroundWorker"){
-          return db.collection('Users').doc(user.uid)
+          return db.collection('Users').doc(id)
           .set({
             userType: userType,
             Name: name,
@@ -110,7 +110,7 @@ export function AuthProvider({ children }) {
             db.collection("Users")
               .doc("admin")
               .update({
-                WorkerList: arrayUnion(id.toString()),
+                WorkersList: arrayUnion(id),
               });
             return true;
           })

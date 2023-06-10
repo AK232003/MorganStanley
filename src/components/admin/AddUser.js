@@ -21,11 +21,19 @@ const AddUser = ({user}) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [userList,setList]=useState();
+  const [idToDelete,setID]  =useState(null);
+  const [nameToDelete,setname]=useState(null);
   const toggle = () => setDropdownOpen(!dropdownOpen);
 
 	const navigate=useNavigate();
 	useEffect(()=>{
 		if(user!=="admin") navigate("/");
+    db.collection("Users").get().then((d) => {
+      let docs=d.docs;
+      docs=docs.map((d)=>d.data());
+      setList(docs);
+      })
 	},[user])
 
   const handleDelete=(event) =>{
@@ -202,15 +210,31 @@ const AddUser = ({user}) => {
             </form>
           )}
           {open === 2 && (
-            <Form className=" m-2" onSubmit={(event) => getManagerList(event)}>
+            <Form className="h-96 m-2" onSubmit={(event) => getManagerList(event)}>
               <FormGroup>
                 <Label for="wid"> Select User ID/Name </Label>
-                <Input
-                  id="wid"
-                  name="wid"
-                  placeholder="User ID/Name"
-                  type="text"
-                />
+                <Dropdown
+                  isOpen={dropdownOpen}
+                  toggle={toggle}
+                  direction="down"
+                  ref={utype}
+                  onChange={(event) => console.log(event)}
+                >
+                  <DropdownToggle
+                    size="sm"
+                    className="rounded-md w-full h-auto !text-textcolor text-base p-2 border-0 bg-white shadow-md"
+                    caret
+                  >
+                    {idToDelete ===null ? "Select User" : idToDelete+" "+nameToDelete }
+                  </DropdownToggle>
+                  <DropdownMenu className="text-textcolor">
+                    {userList!==undefined && userList.map((user)=> {
+                      if(user["UserID"]!=="admin")
+                      return (<DropdownItem key={user["UserID"]} onClick={()=>{setID(user["UserID"]); setname(user["Name"])}
+                      }>User ID: {user["UserID"]} --- Name: {user["Name"]}</DropdownItem>)
+                    })}
+                  </DropdownMenu>
+                </Dropdown>
               </FormGroup>
               <FormGroup row>
                 <div className="col-2">
