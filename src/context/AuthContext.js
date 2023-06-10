@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { database } from "../firebase";
+import { getAuth, deleteUser } from "firebase/auth";
 
 const AuthContext = React.createContext();
 
@@ -134,10 +135,15 @@ export function AuthProvider({ children }) {
         return false;
       });
   }
-  function deleteUser(userID){
-    
-
-  }
+  
+   function deleteUser(uid) {
+      db.collection("Users").doc(uid).update({
+        Active: false,
+      })
+      database.ref(`Users/` + uid).update({
+        Active: false,
+      })
+  };
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -152,6 +158,7 @@ export function AuthProvider({ children }) {
     currentUser,
     login,
     signup,
+    deleteUser,
   };
 
   return (

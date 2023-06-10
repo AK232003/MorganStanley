@@ -17,7 +17,7 @@ const AddUser = ({user}) => {
   const utype = useRef();
   const [type,setType]=useState("");
   const [open,setOpen]=useState(1);
-  const { signup } = useAuth();
+  const { signup , deleteUser} = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -30,7 +30,10 @@ const AddUser = ({user}) => {
 
   const handleDelete=(event) =>{
     event.preventDefault();
-    console.log(event)
+    console.log(event);
+    deleteUser("Q5FFNIhZSOdUDfbpTCvRUyKDABO2");
+
+    // await deleteUser()
   }
 
   async function createUser(event){
