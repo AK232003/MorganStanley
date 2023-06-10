@@ -72,6 +72,10 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
                 <span><FaClipboardList className="text-3xl text-textcolor block float-left"></FaClipboardList></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Workers List</span>
               </li>
+              <li className={sideBarIconProperty} onClick={()=>navigate("/admin/childrenProfiles")} >
+                <span><FaChild className="text-3xl text-textcolor block float-left"></FaChild></span>
+                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Children Profiles</span>
+              </li>
             </ul>
             <div className={logoutIconProperty} onClick={handleLogout} >
             <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>

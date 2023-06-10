@@ -8,7 +8,7 @@ import Login from "./components/Login";
 import Dashboard1 from "./components/DashBoard1";
 import Main from "./components/MainComponent";
 import { Dashboard, AddChild, AssignCases, ChildProfile, ChildrenList,TaskStatus,TaskComments } from "./components/caseManager/caseManager.js";
-import {AdminDashboard, AddUser ,ManagersList,WorkersList} from "./components/admin/admin";
+import {AdminDashboard, AddUser ,ManagersList,WorkersList, ChildrenProfile} from "./components/admin/admin";
 import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
 function App() {
@@ -36,6 +36,7 @@ function App() {
                 <Route exact path="admin/addUser" element={<AddUser user={user}/>}/>
                 <Route exact path="admin/managersList" element={<ManagersList user={user}/>}/>
                 <Route exact path="admin/workersList" element={<WorkersList user={user}/>}/>
+                <Route exact path="admin/childrenProfiles" element={<ChildrenProfile user={user}/>}/>
               </Route>
               <Route path="/groundWorker" element={<GroundWorkerDashboard user={user} setuser={(value)=>setUser(value)}/>} />
               <Route exact path="/groundWorker/caseDetails/:id" element={<CaseDetails user={user} setuser={(value)=>setUser(value)}/>}>
