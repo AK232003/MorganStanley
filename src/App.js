@@ -19,7 +19,7 @@ function App() {
   }, [user]);
   return (
     <>
-    <div className={`${user!=="groundWorker"&& "sm:flex"} sm:w-full ${user==="groundWorker" && "overflow-hidden"} bg-color2`}>
+    <div className={`${user!=="groundWorker"&& "sm:flex h-full"} sm:w-full ${user==="groundWorker" && "overflow-hidden max-h-full"} bg-color2`}>
         <Router>
           <AuthProvider>
             <Routes>
