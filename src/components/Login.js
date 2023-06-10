@@ -10,8 +10,8 @@ const Login = ({setuser}) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   useEffect(()=>{
-      // setuser(document.cookie.split("=")[1]);
-      // if(document.cookie.split("=")[1]!==undefined) navigate(document.cookie.split("=")[1]);
+      setuser(document.cookie.split("=")[1]);
+      if(document.cookie.split("=")[1]!==undefined) navigate(document.cookie.split("=")[1]);
 
   },[])    
   async function handleSubmitLogin(e) {
