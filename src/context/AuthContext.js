@@ -17,7 +17,11 @@ export function AuthProvider({ children }) {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         var user = userCredential.user;
-
+        database.ref(`Users/` + user.uid).set({
+          userType: userType,
+          Active: true
+        }
+        )
         if(userType==="Admin"){ 
           return db.collection('Users').doc(user.uid)
           .set({
@@ -34,7 +38,8 @@ export function AuthProvider({ children }) {
             TotalCasesStep2: 0,
             TotalCasesStep3: 0,
             TotalCasesStep4: 0,
-            Image: imageUrl
+            Image: imageUrl,
+            Active: true
           })
           .then(() => {
             console.log("Signup successful!");
@@ -60,7 +65,8 @@ export function AuthProvider({ children }) {
             TotalCasesStep2: 0,
             TotalCasesStep3: 0,
             TotalCasesStep4: 0,
-            Image: imageUrl
+            Image: imageUrl,
+            Active: true
           })
           .then(() => {
             console.log("Signup successful!");
@@ -85,7 +91,8 @@ export function AuthProvider({ children }) {
             TotalCasesStep2: 0,
             TotalCasesStep3: 0,
             TotalCasesStep4: 0,
-            Image: imageUrl
+            Image: imageUrl,
+            Active: true
           })
           .then(() => {
             console.log("Signup successful!");
@@ -126,6 +133,10 @@ export function AuthProvider({ children }) {
         console.error("Error signing in:", error);
         return false;
       });
+  }
+  function deleteUser(userID){
+    
+
   }
 
   useEffect(() => {
