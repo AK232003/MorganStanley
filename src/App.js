@@ -13,7 +13,7 @@ import {AdminDashboard, AddUser ,ManagersList,WorkersList, ChildrenProfile} from
 import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
 function App() {
-  const [user, setUser] = useState("GroundWorker");
+  const [user, setUser] = useState(null);
   const [id, setId] = useState(null);
   useEffect(() => {
     setUser(localStorage.getItem('user'))
