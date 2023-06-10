@@ -34,8 +34,7 @@ const Login = ({setUser, setId}) => {
 
 
   useEffect(()=>{
-    //   setUser(document.cookie.split("=")[1]);
-    //   if(document.cookie.split("=")[1]!==undefined) navigate(document.cookie.split("=")[1]);
+
     // fetchData()
   },[])    
   async function handleSubmitLogin(e) {

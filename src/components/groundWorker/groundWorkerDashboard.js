@@ -14,7 +14,7 @@ const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
     open?setOpen(false):setOpen(open);
   }
   const handleLogout= ()=>{
-    document.cookie="user=; expires="+ new Date(-99).toUTCString();
+
     setuser(null);
     setId(null);
     navigate("/");

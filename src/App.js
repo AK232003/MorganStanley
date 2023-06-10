@@ -16,7 +16,7 @@ function App() {
   const [user, setUser] = useState("CaseManager");
   const [id, setId] = useState(null);
   useEffect(() => {
-    if(user!==null) document.cookie=`user=${user}; expires=`+ new Date(2023,6,20).toUTCString();
+
   }, [user]);
   return (
     <>

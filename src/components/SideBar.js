@@ -10,7 +10,7 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   const sideIconProperty = `${openSide ? "w-64" : "w-24"} h-16 text-xl text-color2 duration-300 bg-sideBarColor2 rounded-0 p-2 items-center bg-sideBarColor2 cursor-pointer justify-items-center`;
 
   const handleLogout= ()=>{
-    document.cookie="user=; expires="+ new Date(-99).toUTCString();
+
     setuser(null);
     navigate("/");
   }
