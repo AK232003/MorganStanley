@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 
 import { collection, getDocs, setDoc, doc, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, database } from "../firebase";
 // import addProcess from "./addCase";
 import { addProcessOrphaned } from "./addCase";
 
@@ -15,6 +15,8 @@ const Login = ({setuser}) => {
   const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [userID, setuserID] = useState(null)
+  const [userType, setuserType] = useState(null);
   const navigate = useNavigate();
 
   const [caseData, setCaseData] = useState([]);
@@ -42,15 +44,36 @@ const Login = ({setuser}) => {
       setError("");
       setLoading(true);
       console.log(emailRef.current.value, passwordRef.current.value);
-      const workerType = await login(emailRef.current.value, passwordRef.current.value);
-       if (workerType === "GroundWorker" ) {
+      const userHash = await login(emailRef.current.value, passwordRef.current.value);
+      // console.log(userHash)
+
+      database.ref(`Users/${userHash}/userType`).once('value')
+      .then((snapshot) => {
+        const data = snapshot.val();
+        setuserType(data);
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log('Error fetching data:', error);
+      });
+      database.ref(`Users/${userHash}/userID`).once('value')
+      .then((snapshot) => {
+        const data = snapshot.val();
+        setuserID(data);
+        // console.log(data);
+      })
+      .catch((error) => {
+        console.log('Error fetching data:', error);
+      });
+      
+       if (userType === "GroundWorker" ) {
           setuser("groundWorker");
          navigate("groundWorker");
-       } else if(workerType === "CaseManager"){
+       } else if(userType === "CaseManager"){
         setuser("caseManager")
          navigate("caseManager");
         }
-        else if(workerType === "admin") {
+        else if(userType === "admin") {
          setuser("admin")
           navigate("admin");
         

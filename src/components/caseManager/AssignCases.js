@@ -32,29 +32,35 @@ const AssignCases = ({user}) => {
 		console.log(element.target[0].value) 
 		const workerID = element.target[0].value
 
+		// const docRef = doc(db, "Users", workerID);
+		// const docSnap = await getDoc(docRef)
+		// 	.then((snapShot) => {
+		// 		console.log(snapShot.data())
+		// 	})
+
 		const id = child["Case Number"].split("/").join("")
 		console.log(id)
-		if(child["Child Category"] === "Orphaned - No Guardians") {
-			addProcessOrphaned(id)
-		}
-		else if(child["Child Category"] === "Abandoned / Family not traceable") {
-			addProcessAbandoned(id)
-		}
-		else if(child["Child Category"] === "Surrendered") {
-			addProcessSurrendered(id)
-		}
-		else if(child["Child Category"] === "Admitted by Guardians") {
-			addProcessAdmittedByGuardians(id)
-		}
 
-		addDeadline(id, "");
-		intializeCaseComment(id)
+		// if(child["Child Category"] === "Orphaned - No Guardians") {
+		// 	addProcessOrphaned(id)
+		// }
+		// else if(child["Child Category"] === "Abandoned / Family not traceable") {
+		// 	addProcessAbandoned(id)
+		// }
+		// else if(child["Child Category"] === "Surrendered") {
+		// 	addProcessSurrendered(id)
+		// }
+		// else if(child["Child Category"] === "Admitted by Guardians") {
+		// 	addProcessAdmittedByGuardians(id)
+		// }
+		// addDeadline(id, "");
+		// intializeCaseComment(id)
 
-		// await getDocs(collection(db, "Users"))
-		// .then((querySnapshot) => {
-		// 	const newData = querySnapshot.docs.map((doc) => ({...doc.data(), id:doc.id}))
-		// 	console.log(newData.filter)
-		// })
+		await getDocs(collection(db, "Users"))
+		.then((querySnapshot) => {
+			const newData = querySnapshot.docs.map((doc) => ({...doc.data(), id:doc.id}))
+			console.log(newData.filter(u => (u.id == workerID) || (u["Name"].includes(workerID))))
+		})
 	}
 
 
@@ -108,18 +114,18 @@ const AssignCases = ({user}) => {
 				}).map((children) => {
                 return  (
 				<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={children["id"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
-				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
-				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(children["id"])}> Assign</button>
-				</div>
-				<CardBody>
-								<List type="unstyled">
-								<li > <strong>Name :</strong> {children["Name"]}</li>
-								<li > <strong>Age :</strong> {children["Age"]}</li>
-								<li > <strong>District :</strong> {children["District"]}</li>
-								<li > <strong>State :</strong> {children["State"]}</li>
-								<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
-								</List>
-				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModalReport(children["id"])}> Case Report</button>
+					<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
+					<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(children["id"])}> Assign</button>
+					</div>
+					<CardBody>
+						<List type="unstyled">
+							<li > <strong>Name :</strong> {children["Name"]}</li>
+							<li > <strong>Age :</strong> {children["Age"]}</li>
+							<li > <strong>District :</strong> {children["District"]}</li>
+							<li > <strong>State :</strong> {children["State"]}</li>
+							<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
+						</List>
+					<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModalReport(children["id"])}> Case Report</button>
 					</CardBody>
 				</Card>
             )})}
@@ -259,61 +265,6 @@ const AssignCases = ({user}) => {
 export default AssignCases;
 
 // garbage
-				// Process Track
-				// database.ref(`cases/Process/` + child["id"]).update({
-				// 	isComplete: 0,
-				// });
-				// database.ref(`cases/Process/` + child["id"] + "/Step1").update({
-				// 	isComplete: false,
-				// });
-				// database.ref(`cases/Process/` + child["id"] + "/Step1/Step1").update({
-				// 	isComplete: false,
-				// 	text: "",
-				// 	docs: "",
-				// 	stat: "In Progress",
-				// });
-				// database.ref(`cases/Process/` + child["id"] + "/Step1/Step2").update({
-				// 	isComplete: false,
-				// 	text: "",
-				// 	docs: "",
-				// 	stat: "In Progress",
-				// });
-				// database.ref(`cases/Process/` + child["id"] + "/Step1/Step3").update({
-				// 	isComplete: false,
-				// 	text: "",
-				// 	docs: "",
-				// 	stat: "In Progress",
-				// });
-				// database.ref(`cases/Process/` + child["id"] + "/Step1/Step4").update({
-				// 	isComplete: false,
-				// 	text: "",
-				// 	docs: "",
-				// 	stat: "In Progress",
-				// });
-				// database.ref(`cases/Process/` + child["id"] + "/Step1/Step5").update({
-				// 	isComplete: false,
-				// 	text: "",
-				// 	docs: "",
-				// 	stat: "In Progress",
-				// });
-				// database.ref(`cases/Process/` + child["id"] +"/Step2").update({
-				// 	isComplete: false,
-				// 	text: "",
-				// 	docs:"",
-				// 	stat: "In Progress",
-				// });
-				// database.ref(`cases/Process/` + child["id"] + "/Step3").update({
-				// 	isComplete: false,
-				// 	text: "",
-				// 	docs: "",
-				// 	stat: "In Progress",
-				// });
-				// database.ref(`cases/Process/` + child["id"] + "/Step4").update({
-				// 	isComplete: false,
-				// 	text: "",
-				// 	docs: "",
-				// 	stat: "In Progress",
-				// });
 
 				  // RealTime Deadline
   // ------------------------------
