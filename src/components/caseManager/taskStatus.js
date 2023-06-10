@@ -4,7 +4,7 @@ import { List, Card, CardBody, Dropdown, DropdownToggle, CardTitle,DropdownMenu,
 import { FaSearch } from "react-icons/fa";
 import { db,database } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
-import img from "../../logo_scroll.png";
+import img from "../../profile.webp";
 
 const TaskStatus= ({user}) => {
 	const navigate=useNavigate();

@@ -4,7 +4,7 @@ import { List, Card, CardBody, Dropdown, DropdownToggle, Col,DropdownMenu, Dropd
 import { FaSearch } from "react-icons/fa";
 import { db, database } from "../../firebase"
 import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc } from "firebase/firestore";
-import img from "../../logo_scroll.png";
+import img from "../../profile.webp";
 
 const TaskComments = ({user}) => {
 	const navigate=useNavigate();

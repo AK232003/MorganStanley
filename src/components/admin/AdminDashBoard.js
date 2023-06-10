@@ -7,6 +7,7 @@ import { FaSearch } from "react-icons/fa";
 import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../logo_scroll.png";
+import profile from "../../profile.webp"
 
 const AdminDashboard= ({user}) =>{
   const navigate=useNavigate();
@@ -30,10 +31,11 @@ const AdminDashboard= ({user}) =>{
             setChildren(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
         };
         getChildren();
+        console.log(children)
     }, [])
     const childrenLists=()=>{
         return (
-            <div className="flex mt-2 overflow-x-scroll">
+            <div className="flex flex-row flex-nowrap mt-2 overflow-x-scroll">
             {children.filter(children => {
 				if(search === "Search" || search === "") {
 					return children;
@@ -43,8 +45,10 @@ const AdminDashboard= ({user}) =>{
 				}
 				}).map((children) => {
                 return  (
-				<div className="w-fit h-fit flex flex-col align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/caseManager/profiles/${children["id"]}`, {state: {children}})}> 
-				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
+				<div className="basis-52 shrink-0 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}} > 
+        <div>
+          <img alt="Child Photo"  src={profile} loading="lazy" className="w-40 h-40 rounded-full" onerror={img}/>
+          {/* src={children["Image"]!==undefined || children["Image"]===""?children["Image"]:img} */}
 				</div>
 				<CardBody>
 								<List type="unstyled">
