@@ -1,6 +1,7 @@
 import { React, useRef, useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { Dropdown,DropdownItem,DropdownMenu, DropdownToggle,Input} from "reactstrap";
 
 const AddUser = ({user}) => {
   const emailRef = useRef();
@@ -8,23 +9,29 @@ const AddUser = ({user}) => {
   const name = useRef();
   const phoneno = useRef();
   const uid = useRef();
-  // const [type,setType]=useState();
+  const [type,setType]=useState("");
 
   const { signup } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const toggle = () => setDropdownOpen(!dropdownOpen);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 	const navigate=useNavigate();
 	useEffect(()=>{
 		if(user!=="admin") navigate("/");
 	},[user])
-  async function createUser(e, userType) {
+  async function createUser(e) {
     e.preventDefault();
 
     try {
       setError("");
       setLoading(true);
-      console.log(emailRef.current.value, passwordRef.current.value, userType, uid.current.value, phoneno.current.value, name.current.value);
-      await signup(emailRef.current.value, passwordRef.current.value, userType, uid.current.value, phoneno.current.value, name.current.value);
+      console.log(emailRef.current.value, passwordRef.current.value, uid.current.value, phoneno.current.value, name.current.value,type);
+      await signup(emailRef.current.value, passwordRef.current.value, uid.current.value, phoneno.current.value, name.current.value,type);
     } catch {
       setError("Failed to create an account");
     }
@@ -35,7 +42,7 @@ const AddUser = ({user}) => {
   return (
     <>
       <div
-        className="overflow-auto bg-color2"
+        className="overflow-auto bg-color3 mt-2 rounded-2 p-2 max-w-lg justify-content-center"
       >
         <h1 className="mt-3 text-center"> Signup</h1>
         {error && (
@@ -84,7 +91,7 @@ const AddUser = ({user}) => {
               required
             />
           </div>
-          <div className="form-outline mb-4">
+          <div className="form-outline mb-2">
             <label className="form-label"> User ID </label>
             <input
               type="text"
@@ -93,6 +100,22 @@ const AddUser = ({user}) => {
               ref={uid}
               required
             />
+          </div>
+            <div className="form-outline mb-2">
+              <label className="form-label"for= "photo"> Photo</label>
+						<Input id="photo" name="photo" type="file" accept="..png .jpg .jpeg" onChange={handleFileChange}/>
+            </div>
+          <div className="form-outline mb-4">
+            <label className="form-label"> User Type </label>
+            <Dropdown isOpen={dropdownOpen} toggle={toggle}  direction="down" onChange={(event)=>console.log(event)}>
+              <DropdownToggle size="sm" className="rounded-md w-full h-auto !text-textcolor text-base p-2 border-0 bg-white shadow-md" caret>{type===""?"Select User Type":type}</DropdownToggle>
+              <DropdownMenu className="text-textcolor">
+                <DropdownItem onClick={()=>setType("Admin")}>Admin</DropdownItem>
+                <DropdownItem onClick={()=>setType("CaseManager")}>CaseManager</DropdownItem>
+                <DropdownItem onClick={()=>setType("GroundWorker")}>GroundWorker</DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+
           </div>
           {/* <div className="form-outline mb-4">
             <label className="form-label" for="type"> User ID </label>
@@ -109,31 +132,13 @@ const AddUser = ({user}) => {
               <option>GroundWorker</option>
               </input>
           </div> */}
-          <div className="flex flex-col justify-content-center md:flex-row mb-4">
+          <div className="flex flex-col justify-content-center md:flex-row mb-4 bg-color5 rounded-2">
             <button
-              type="button"
               disabled={loading}
-              className="btn btn-primary btn-lg w-30 m-1"
-              onClick={(e) => createUser(e, "GroundWorker")}
+              className="w-30 m-1"
+              onClick={(e) => createUser(e)}
             >
               Create User
-            </button>
-            <button
-              type="button"
-              disabled={loading}
-              className="btn btn-primary btn-lg w-30 m-1"
-              onClick={(e) => createUser(e, "admin")}
-            >
-              Create Admin
-            </button>
-
-            <button
-              type="button"
-              disabled={loading}
-              className="btn btn-primary btn-lg w-30 m-1"
-              onClick={(e) => createUser(e, "CaseManager")}
-            >
-              Create Manager
             </button>
           </div>
         </form>
