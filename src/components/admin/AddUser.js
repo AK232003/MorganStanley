@@ -2,7 +2,8 @@ import { React, useRef, useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Dropdown,DropdownItem,DropdownMenu, DropdownToggle,Input} from "reactstrap";
-import { database, db, auth } from "../firebase";
+import { database, db, auth, storage } from "../../firebase";
+import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storage";
 
 
 const AddUser = ({user}) => {
@@ -12,6 +13,7 @@ const AddUser = ({user}) => {
   const phoneno = useRef();
   const uid = useRef();
   const image = useRef();
+  const [imageUpload, setImageUpload] = useState(null);
   const utype = useRef();
   const [type,setType]=useState("");
 
@@ -20,83 +22,27 @@ const AddUser = ({user}) => {
   const [loading, setLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(!dropdownOpen);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-  };
+
 	const navigate=useNavigate();
 	useEffect(()=>{
 		if(user!=="admin") navigate("/");
 	},[user])
 
 
-  async function createUser(){
-    await auth
-      .createUserWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        var user = userCredential.user;
-
-        // const imageRef = storageRef(storage, `Users/${uid.current.value}`);
-        // uploadBytes(imageRef, imageUpload).then((snapshot) => {
-        //   getDownloadURL(snapshot.ref).then((url) => {
-            db.collection("UserDetails")
-              .doc(uid.current.value)
-              .set({
-                "UserName": name.current.value,
-                "UserEmail": emailRef.current.value,
-                "UserImage": "",
-                "UserId": uid.current.value,
-                "UserType": utype.current.value,
-                "UserContact": phoneno.current.value,
-                "CasesList": [],
-                "WorkerList": [],
-                "ManagerList": [],
-                "TCC": 0,
-                "TCS1": 0,
-                "TCS2": 0,
-                "TCS3": 0,
-                "TCS4": 0,
-              })
-              .then(() => {
-                console.log("User Details Added to Firestore: ", id);
-              })
-              .catch((error) => {
-                console.error("Error adding User to Firestore: ", error);
-              });
-          // });
-        //   console.log(user);
-        // });
-
-        database
-          .ref(`Users/` + user.uid)
-          .set({
-            userType: userType,
-            UserID: id,
-          })
-          .then(() => {
-            console.log("Signup successful!");
-            return true;
-          })
-          .catch((error) => {
-            console.error("Error creating user node:", error);
-            return false;
-          });
-      })
-      .catch((error) => {
-        console.error("Error Signing up:", error);
-      });
-  }
-
-  // --------------------------comment section to be added in different page
-  // database
-  //   .ref(`cases/comments/` + id)
-  //   .set({
-  //     Worker: ["Start"],
-  //     Manager: ["Start"],
-  //   })
-  //   .then(() => {
-  //     "User Created to RealTime Database";
-  //   })
+  async function createUser(event){
+    event.preventDefault();
+    console.log("here")
+    const id = uid.current.value.split("/").join("");
+    const imagePath=storageRef(storage,`user/${id}`);
+    uploadBytes(imagePath, imageUpload)
+      .then((snapshot) => {
+          getDownloadURL(snapshot.ref)
+          .then(async (url) => {
+            console.log(emailRef.current.value,passwordRef.current.value,type,uid.current.value,phoneno.current.value,name.current.value,url);
+            await signup(emailRef.current.value,passwordRef.current.value,type,uid.current.value,phoneno.current.value,name.current.value,url)
+        
+        });
+  })}
 
   // --------------------
   return (
@@ -108,7 +54,7 @@ const AddUser = ({user}) => {
             {error}
           </div>
         )}
-        <form className="d-flex flex-column overflow-y-auto">
+        <form className="d-flex flex-column overflow-y-auto" onSubmit={(e) =>createUser(e)}>
           <div className="form-outline mb-2">
             <label className="form-label"> Name </label>
             <input
@@ -168,9 +114,9 @@ const AddUser = ({user}) => {
               id="photo"
               name="photo"
               type="file"
-              accept="..png .jpg .jpeg"
-              // ref={image}
-              onChange={handleFileChange}
+              ref={image}
+              accept="image/*"
+              onChange={(e) => {setImageUpload(e.target.files[0]);}}
             />
           </div>
           <div className="form-outline mb-4">
@@ -202,26 +148,11 @@ const AddUser = ({user}) => {
               </DropdownMenu>
             </Dropdown>
           </div>
-          {/* <div className="form-outline mb-4">
-            <label className="form-label" for="type"> User ID </label>
-            <input
-              type="select"
-              name="type"
-              id="type"
-              className="form-control form-control-lg"
-              onChange={(value)=>setType(value)}
-              required
-            >
-              <option>CaseManager</option>
-              <option>admin</option>
-              <option>GroundWorker</option>
-              </input>
-          </div> */}
           <div className="flex flex-col justify-content-center md:flex-row mb-4 bg-color5 rounded-2">
             <button
               disabled={loading}
               className="w-30 m-1"
-              onClick={(e) => createUser(e)}
+              type="submit"
             >
               Create User
             </button>

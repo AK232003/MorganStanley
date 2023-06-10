@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { auth } from "../firebase";
+import { auth, db } from "../firebase";
 import { database } from "../firebase";
 
 const AuthContext = React.createContext();
@@ -12,19 +12,29 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
 
-  function signup(email, password, userType, id, phoneno, name) {
+  function signup(email, password, userType, id, phoneno, name,imageUrl) {
     return auth
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         var user = userCredential.user;
 
-        return database
-          .ref(`Users/` + user.uid)
+        return db
+          .collection('Users').doc(user.uid)
           .set({
             userType: userType,
             Name: name,
             Phone: phoneno,
-            UserID: id
+            UserID: id,
+            PhoneNo: phoneno,
+            CasesList: [],
+            WorkersList: [],
+            ManagerList: [],
+            TotalCasesCompleted: 0,
+            TotalCasesStep1: 0,
+            TotalCasesStep2: 0,
+            TotalCasesStep3: 0,
+            TotalCasesStep4: 0,
+            Image: imageUrl
           })
           .then(() => {
             console.log("Signup successful!");
