@@ -1,6 +1,6 @@
 import {React, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import PieChart from "../charts";
+import PieChart from "../piechart";
 import { Card, CardBody, CardTitle} from "reactstrap";
 
 
