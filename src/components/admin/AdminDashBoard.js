@@ -9,7 +9,7 @@ import { collection, getDocs } from "firebase/firestore";
 import img from "../../logo_scroll.png";
 import profile from "../../profile.webp"
 
-const AdminDashboard= ({user}) =>{
+const AdminDashboard= ({user, id}) =>{
   const navigate=useNavigate();
   const [filter,setFilter]=useState("")
 	const [search,setSearch] = useState("");
@@ -20,8 +20,10 @@ const AdminDashboard= ({user}) =>{
   const title2 = "Child Statistics"
   const data1 = [100, 200, 50];
   // var piechart = Pie_chart(labels1, data1, title1)
+  console.log(user, id);
   useEffect(()=>{
     if(user!=="admin") navigate("/");
+    
   },[user])
   const[children, setChildren] = useState([]);
     const childrenCollectionRef = collection(db, "children");

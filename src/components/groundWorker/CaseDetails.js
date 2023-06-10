@@ -3,7 +3,7 @@ import { useLocation, useNavigate,Outlet, useParams, useMatch} from "react-route
 import { List} from "reactstrap";
 import GroundWorkerSidebar from "./groundWorkerSidebar";
 import NavBar from "../Navbar";
-const CaseDetails= ({user,setuser})=>{
+const CaseDetails= ({user,setuser, id, setId})=>{
 	const location=useLocation();
 	const [child,setChild]=useState(location.state["children"]);
 	const [keys,setKeys]=useState(Object.keys(child));
@@ -21,7 +21,7 @@ const CaseDetails= ({user,setuser})=>{
 	return (
 		<div className={`flex flex-row w-full bg-color2 overflow-hidden`}>
 		<div className="flex pd-0">
-			<GroundWorkerSidebar user={user} setuser={setuser} child={child} open={open} setOpen={(value)=>setOpen(value)} handdleToggle={()=>handleToggle()} openSide={openSide} toggle={toggle}/>
+			<GroundWorkerSidebar user={user} setuser={setuser} id = {id} setId = {setId} child={child} open={open} setOpen={(value)=>setOpen(value)} handdleToggle={()=>handleToggle()} openSide={openSide} toggle={toggle}/>
 		</div>
 		<div className={`flex flex-col w-full  ${open && "blur-sm"}`}>
 			<NavBar user={"/"+user} open={open} setOpen={(value)=>setOpen(value)} toggle={toggle}/>

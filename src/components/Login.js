@@ -4,17 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 
 import { collection, getDocs, setDoc, doc, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, database } from "../firebase";
 // import addProcess from "./addCase";
 import { addProcessOrphaned } from "./addCase";
 
-const Login = ({setuser}) => {
+const Login = ({setUser, setId}) => {
 
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  // const [userID, setuserID] = useState(null)
+  // const [userHash, userHash] = useState(null);
+  const [userType, setuserType] = useState(null);
   const navigate = useNavigate();
 
   const [caseData, setCaseData] = useState([]);
@@ -31,9 +34,9 @@ const Login = ({setuser}) => {
 
 
   useEffect(()=>{
-      setuser(document.cookie.split("=")[1]);
-      if(document.cookie.split("=")[1]!==undefined) navigate(document.cookie.split("=")[1]);
-    fetchData()
+    //   setUser(document.cookie.split("=")[1]);
+    //   if(document.cookie.split("=")[1]!==undefined) navigate(document.cookie.split("=")[1]);
+    // fetchData()
   },[])    
   async function handleSubmitLogin(e) {
     e.preventDefault();
@@ -42,16 +45,36 @@ const Login = ({setuser}) => {
       setError("");
       setLoading(true);
       console.log(emailRef.current.value, passwordRef.current.value);
-      const workerType = await login(emailRef.current.value, passwordRef.current.value);
-       if (workerType === "GroundWorker" ) {
-          setuser("groundWorker");
+      const userHash = await login(emailRef.current.value, passwordRef.current.value);
+      console.log(userHash)
+
+      database.ref(`Users/${userHash}/userType/`).once('value')
+      .then((snapshot) => {
+        setUser(snapshot.val());
+        setuserType(snapshot.val());
+        console.log(snapshot.val(), userType);
+      })
+      .catch((error) => {
+        console.log('Error fetching data:', error);
+      });
+      database.ref(`Users/${userHash}/userID/`).once('value')
+      .then((snapshot) => {
+        setId(snapshot.val());
+        console.log(snapshot.val(), "id");
+      })
+      .catch((error) => {
+        console.log('Error fetching data:', error);
+      });
+      
+       if (userType === "GroundWorker" ) {
+          setUser("groundWorker");
          navigate("groundWorker");
-       } else if(workerType === "CaseManager"){
-        setuser("caseManager")
+       } else if(userType === "CaseManager"){
+        setUser("caseManager")
          navigate("caseManager");
         }
-        else if(workerType === "admin") {
-         setuser("admin")
+        else if(userType === "Admin") {
+         setUser("admin")
           navigate("admin");
         
        }

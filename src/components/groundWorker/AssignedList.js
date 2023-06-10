@@ -6,7 +6,7 @@ import { db } from "../../firebase"
 import { collection, getDocs, query } from "firebase/firestore";
 import img from "../../profile.webp";
 
-const AssignedList=({id})=>{
+const AssignedList=({user, id})=>{
 	const navigate = useNavigate();
 	
 	const [children, setChildren] = useState([]);

@@ -13,6 +13,8 @@ const GroundWorkerSidebar = ({
   open,
   handdleToggle,
   openSide,
+  id, 
+  setId,
 }) => {
   const [status, setStatus] = useState(4);
   const navigate = useNavigate();
@@ -33,6 +35,7 @@ const GroundWorkerSidebar = ({
   const handleLogout = () => {
     document.cookie="user=; expires="+ new Date(-99).toUTCString();
     setuser(null);
+    setId(null);
     navigate("/");
   };
   useEffect(() => {
