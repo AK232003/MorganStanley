@@ -2,6 +2,8 @@ import { React, useRef, useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Dropdown,DropdownItem,DropdownMenu, DropdownToggle,Input} from "reactstrap";
+import { database, db, auth } from "../firebase";
+
 
 const AddUser = ({user}) => {
   const emailRef = useRef();
@@ -9,6 +11,8 @@ const AddUser = ({user}) => {
   const name = useRef();
   const phoneno = useRef();
   const uid = useRef();
+  const image = useRef();
+  const utype = useRef();
   const [type,setType]=useState("");
 
   const { signup } = useAuth();
@@ -24,26 +28,80 @@ const AddUser = ({user}) => {
 	useEffect(()=>{
 		if(user!=="admin") navigate("/");
 	},[user])
-  async function createUser(e) {
-    e.preventDefault();
 
-    try {
-      setError("");
-      setLoading(true);
-      console.log(emailRef.current.value, passwordRef.current.value, uid.current.value, phoneno.current.value, name.current.value,type);
-      await signup(emailRef.current.value, passwordRef.current.value, uid.current.value, phoneno.current.value, name.current.value,type);
-    } catch {
-      setError("Failed to create an account");
-    }
 
-    setLoading(false);
+  async function createUser(){
+    await auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        var user = userCredential.user;
+
+        // const imageRef = storageRef(storage, `Users/${uid.current.value}`);
+        // uploadBytes(imageRef, imageUpload).then((snapshot) => {
+        //   getDownloadURL(snapshot.ref).then((url) => {
+            db.collection("UserDetails")
+              .doc(uid.current.value)
+              .set({
+                "UserName": name.current.value,
+                "UserEmail": emailRef.current.value,
+                "UserImage": "",
+                "UserId": uid.current.value,
+                "UserType": utype.current.value,
+                "UserContact": phoneno.current.value,
+                "CasesList": [],
+                "WorkerList": [],
+                "ManagerList": [],
+                "TCC": 0,
+                "TCS1": 0,
+                "TCS2": 0,
+                "TCS3": 0,
+                "TCS4": 0,
+              })
+              .then(() => {
+                console.log("User Details Added to Firestore: ", id);
+              })
+              .catch((error) => {
+                console.error("Error adding User to Firestore: ", error);
+              });
+          // });
+        //   console.log(user);
+        // });
+
+        database
+          .ref(`Users/` + user.uid)
+          .set({
+            userType: userType,
+            UserID: id,
+          })
+          .then(() => {
+            console.log("Signup successful!");
+            return true;
+          })
+          .catch((error) => {
+            console.error("Error creating user node:", error);
+            return false;
+          });
+      })
+      .catch((error) => {
+        console.error("Error Signing up:", error);
+      });
   }
 
+  // --------------------------comment section to be added in different page
+  // database
+  //   .ref(`cases/comments/` + id)
+  //   .set({
+  //     Worker: ["Start"],
+  //     Manager: ["Start"],
+  //   })
+  //   .then(() => {
+  //     "User Created to RealTime Database";
+  //   })
+
+  // --------------------
   return (
     <>
-      <div
-        className="overflow-auto bg-color3 mt-2 rounded-2 p-2 max-w-lg justify-content-center"
-      >
+      <div className="overflow-auto bg-color3 mt-2 rounded-2 p-2 max-w-lg justify-content-center">
         <h1 className="mt-3 text-center"> Signup</h1>
         {error && (
           <div className="alert alert-danger" role="alert">
@@ -51,7 +109,7 @@ const AddUser = ({user}) => {
           </div>
         )}
         <form className="d-flex flex-column overflow-y-auto">
-        <div className="form-outline mb-2">
+          <div className="form-outline mb-2">
             <label className="form-label"> Name </label>
             <input
               type="text"
@@ -101,21 +159,48 @@ const AddUser = ({user}) => {
               required
             />
           </div>
-            <div className="form-outline mb-2">
-              <label className="form-label"for= "photo"> Photo</label>
-						<Input id="photo" name="photo" type="file" accept="..png .jpg .jpeg" onChange={handleFileChange}/>
-            </div>
+          <div className="form-outline mb-2">
+            <label className="form-label" for="photo">
+              {" "}
+              Photo
+            </label>
+            <Input
+              id="photo"
+              name="photo"
+              type="file"
+              accept="..png .jpg .jpeg"
+              // ref={image}
+              onChange={handleFileChange}
+            />
+          </div>
           <div className="form-outline mb-4">
             <label className="form-label"> User Type </label>
-            <Dropdown isOpen={dropdownOpen} toggle={toggle}  direction="down" onChange={(event)=>console.log(event)}>
-              <DropdownToggle size="sm" className="rounded-md w-full h-auto !text-textcolor text-base p-2 border-0 bg-white shadow-md" caret>{type===""?"Select User Type":type}</DropdownToggle>
+            <Dropdown
+              isOpen={dropdownOpen}
+              toggle={toggle}
+              direction="down"
+              ref = {utype}
+              onChange={(event) => console.log(event)}
+            >
+              <DropdownToggle
+                size="sm"
+                className="rounded-md w-full h-auto !text-textcolor text-base p-2 border-0 bg-white shadow-md"
+                caret
+              >
+                {type === "" ? "Select User Type" : type}
+              </DropdownToggle>
               <DropdownMenu className="text-textcolor">
-                <DropdownItem onClick={()=>setType("Admin")}>Admin</DropdownItem>
-                <DropdownItem onClick={()=>setType("CaseManager")}>CaseManager</DropdownItem>
-                <DropdownItem onClick={()=>setType("GroundWorker")}>GroundWorker</DropdownItem>
+                <DropdownItem onClick={() => setType("Admin")}>
+                  Admin
+                </DropdownItem>
+                <DropdownItem onClick={() => setType("CaseManager")}>
+                  CaseManager
+                </DropdownItem>
+                <DropdownItem onClick={() => setType("GroundWorker")}>
+                  GroundWorker
+                </DropdownItem>
               </DropdownMenu>
             </Dropdown>
-
           </div>
           {/* <div className="form-outline mb-4">
             <label className="form-label" for="type"> User ID </label>
