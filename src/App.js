@@ -3,7 +3,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
-
+import { db } from "./firebase";
+import { collection,getDocs } from "firebase/firestore";
 import Login from "./components/Login";
 import Dashboard1 from "./components/DashBoard1";
 import Main from "./components/MainComponent";
@@ -12,8 +13,7 @@ import {AdminDashboard, AddUser ,ManagersList,WorkersList, ChildrenProfile} from
 import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
 function App() {
-  const [user, setUser] = useState("groundWorker");
-  
+  const [user, setUser] = useState(null);
   useEffect(() => {
     if(user!==null) document.cookie=`user=${user}; expires=`+ new Date(2023,6,20).toUTCString();
   }, [user]);
@@ -34,8 +34,8 @@ function App() {
                 <Route path="caseManager/profiles/:id" element={<ChildProfile user={user}/>} />
                 <Route exact path="admin" element={<AdminDashboard user={user}/>}/>
                 <Route exact path="admin/addUser" element={<AddUser user={user}/>}/>
-                <Route exact path="admin/managersList" element={<ManagersList user={user}/>}/>
-                <Route exact path="admin/workersList" element={<WorkersList user={user}/>}/>
+                <Route exact path="admin/managersList" element={<ManagersList user={user} />}/>
+                <Route exact path="admin/workersList" element={<WorkersList user={user} />}/>
                 <Route exact path="admin/childrenProfiles" element={<ChildrenProfile user={user}/>}/>
               </Route>
               <Route path="/groundWorker" element={<GroundWorkerDashboard user={user} setuser={(value)=>setUser(value)}/>} />

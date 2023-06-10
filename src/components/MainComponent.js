@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import SideBar from "./SideBar";
 import NavBar from "./Navbar";
 import { Outlet } from "react-router-dom";
@@ -10,7 +10,20 @@ const Main=({user,setUser}) =>{
     if(!open) toggle(!openSide); 
     open?setOpen(false):setOpen(open);
   }
+	const [width,setIsSmallScreen]=useState(window.innerWidth);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 640); // Adjust the threshold value as needed
+    };
 
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 	return(
 		<>
 		<div className={`flex flex-row w-full`}>
@@ -19,7 +32,7 @@ const Main=({user,setUser}) =>{
 			</div>
 			<div className={`flex flex-col w-full ${open && "blur-sm"}`}>
 				<NavBar user={user} open={open} setOpen={(value)=>setOpen(value)} toggle={toggle}/>
-				<div className="container mx-auto lg:ms-2 overflow-y-scroll bg-color2">
+				<div className={`container mx-auto mt-1 lg:ms-2 bg-color2 ${openSide && width ? "overflow-hidden" :"overflow-y-scroll"}`}>
 				<Outlet/>
 				</div>
 			</div>

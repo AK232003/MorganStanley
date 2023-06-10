@@ -5,7 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import { db, database } from "../../firebase"
 import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc } from "firebase/firestore";
 import { addProcessAbandoned, addProcessAdmittedByGuardians, addProcessOrphaned, addProcessSurrendered, addDeadline, intializeCaseComment } from "../addCase";
-import img from "../../logo_scroll.png";
+import img from "../../profile.webp";
 import { elementTypeAcceptingRef } from "@mui/utils";
 
 const AssignCases = ({user}) => {

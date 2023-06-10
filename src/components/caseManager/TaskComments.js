@@ -4,7 +4,7 @@ import { List, Card, CardBody, Dropdown, DropdownToggle, Col,DropdownMenu, Dropd
 import { FaSearch } from "react-icons/fa";
 import { db, database } from "../../firebase"
 import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc } from "firebase/firestore";
-import img from "../../logo_scroll.png";
+import img from "../../profile.webp";
 
 const TaskComments = ({user}) => {
 	const navigate=useNavigate();
@@ -25,10 +25,18 @@ const TaskComments = ({user}) => {
 // -----------------------------------
 const handleDeadLine = (e) => {
 	e.preventDefault();
-	console.log(e.target[0].value)
-	database.ref(`cases/DeadLine/` + child["id"]).update({
-		DeadLine: e.target[0].value,
-	});
+	var docRef = db.collection("caseDeadlines").doc(child["id"].toString());
+  docRef
+    .update({
+      Deadline: e.target[0].value,
+    })
+    .then(() => {
+      console.log("Deadline updated successfully!");
+      setDeadLine(e.target[0].value);
+    })
+    .catch((error) => {
+      console.log("Error updating Deadline:", error);
+    });
 	setDeadLine(e.target[0].value)
 }
 // ---------------------------------------
@@ -36,138 +44,138 @@ const handleDeadLine = (e) => {
 // -----------------------------------------
 const handleComment = (e) => {
 	e.preventDefault();
-		database
-			.ref(`cases/comments/` + child["id"] + `/Manager`)
-			.once("value", (snapshot) => {
-				const existingArray = snapshot.val() || [];
-
-				const newArray = [
-					...existingArray,
-					e.target[1].value + "@" + "mID" + "@" + new Date().toString(),
-				];
-
-				database
-					.ref(`cases/comments/` + child["id"] + `/Manager`)
-					.set(newArray);
-			});
+	var date = new Date();
+	var docRef = db.collection("caseComments").doc(child["id"].toString());
+  docRef
+    .update({
+      ManagerComment: arrayUnion(e.target[0].value),
+      ManagerTime: arrayUnion(date),
+    })
+    .then(() => {
+      console.log("Reply Sent Succesfully!");
+    })
+    .catch((error) => {
+      console.log("Error sending comment:", error);
+    });
+		
 }
 // -------------------------------------------
 
 
 	// Case Creation Section(Worker Assigned to Children)
 // (mId to be changed to the manager Id)
-// ----------------------------------------
-	const handleCase = (element) => {
-		// Case Creation
-		element.preventDefault();
+// // ----------------------------------------
+// 	const handleCase = (element) => {
+// 		// Case Creation
+// 		element.preventDefault();
 	
-		const usersRef = db.collection("cases").doc(child["id"]);
-		const usersRef2 = db.collection("children").doc(child["id"]);
+// 		const usersRef = db.collection("cases").doc(child["id"]);
+// 		const usersRef2 = db.collection("children").doc(child["id"]);
 	
-		usersRef.get().then((doc) => {
+// 		usersRef.get().then((doc) => {
 			
-			if (!doc.exists) {
-				// Initial Case Report
-				usersRef2.get().then((d) => {
-					console.log(d.data()["Case Number"]);
-					db.collection("cases")
-						.doc(child["id"])
-						.set({
-							"Bal Asha Enrolment": d.data()["Date Of Birth"],
-							"Date of Admission": d.data()["Date Of Birth"],
+// 			if (!doc.exists) {
+// 				// Initial Case Report
+// 				usersRef2.get().then((d) => {
+// 					console.log(d.data()["Case Number"]);
+// 					db.collection("cases")
+// 						.doc(child["id"])
+// 						.set({
+// 							"Bal Asha Enrolment": d.data()["Date Of Birth"],
+// 							"Date of Admission": d.data()["Date Of Birth"],
 	
-							"Date of Last Follow up": d.data()["Date Of Birth"],
-							"Last Follow up": "",
-							"Remark of Bal Asha Social Work": "",
-							"Remark": "",
-							"Manager ID": "MId",
-							"Worker IDs": [element.target[2].value],
-						});
-				});
+// 							"Date of Last Follow up": d.data()["Date Of Birth"],
+// 							"Last Follow up": "",
+// 							"Remark of Bal Asha Social Work": "",
+// 							"Remark": "",
+// 							"Manager ID": "MId",
+// 							"Worker IDs": [element.target[2].value],
+// 						});
+// 				});
 			
-				// Process Track
-				database.ref(`cases/Process/` + child["id"]).update({
-					isComplete: 0,
-				});
-				database.ref(`cases/Process/` + child["id"] + "/Step1").update({
-					isComplete: false,
-				});
-				database.ref(`cases/Process/` + child["id"] + "/Step1/Step1").update({
-					isComplete: false,
-					text: "",
-					docs: "",
-					stat: "In Progress",
-				});
-				database.ref(`cases/Process/` + child["id"] + "/Step1/Step2").update({
-					isComplete: false,
-					text: "",
-					docs: "",
-					stat: "In Progress",
-				});
-				database.ref(`cases/Process/` + child["id"] + "/Step1/Step3").update({
-					isComplete: false,
-					text: "",
-					docs: "",
-					stat: "In Progress",
-				});
-				database.ref(`cases/Process/` + child["id"] + "/Step1/Step4").update({
-					isComplete: false,
-					text: "",
-					docs: "",
-					stat: "In Progress",
-				});
-				database.ref(`cases/Process/` + child["id"] + "/Step1/Step5").update({
-					isComplete: false,
-					text: "",
-					docs: "",
-					stat: "In Progress",
-				});
-				database.ref(`cases/Process/` + child["id"] +"/Step2").update({
-					isComplete: false,
-					text: "",
-					docs:"",
-					stat: "In Progress",
-				});
-				database.ref(`cases/Process/` + child["id"] + "/Step3").update({
-					isComplete: false,
-					text: "",
-					docs: "",
-					stat: "In Progress",
-				});
-				database.ref(`cases/Process/` + child["id"] + "/Step4").update({
-					isComplete: false,
-					text: "",
-					docs: "",
-					stat: "In Progress",
-				});
-				console.log("Success!")
+// 				// Process Track
+// 				database.ref(`cases/Process/` + child["id"]).update({
+// 					isComplete: 0,
+// 				});
+// 				database.ref(`cases/Process/` + child["id"] + "/Step1").update({
+// 					isComplete: false,
+// 				});
+// 				database.ref(`cases/Process/` + child["id"] + "/Step1/Step1").update({
+// 					isComplete: false,
+// 					text: "",
+// 					docs: "",
+// 					stat: "In Progress",
+// 				});
+// 				database.ref(`cases/Process/` + child["id"] + "/Step1/Step2").update({
+// 					isComplete: false,
+// 					text: "",
+// 					docs: "",
+// 					stat: "In Progress",
+// 				});
+// 				database.ref(`cases/Process/` + child["id"] + "/Step1/Step3").update({
+// 					isComplete: false,
+// 					text: "",
+// 					docs: "",
+// 					stat: "In Progress",
+// 				});
+// 				database.ref(`cases/Process/` + child["id"] + "/Step1/Step4").update({
+// 					isComplete: false,
+// 					text: "",
+// 					docs: "",
+// 					stat: "In Progress",
+// 				});
+// 				database.ref(`cases/Process/` + child["id"] + "/Step1/Step5").update({
+// 					isComplete: false,
+// 					text: "",
+// 					docs: "",
+// 					stat: "In Progress",
+// 				});
+// 				database.ref(`cases/Process/` + child["id"] +"/Step2").update({
+// 					isComplete: false,
+// 					text: "",
+// 					docs:"",
+// 					stat: "In Progress",
+// 				});
+// 				database.ref(`cases/Process/` + child["id"] + "/Step3").update({
+// 					isComplete: false,
+// 					text: "",
+// 					docs: "",
+// 					stat: "In Progress",
+// 				});
+// 				database.ref(`cases/Process/` + child["id"] + "/Step4").update({
+// 					isComplete: false,
+// 					text: "",
+// 					docs: "",
+// 					stat: "In Progress",
+// 				});
+// 				console.log("Success!")
 				
 	
-			} 
-			else
-			{
-			// Reassign to different worker
-				console.log("Reassigning to Worker: ", element.target[2].value);
-				usersRef2.get().then((d) => {
-					var pathRef = db.collection("cases").doc(child["id"]);
-					updateDoc(pathRef, {
-						"Worker IDs": arrayUnion(element.target[2].value),
-					});
-				});
-			}
-		});
-  // RealTime Deadline
-  // ------------------------------
-  let currentDate = new Date();
-  let futureDate = new Date(currentDate);
-  futureDate.setMonth(currentDate.getMonth() + 1);
-  console.log(futureDate.toDateString());
-  database.ref(`cases/DeadLine/` + child["id"]).set({
-    DeadLine: futureDate.toDateString(),
-  });
-  setDeadLine(futureDate.toString());
-  // -----------------------------------
-}
+// 			} 
+// 			else
+// 			{
+// 			// Reassign to different worker
+// 				console.log("Reassigning to Worker: ", element.target[2].value);
+// 				usersRef2.get().then((d) => {
+// 					var pathRef = db.collection("cases").doc(child["id"]);
+// 					updateDoc(pathRef, {
+// 						"Worker IDs": arrayUnion(element.target[2].value),
+// 					});
+// 				});
+// 			}
+// 		});
+//   // RealTime Deadline
+//   // ------------------------------
+//   let currentDate = new Date();
+//   let futureDate = new Date(currentDate);
+//   futureDate.setMonth(currentDate.getMonth() + 1);
+//   console.log(futureDate.toDateString());
+//   database.ref(`cases/DeadLine/` + child["id"]).set({
+//     DeadLine: futureDate.toDateString(),
+//   });
+//   setDeadLine(futureDate.toString());
+//   // -----------------------------------
+// }
 
   const toggleModalDeadline = (caseno) =>{
 		console.log(typeof(caseno));
@@ -205,7 +213,7 @@ const handleComment = (e) => {
         };
         getChildren();
     }, [])
-
+	
     const childrenLists=()=>{
         return (
             <div className="row mt-2">
@@ -218,9 +226,9 @@ const handleComment = (e) => {
 				}
 				}).map((children) => {
                 return  (
-				<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
+				<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={children["id"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
 				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
-				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(children["Case Number"])}> See Comments</button>
+				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(children["id"])}> See Comments</button>
 				</div>
 				<CardBody>
 								<List type="unstyled">

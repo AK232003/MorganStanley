@@ -4,7 +4,7 @@ import { List, Card, CardBody,Input} from "reactstrap";
 import { FaSearch } from "react-icons/fa";
 import { db } from "../../firebase"
 import { collection, getDocs, query } from "firebase/firestore";
-import img from "../../logo_scroll.png";
+import img from "../../profile.webp";
 
 const AssignedList=({id})=>{
 	const navigate = useNavigate();

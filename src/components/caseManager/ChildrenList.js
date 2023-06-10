@@ -4,7 +4,7 @@ import { List, Card, CardBody, Dropdown, DropdownToggle, DropdownMenu, DropdownI
 import { FaSearch } from "react-icons/fa";
 import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
-import img from "../../logo_scroll.png";
+import img from "../../profile.webp";
 
 const ChildrenList = ({user}) => {
 	const navigate=useNavigate();

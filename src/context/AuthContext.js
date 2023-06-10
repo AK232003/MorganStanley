@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { database } from "../firebase";
 import { getAuth, deleteUser } from "firebase/auth";
+import { arrayUnion } from "@firebase/firestore";
 
 const AuthContext = React.createContext();
 
@@ -18,22 +19,24 @@ export function AuthProvider({ children }) {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         var user = userCredential.user;
-        database.ref(`Users/` + user.uid).set({
+        database.ref(`Users/` + id).update({
           userType: userType,
-          Active: true
+          Active: true,
         }
         )
         if(userType==="Admin"){ 
-          return db.collection('Users').doc(user.uid)
+          var docRef = db.collection("Users").doc("admin");
+          // if(docRef.exists()) return;
+          return db.collection('Users').doc("admin")
           .set({
             userType: userType,
             Name: name,
             Phone: phoneno,
             UserID: id,
             PhoneNo: phoneno,
-            CasesList: [],
-            WorkersList: [],
-            ManagerList: [],
+            CasesList: ["start"],
+            WorkersList: ["start"],
+            ManagerList: ["start"],
             TotalCasesCompleted: 0,
             TotalCasesStep1: 0,
             TotalCasesStep2: 0,
@@ -52,15 +55,15 @@ export function AuthProvider({ children }) {
           });
         }
         else if(userType==="CaseManager"){
-          return db.collection('Users').doc(user.uid)
+          return db.collection('Users').doc(id)
           .set({
             userType: userType,
             Name: name,
             Phone: phoneno,
             UserID: id,
             PhoneNo: phoneno,
-            CasesList: [],
-            WorkersList: [],
+            CasesList: ["start"],
+            WorkersList: ["start"],
             TotalCasesCompleted: 0,
             TotalCasesStep1: 0,
             TotalCasesStep2: 0,
@@ -71,22 +74,29 @@ export function AuthProvider({ children }) {
           })
           .then(() => {
             console.log("Signup successful!");
+            db.collection("Users")
+              .doc("admin")
+              .update({
+                ManagerList: arrayUnion(id),
+              });
             return true;
           })
           .catch((error) => {
             console.error("Error creating user node:", error);
             return false;
           });
+
+          
         }
         else if(userType==="GroundWorker"){
-          return db.collection('Users').doc(user.uid)
+          return db.collection('Users').doc(id)
           .set({
             userType: userType,
             Name: name,
             Phone: phoneno,
             UserID: id,
             PhoneNo: phoneno,
-            CasesList: [],
+            CasesList: ["start"],
             TotalCasesCompleted: 0,
             TotalCasesStep1: 0,
             TotalCasesStep2: 0,
@@ -97,6 +107,11 @@ export function AuthProvider({ children }) {
           })
           .then(() => {
             console.log("Signup successful!");
+            db.collection("Users")
+              .doc("admin")
+              .update({
+                WorkersList: arrayUnion(id),
+              });
             return true;
           })
           .catch((error) => {

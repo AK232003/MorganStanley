@@ -31,7 +31,7 @@ const GroundWorkerSidebar = ({
     console.log(child);
   };
   const handleLogout = () => {
-    // document.cookie="user=; expires="+ new Date(-99).toUTCString();
+    document.cookie="user=; expires="+ new Date(-99).toUTCString();
     setuser(null);
     navigate("/");
   };

@@ -1,7 +1,7 @@
 import React, {useState,useEffect} from "react";
 import { useLocation,useNavigate } from "react-router-dom";
 import {GiCheckMark} from 'react-icons/gi'
-import img from "../../logo_scroll.png";
+import img from "../../profile.webp";
 import { List, Card, CardBody, CardTitle} from "reactstrap";
 import { database, db, storage } from "../../firebase";
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem, Form, FormGroup, FormText, FormFeedback, Label, Input, Col, Button } from 'reactstrap';

@@ -5,23 +5,27 @@ import { useNavigate } from "react-router-dom";
 
 const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   const navigate=useNavigate();
-  const sideBarIconProperty = "text-lg text-textcolor bg-color3/[0.2] rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color4/[0.8] cursor-pointer";
-  const logoutIconProperty = `${openSide ? "w-52" : "w-12"} text-xl text-textcolor duration-300 bg-logoutButton rounded-1 p-2 items-center gap-x-4 mt-2 hover:bg-logoutButton/[0.8] cursor-pointer justify-items-center fixed bottom-3`;
+  const sideBarIconProperty = "text-lg text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color6 cursor-pointer";
+  const logoutIconProperty = `${openSide ? "w-64" : "w-24"} text-xl text-logoutContent duration-300 bg-logoutButton rounded-0 p-3 items-center :bg-logoutButton cursor-pointer justify-items-center fixed bottom-0`;
+  const sideIconProperty = `${openSide ? "w-64" : "w-24"} h-16 text-xl text-color2 duration-300 bg-sideBarColor2 rounded-0 p-2 items-center :bg-sideBarColor2 cursor-pointer justify-items-center`;
 
   const handleLogout= ()=>{
-    // document.cookie="user=; expires="+ new Date(-99).toUTCString();
+    document.cookie="user=; expires="+ new Date(-99).toUTCString();
     setuser(null);
     navigate("/");
   }
   
 	return (
     <>
-	<div className={`h-screen sm:h-9/10 px-4 pb-4 pt-3 ${openSide ? "w-64" : "w-24"} ${!open && "hidden"} 
-  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-none md:relative  absolute left-0 md:top-14 top-0 drop-shadow-2xl shadow-2xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}>
-          <FaBars className={` h-6 w-6 md:h-12  md:w-12 cursor-pointer top-1 text-textcolor duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()}></FaBars>
+	<div className={`h-full sm:h-9/10  ${openSide ? "w-64" : "w-24"} ${!open && "hidden"} 
+  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-none md:relative  absolute left-0 md:top-14 top-0 opacity-100 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}>
+    <div className={sideIconProperty}>
+    <FaBars className={`mx-2 h-6 w-6 md:h-12  md:w-12 cursor-pointer top-1 text-sideBarColor1 duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()}></FaBars>
+    </div>
+    <div className = {`px-4 pb-4 pt-3`}>
             {user === "caseManager" &&
             <>
-            <ul className="pt-2 ps-0">
+            <ul className="ps-0">
               <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager")} >
                 <span><FaHome className="text-3xl text-textcolor block float-left"></FaHome></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Dashboard</span>
@@ -47,10 +51,10 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Task Comments</span>
               </li>
             </ul>
-              <div className={logoutIconProperty} onClick={handleLogout} >
+              {/* <div className={logoutIconProperty} onClick={handleLogout} >
                 <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>
                 <span className={`text-base font-medium flex-1 m-2 ${!openSide && "hidden"}`}>Logout</span>
-              </div>
+              </div> */}
             </>
             }
           {user === "admin" &&
@@ -77,12 +81,13 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Children Profiles</span>
               </li>
             </ul>
-            <div className={logoutIconProperty} onClick={handleLogout} >
-            <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>
-            <span className={`text-base font-medium flex-1 m-2 ${!openSide && "hidden"}`}>Logout</span>
-          </div>
         </div>
           }
+        </div>
+            <div className={logoutIconProperty} onClick={handleLogout} >
+            <span><FaArrowAltCircleRight className="mx-3 mb-2 text-3xl text-logoutContent block float-left"></FaArrowAltCircleRight></span>
+            <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Logout</span>
+          </div>
         </div>
         </>
 	)

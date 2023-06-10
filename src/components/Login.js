@@ -31,10 +31,10 @@ const Login = ({setuser}) => {
 
 
   useEffect(()=>{
-      // setuser(document.cookie.split("=")[1]);
-      // if(document.cookie.split("=")[1]!==undefined) navigate(document.cookie.split("=")[1]);
+      setuser(document.cookie.split("=")[1]);
+      if(document.cookie.split("=")[1]!==undefined) navigate(document.cookie.split("=")[1]);
     fetchData()
-  },[])
+  },[])    
   async function handleSubmitLogin(e) {
     e.preventDefault();
 
@@ -61,12 +61,24 @@ const Login = ({setuser}) => {
 
     setLoading(false);
   }
-  return (
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth < 640); // Adjust the threshold value as needed
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  return (
     <div id="loginpage" className="w-100">
-    <Button onClick={() => addProcessOrphaned("test3")}>
-      this
-    </Button>
       <div className="grid mt-4 place-content-center">
         <div
           className="rounded-5"
@@ -78,54 +90,51 @@ const Login = ({setuser}) => {
               alt="logo"
               className="col-10 offset-1 col-sm-8 offset-sm-2 h-20 place-self-center bg-white/[.4] rounded-3"
             />
-            {/* {error && (
-              <div className="alert alert-danger" role="alert">
-                {error}
-              </div>
-            )} */}
-          </div>
-          <div className="row m-1 flex-column">
-            <form
-              onSubmit={handleSubmitLogin}
-              className="col-10 offset-1 font-sans fw-semibold text-sm md:text-base"
-            >
-              <div className="form-outline mb-4">
-                <label className="form-label text-black"> Email </label>
-                <input
-                  type="email"
-                  id="email"
-                  className="form-control form-control-lg rounded-3 !border-transparent"
-                  ref={emailRef}
-                  required
-                  style={{ background: "rgb(178 176 176 / 50%)" }}
+          <form onSubmit={handleSubmitLogin}>
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-themecolor mb-1">
+                <b>Email Address</b>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                ref={emailRef}
+                required
+                className="w-full bg-t2 px-4 py-2 rounded bg-white/[0.4]"
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="password" className="block text-themecolor mb-1">
+                <b>Password</b>
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                ref={passwordRef}
+                required
+                className="w-full bg-t2 px-4 py-2 rounded bg-white/[0.4]"
                 />
-              </div>
-              <div className="form-outline mb-4">
-                <label className="form-label text-black "> Password </label>
-                <input
-                  type="password"
-                  id="pass"
-                  className="form-control form-control-lg rounded-3 !border-transparent"
-                  ref={passwordRef}
-                  required
-                  style={{ background: "rgb(178 176 176 / 50%)" }}
-                />
-              </div>
-              <div className="d-flex justify-content-around align-items-center mb-4">
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="!bg-themecolor btn d-block w-100 rounded-pill font-sans fw-medium text-sm md:text-base !text-textcolor"
-                >
-                  Sign in
-                </button>
-              </div>
-            </form>
-          </div>
+            </div>
+            {/* <div className="mb-4">
+              <input type="checkbox" id="remember" className="mr-2" />
+              <label htmlFor="remember" className="text-themecolor">
+              Remember me
+              </label>
+            </div> */}
+            <button
+              type="submit"
+              className="w-full bg-themecolor mt-3 mb-2 px-4 py-2 rounded text-white"
+              >
+              <b>Sign In</b>
+            </button>
+          </form>
+            </div>
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default Login;
