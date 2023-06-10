@@ -109,17 +109,18 @@ const Login = ({setUser, setId}) => {
   }, []);
 
   return (
-    <div id="loginpage" className="w-100">
-      <div className="grid mt-4 place-content-center">
-        <div
-          className="rounded-5"
-          style={{ backgroundColor: "rgb(178 176 176 / 60%)" }}
-        >
-          <div className="row mt-5 mx-5">
-            <img
-              src="./logo_scroll.png"
-              alt="logo"
-              className="col-10 offset-1 col-sm-8 offset-sm-2 h-20 place-self-center bg-white/[.4] rounded-3"
+    <div className="flex w-screen h-screen">
+      <div
+        className="hidden sm:block md:block sm:w-1/2 lg:w-3/5 bg-cover bg-center loginpage"
+      />
+      <div className={`w-full sm:w-1/2 lg:w-2/5 bg-loginbg flex flex-col justify-center p-8 ${isSmallScreen ? `loginpage` : ''}`}>
+        <div className="mx-auto rounded-2xl" style={{ backgroundColor: isSmallScreen ? "rgba(232, 216, 216, 0.6)" : null }}>
+          <div className="mx-4 my-4">
+
+          <img
+            src="logo_scroll.png"
+            alt="Logo"
+            className="w-64 h-24 mb-6"
             />
           <form onSubmit={handleSubmitLogin}>
             <div className="mb-4">
@@ -132,7 +133,7 @@ const Login = ({setUser, setId}) => {
                 name="email"
                 ref={emailRef}
                 required
-                className="w-full bg-t2 px-4 py-2 rounded bg-white/[0.4]"
+                className="w-full bg-t2 px-4 py-2 rounded"
               />
             </div>
             <div className="mb-4">
@@ -145,7 +146,7 @@ const Login = ({setUser, setId}) => {
                 name="password"
                 ref={passwordRef}
                 required
-                className="w-full bg-t2 px-4 py-2 rounded bg-white/[0.4]"
+                className="w-full bg-t2 px-4 py-2 rounded"
                 />
             </div>
             {/* <div className="mb-4">

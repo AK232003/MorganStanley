@@ -32,7 +32,6 @@ const Main=({user,setUser}) =>{
 			</div>
 			<div className={`grid flex-col w-full ${open && "blur-sm"}`}>
 				<NavBar user={user} open={open} setOpen={(value)=>setOpen(value)} toggle={toggle}/>
-				{console.log(openSide, width)}
 				<div className={`container mx-auto mt-1 lg:ms-2 bg-color2 overflow-y-scroll max-h-screen}`}>
 				<Outlet/>
 				</div>
