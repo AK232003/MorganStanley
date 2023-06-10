@@ -31,7 +31,7 @@ const AddUser = ({user}) => {
   const handleDelete=(event) =>{
     event.preventDefault();
     console.log(event);
-    deleteUser("Q5FFNIhZSOdUDfbpTCvRUyKDABO2");
+    // deleteUser();
 
     // await deleteUser()
   }
