@@ -19,8 +19,9 @@ export function AuthProvider({ children }) {
       .createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
         var user = userCredential.user;
-        database.ref(`Users/` + id).update({
+        database.ref(`Users/` + user.uid).update({
           userType: userType,
+          userID: id,
           Active: true,
         }
         )
