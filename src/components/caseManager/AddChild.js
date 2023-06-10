@@ -1,7 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { Accordion, AccordionBody, AccordionItem, Form, FormGroup, Label, Input, Col, Button } from 'reactstrap';
 import { useNavigate,Link } from "react-router-dom";
-import { database, db,storage } from "../../firebase";
+import { database, db, storage } from "../../firebase";
 import * as XLSX from "xlsx";
 import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storage";
 import {IoIosArrowDropdown} from 'react-icons/io'
@@ -53,73 +53,89 @@ const AddChild = ({user}) => {
     }
   };
 
-	const handleSubmitInformation = (element) => {
+	const handleSubmitInformation = async(element) => {
 		element.preventDefault();
-		console.log(element.target[1].value);
+		console.log(element);
+
+		// await setDoc(doc(db, "children", element.target[11].value), {
+		// 	Name: element.target[1].value,
+		// 	Gender: element.target[2].value,
+		// 	"Date of Birth": element.target[3].value,
+		// 	Age: element.target[4].value,
+		// 	"Child Category": element.target[5].value,
+		// 	State: element.target[7].value,
+		// 	District: element.target[8].value,
+		// 	Home: element.target[9].value,
+		// 	"Case Number": element.target[11].value,
+		// 	"Reason For Admission": element.target[12].value,
+		// 	"Reason For Flagging": element.target[13].value,
+		// 	"Last Visit Since": element.target[14].value,
+		// 	"Last Call Since": element.target[15].value,
+		// 	Guardian: element.target[16].value,
+		// 	Sibling: element.target[17].value,
+		// 	"Total Shelter Home Stay": element.target[18].value,
+		// 	"Case History": element.target[19].value,
+		// })
 		// const id = element["Case Number"].split("/").join("");
-		const id = element.target[11].value.split("/").join("");
-		const imageRef = storageRef(storage, `children/${id}`);
-		let dt = new Date();
-		dt.setMonth(dt.getMonth()+1);
-		console.log(dt);
-		uploadBytes(imageRef, imageUpload)
-      .then((snapshot) => {
-        getDownloadURL(snapshot.ref)
-          .then((url) => {
-			db.collection("children").doc(id).set({
-				"Name": element.target[1].value,
-				"Gender": element.target[2].value,
-				"Date Of Birth": element.target[3].value,
-				"Age": element.target[4].value,
-				"Child Category":element.target[5].value,
-				"Image": url,
-				"State": element.target[7].value,
-				"District": element.target[8].value,
-				"Home": element.target[9].value,
-				"Case Number": element.target[11].value,
-				"Reason For Admission": element.target[12].value,
-				"Reason For Flagging": element.target[13].value,
-				"Last Visit Since": element.target[14].value,
-				"Last Call Since": element.target[15].value,
-				"Guardian": element.target[16].value,
-				"Sibling": element.target[17].value,
-				"Total Shelter Home Stay": element.target[18].value,
-				// "CWC Last Review": element.target[19].value,
-				// "Last CWC Order": element.target[20].value,
-				"Case History": element.target[19].value,
-				// "Documents Completed": element.target[23].value,
-				// "Documents Pending": element.target[24].value,
-				// "News Paper Publications Pending": element.target[25].value,
-				// "Police Report Pending": element.target[26].value,
-				// "Surrender Pending": element.target[27].value,
-				// "Status": element.target[28].value
-			}).then(() => {
-				console.log("Document successfully written with ID: ", id);
-				// Create an entry in the Realtime Database for the child profile
-				// database
-				//   .ref("childProfile/" + id)
-				//   .set({
-				// 	AssignStatus: "Not Assigned",
-				// 	WorkerID: "",
-				// 	ManagerID: "",
-				// 	Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
-				//   });
+		// const id = element.target[11].value.split("/").join("");
+		// const imageRef = storageRef(storage, `children/${id}`);
+		// let dt = new Date();
+		// dt.setMonth(dt.getMonth()+1);
+		// console.log(dt);
+		// uploadBytes(imageRef, imageUpload)
+    //   .then((snapshot) => {
+    //     getDownloadURL(snapshot.ref)
+    //       .then((url) => {
+		// 	db.collection("children").doc(id).set({
+		// 		"Name": element.target[1].value,
+		// 		"Gender": element.target[2].value,
+		// 		"Date Of Birth": element.target[3].value,
+		// 		"Age": element.target[4].value,
+		// 		"Child Category":element.target[5].value,
+		// 		"Image": url,
+		// 		"State": element.target[7].value,
+		// 		"District": element.target[8].value,
+		// 		"Home": element.target[9].value,
+		// 		"Case Number": element.target[11].value,
+		// 		"Reason For Admission": element.target[12].value,
+		// 		"Reason For Flagging": element.target[13].value,
+		// 		"Last Visit Since": element.target[14].value,
+		// 		"Last Call Since": element.target[15].value,
+		// 		"Guardian": element.target[16].value,
+		// 		"Sibling": element.target[17].value,
+		// 		"Total Shelter Home Stay": element.target[18].value,
+		// 		// "CWC Last Review": element.target[19].value,
+		// 		// "Last CWC Order": element.target[20].value,
+		// 		"Case History": element.target[19].value,
+		// 		// "Documents Completed": element.target[23].value,
+		// 		// "Documents Pending": element.target[24].value,
+		// 		// "News Paper Publications Pending": element.target[25].value,
+		// 		// "Police Report Pending": element.target[26].value,
+		// 		// "Surrender Pending": element.target[27].value,
+		// 		// "Status": element.target[28].value
+		// 	}).then(() => {
+		// 		console.log("Document successfully written with ID: ", id);
+		// 		// Create an entry in the Realtime Database for the child profile
+		// 		// database
+		// 		//   .ref("childProfile/" + id)
+		// 		//   .set({
+		// 		// 	AssignStatus: "Not Assigned",
+		// 		// 	WorkerID: "",
+		// 		// 	ManagerID: "",
+		// 		// 	Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
+		// 		//   });
 
-				   	database.ref(`cases/comments/` + id ).set({
-            			Worker: ["Start"],
-            		 	Manager: ["Start"],
-          			 });
-					 
-					
-
-				  
-			  })
-			  .catch((error) => {
-				console.error("Error writing document: ", error);
-			  });
-          })
+		// 		   	database.ref(`cases/comments/` + id ).set({
+    //         			Worker: ["Start"],
+    //         		 	Manager: ["Start"],
+    //       			 });
+		// 	  })
+		// 	  .catch((error) => {
+		// 		console.error("Error writing document: ", error);
+		// 	  });
+    //       })
 		console.log(user);   
-      })
+      // })
 	}
 	const navigate=useNavigate();
   useEffect(()=>{
