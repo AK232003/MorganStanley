@@ -25,10 +25,18 @@ const TaskComments = ({user}) => {
 // -----------------------------------
 const handleDeadLine = (e) => {
 	e.preventDefault();
-	console.log(e.target[0].value)
-	database.ref(`cases/DeadLine/` + child["id"]).update({
-		DeadLine: e.target[0].value,
-	});
+	var docRef = db.collection("caseDeadlines").doc(child["id"].toString());
+  docRef
+    .update({
+      Deadline: e.target[0].value,
+    })
+    .then(() => {
+      console.log("Deadline updated successfully!");
+      setDeadLine(e.target[0].value);
+    })
+    .catch((error) => {
+      console.log("Error updating Deadline:", error);
+    });
 	setDeadLine(e.target[0].value)
 }
 // ---------------------------------------

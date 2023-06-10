@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
         )
         if(userType==="Admin"){ 
           var docRef = db.collection("Users").doc("admin");
-          if(docRef.exists()) return;
+          // if(docRef.exists()) return;
           return db.collection('Users').doc("admin")
           .set({
             userType: userType,
