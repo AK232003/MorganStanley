@@ -32,7 +32,7 @@ const Main=({user,setUser}) =>{
 			</div>
 			<div className={`flex flex-col w-full ${open && "blur-sm"}`}>
 				<NavBar user={user} open={open} setOpen={(value)=>setOpen(value)} toggle={toggle}/>
-				<div className={`container mx-auto mt-1 lg:ms-2 bg-color2 ${openSide && width ? "overflow-hidden" :"overflow-y-scroll"}`}>
+				<div className={`container mx-auto mt-1 lg:ms-2 bg-color2 overflow-y-scroll}`}>
 				<Outlet/>
 				</div>
 			</div>

@@ -17,10 +17,10 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   
 	return (
     <>
-	<div className={`h-full sm:h-9/10  ${openSide ? "w-64" : "w-24"} ${!open && "hidden"} 
-  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-none md:relative  absolute left-0 md:top-14 top-0 opacity-100 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}>
+	<div className={`h-screen sm:h-9/10  ${openSide ? "w-64" : "w-24"} ${!open && "hidden"} 
+  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-none md:relative  absolute md:top-14 top-0 opacity-100 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}>
     <div className={sideIconProperty}>
-    <FaBars className={`mx-2 h-6 w-6 md:h-12  md:w-12 cursor-pointer top-1 text-sideBarColor1 duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()}></FaBars>
+    <FaBars className={`md:!m-0 md:!ms-4 h-6 w-6 md:h-12  md:w-12 cursor-pointer text-sideBarColor1 duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()} style={{margin: "0.5rem 1rem"}}></FaBars>
     </div>
     <div className = {`px-4 pb-4 pt-3`}>
             {user === "caseManager" &&

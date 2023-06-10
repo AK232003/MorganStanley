@@ -18,7 +18,7 @@ const GroundWorkerSidebar = ({
   const navigate = useNavigate();
   const location = useLocation().pathname;
   const sideBarIconProperty ="text-xl text-textcolor bg-color3/[0.2] rounded-1 p-2 flex-row gap-x-4 mt-2 hover:bg-color4/[0.8] duration-500 cursor-pointer";
-    const logoutIconProperty = `${openSide ? "w-60" : "w-12"} text-xl text-textcolor duration-300 bg-logoutButton rounded-1 p-2 items-center gap-x-4 mt-2 hover:bg-logoutButton/[0.8] cursor-pointer justify-items-center fixed bottom-3`;
+  const logoutIconProperty = `${openSide ? "w-60" : "w-12"} text-xl text-textcolor duration-300 bg-logoutButton rounded-1 p-2 items-center gap-x-4 mt-2 hover:bg-logoutButton/[0.8] cursor-pointer justify-items-center fixed bottom-3`;
   const [active, setActive] = useState(
     location.split("/").length > 3 ? location.split("/")[4] : "step0"
   );
