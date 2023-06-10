@@ -5,7 +5,7 @@ import AssignedList from "./AssignedList";
 import { Button } from "reactstrap";
 import NavBar from "../Navbar";
 
-const GroundWorkerDashboard = ({ user, setuser }) => {
+const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
   const navigate = useNavigate();
   const [open,setOpen] =useState(false);
 	const [openSide, toggle] = useState(true);
@@ -16,10 +16,12 @@ const GroundWorkerDashboard = ({ user, setuser }) => {
   const handleLogout= ()=>{
     document.cookie="user=; expires="+ new Date(-99).toUTCString();
     setuser(null);
+    setId(null);
     navigate("/");
   }
   useEffect(() => {
     if (user !== "groundWorker") navigate("/");
+    console.log(user, id)
   }, [user]);
   return (
     <>
