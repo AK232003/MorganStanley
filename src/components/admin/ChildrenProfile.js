@@ -42,7 +42,7 @@ const ChildrenProfile = ({ user, id }) => {
     } else setCase("");
   };
   useEffect(() => {
-    if (user !== "admin") navigate("/");
+    if (user !== "Admin") navigate("/");
   }, [user]);
   useEffect(() => {
     if (child !== null) setKeys(Object.keys(child));

@@ -14,7 +14,7 @@ const Dashboard= ({user, id}) =>{
   useEffect(()=>{
     // console.log(user)
     
-    if(user!=="caseManager") navigate("/");
+    if(user!=="CaseManager") navigate("/");
     
   },[user, id])
   return (

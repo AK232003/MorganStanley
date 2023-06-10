@@ -14,7 +14,7 @@ const ChildrenList = ({ user, id }) => {
   const toggle = () => setDropdownOpen(!dropdownOpen);
 
   useEffect(() => {
-    if (user !== "caseManager") navigate("/");
+    if (user !== "CaseManager") navigate("/");
   }, [user]);
 
   const [children, setChildren] = useState([]);

@@ -28,7 +28,7 @@ const AddUser = ({ user, id }) => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (user !== "admin") navigate("/");
+    if (user !== "Admin") navigate("/");
     db.collection("Users")
       .get()
       .then((d) => {

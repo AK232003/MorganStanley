@@ -88,7 +88,7 @@ const AddChild = ({ user, id }) => {
   };
   const navigate = useNavigate();
   useEffect(() => {
-    if (user !== "caseManager") navigate("/");
+    if (user !== "CaseManager") navigate("/");
   }, [user]);
   return (
     <div className="container mt-4 bg-color2">

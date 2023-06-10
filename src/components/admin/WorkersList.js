@@ -14,7 +14,7 @@ const WorkersList = ({user,usersList, id}) => {
   const toggle = () => setDropdownOpen(!dropdownOpen);
 
 	useEffect(()=>{
-		if(user!=="admin") navigate("/");
+		if(user!=="Admin") navigate("/");
 	},[user])
 
     const[worker, setWorker] = useState([]);

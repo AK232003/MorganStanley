@@ -13,7 +13,7 @@ const ManagersList = ({user,usersList, id}) => {
 	const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(!dropdownOpen);
 	useEffect(()=>{
-		if(user!=="admin") navigate("/");
+		if(user!=="Admin") navigate("/");
 	},[user])
 
     const[manager, setManager] = useState([]);

@@ -15,7 +15,7 @@ const CaseDetails= ({user,setuser, id, setId})=>{
   }
 	const navigate=useNavigate();
 	useEffect(()=>{
-		if(user!=="groundWorker") navigate("/");
+		if(user!=="GroundWorker") navigate("/");
 		setKeys(Object.keys(child))
 	},[child,user]);
 	return (

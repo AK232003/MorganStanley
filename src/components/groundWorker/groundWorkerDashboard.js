@@ -20,7 +20,7 @@ const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
     navigate("/");
   }
   useEffect(() => {
-    if (user !== "groundWorker") navigate("/");
+    if (user !== "GroundWorker") navigate("/");
     console.log(user, id)
   }, [user]);
   return (

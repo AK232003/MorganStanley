@@ -48,16 +48,7 @@ const Login = ({setUser, setId}) => {
       const userHash = await login(emailRef.current.value, passwordRef.current.value);
       console.log(userHash)
 
-      database.ref(`Users/${userHash}/userType/`).once('value')
-      .then((snapshot) => {
-        setUser(snapshot.val());
-        setuserType(snapshot.val());
-        console.log(snapshot.val(), userType);
-      })
-      .catch((error) => {
-        console.log('Error fetching data:', error);
-      });
-      database.ref(`Users/${userHash}/userID/`).once('value')
+      database.ref(`Users/${userHash[0]}/userID/`).once('value')
       .then((snapshot) => {
         setId(snapshot.val());
         console.log(snapshot.val(), "id");
@@ -65,16 +56,19 @@ const Login = ({setUser, setId}) => {
       .catch((error) => {
         console.log('Error fetching data:', error);
       });
-      
-       if (userType === "GroundWorker" ) {
-          setUser("groundWorker");
+      setUser(userHash[1]);
+      if (userHash[1] === "GroundWorker" ) {
+         console.log("ground worker route")
+         setUser("groundWorker");
          navigate("groundWorker");
-       } else if(userType === "CaseManager"){
-        setUser("caseManager")
+        } else if(userHash[1] === "CaseManager"){
+         console.log("case manager route")
+         setUser("CaseManager")
          navigate("caseManager");
         }
-        else if(userType === "Admin") {
-         setUser("admin")
+        else if(userHash[1] === "Admin") {
+          console.log("admin route")
+         setUser("Admin")
           navigate("admin");
         
        }

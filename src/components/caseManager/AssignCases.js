@@ -88,7 +88,7 @@ const AssignCases = ({ user, id }) => {
     } else setCase("");
   };
   useEffect(() => {
-    if (user !== "caseManager") navigate("/");
+    if (user !== "CaseManager") navigate("/");
   }, [user]);
   useEffect(() => {
     if (child !== null) setKeys(Object.keys(child));

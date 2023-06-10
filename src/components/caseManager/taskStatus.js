@@ -31,7 +31,7 @@ const TaskStatus = ({ user, id }) => {
     } else setCase("");
   };
   useEffect(() => {
-    if (user !== "caseManager") navigate("/");
+    if (user !== "CaseManager") navigate("/");
   }, [user]);
   useEffect(() => {
     const getChildren = async () => {

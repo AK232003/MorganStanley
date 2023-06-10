@@ -39,7 +39,7 @@ const ChildProfile = ({ user, id }) => {
   let temp = 0;
 
   useEffect(() => {
-    if (user !== "caseManager") navigate("/");
+    if (user !== "CaseManager") navigate("/");
     console.log("Hi there");
 
     // Set Setps Completed in the Process

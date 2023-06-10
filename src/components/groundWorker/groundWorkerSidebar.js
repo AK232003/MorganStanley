@@ -60,7 +60,7 @@ const GroundWorkerSidebar = ({
           }`}
           onClick={() => handdleToggle()}
         ></FaBars>
-        {user === "groundWorker" && (
+        {user === "GroundWorker" && (
           <ul className="pt-2 ps-0">
             {/* Step-1 Button */}
             <li className={sideBarIconProperty}>

@@ -13,7 +13,7 @@ import {AdminDashboard, AddUser ,ManagersList,WorkersList, ChildrenProfile} from
 import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWorker/groundWorker";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("CaseManager");
   const [id, setId] = useState(null);
   useEffect(() => {
     if(user!==null) document.cookie=`user=${user}; expires=`+ new Date(2023,6,20).toUTCString();
@@ -21,8 +21,8 @@ function App() {
   return (
     <>
       <div
-        className={`${user !== "groundWorker" && "sm:flex h-full"} sm:w-full ${
-          user === "groundWorker" && "overflow-hidden max-h-full"
+        className={`${user !== "GroundWorker" && "max-h-screen"} ${
+          user === "GroundWorker" && "overflow-hidden max-h-full"
         } bg-color2`}
       >
         <Router>

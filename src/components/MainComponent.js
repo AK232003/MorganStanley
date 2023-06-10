@@ -30,7 +30,7 @@ const Main=({user,setUser}) =>{
 			<div className="flex pd-0">
 				<SideBar user={user} setuser={(value)=>setUser(value)} open={open} setOpen={(value)=>setOpen(value)} handdleToggle={()=>handleToggle()} openSide={openSide} toggle={toggle}/>
 			</div>
-			<div className={`flex flex-col w-full ${open && "blur-sm"}`}>
+			<div className={`grid flex-col w-full ${open && "blur-sm"}`}>
 				<NavBar user={user} open={open} setOpen={(value)=>setOpen(value)} toggle={toggle}/>
 				{console.log(openSide, width)}
 				<div className={`container mx-auto mt-1 lg:ms-2 bg-color2 overflow-y-scroll max-h-screen}`}>
