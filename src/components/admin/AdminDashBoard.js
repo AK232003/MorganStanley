@@ -9,7 +9,7 @@ import { collection, getDocs } from "firebase/firestore";
 import img from "../../logo_scroll.png";
 import profile from "../../profile.webp"
 
-const AdminDashboard= ({user}) =>{
+const AdminDashboard= ({user, id}) =>{
   const navigate=useNavigate();
   const [filter,setFilter]=useState("")
 	const [search,setSearch] = useState("");
@@ -20,8 +20,10 @@ const AdminDashboard= ({user}) =>{
   const title2 = "Child Statistics"
   const data1 = [100, 200, 50];
   // var piechart = Pie_chart(labels1, data1, title1)
+  console.log(user, id);
   useEffect(()=>{
-    if(user!=="admin") navigate("/");
+    if(user!=="Admin") navigate("/");
+    
   },[user])
   const[children, setChildren] = useState([]);
     const childrenCollectionRef = collection(db, "children");
@@ -69,10 +71,10 @@ const AdminDashboard= ({user}) =>{
       <div className="col-6 text-textcolor justify-self-start rounded-4 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md ">
          <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">Dashboard</div>
       </div>
-        <button className="col-3 offset-1 justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/admin/addUser")} > Add User</button>
+        <button className="col-3 offset-3 justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/admin/addUser")} > Add User</button>
       </div>
       <div className="row">
-      <Card className="col-sm-5 justify-content-center m-2 p-2 cursor-pointer" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}>
+      <Card className="col-sm-6 justify-content-center m-2 p-2 cursor-pointer" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}>
       <div style={{ display: 'flex', justifyContent: 'center'}}>
       <CardTitle tag="h5"><strong>{title2}</strong></CardTitle>
         </div>
@@ -91,7 +93,7 @@ const AdminDashboard= ({user}) =>{
       </Card>
     </div>
     <hr className="border-solid" />
-    <div className="row w-100">
+    <div className="row">
     <div className="col-6 col-lg-10 w-full p-2">
 			<div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
 			<span><FaSearch className="text-lg text-black block float-left me-2"></FaSearch></span>
@@ -108,8 +110,8 @@ const AdminDashboard= ({user}) =>{
         </DropdownMenu>
       </Dropdown>
 			</div>
-    </div>
     {children.length>0? childrenLists() :<div className="spinner-border m-5 p-4" style={{position: "relative" ,top: "50%", left: "50%"}} role="status"></div>}
+    </div>
     </div>
   );
 }

@@ -10,46 +10,47 @@ import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, 
 
 
 
-const ChildProfile= ({user}) => {
-	const {state}=useLocation();
-	const [child,setChild]=useState(state["children"]);
+const ChildProfile = ({ user, id }) => {
+  const { state } = useLocation();
+  const [child, setChild] = useState(state["children"]);
   const [deadLine, setDeadLine] = useState("");
-	const [wid, setWid]=useState("");
-	const [wmsg, setWmsg]=useState("");
-	const [keys,setKeys]=useState(Object.keys(child));
-	const [text,setText]=useState("");
-	const [gwId,setGWID]=useState("");
-	const [report,setReport]=useState("");
+  const [wid, setWid] = useState("");
+  const [wmsg, setWmsg] = useState("");
+  const [keys, setKeys] = useState(Object.keys(child));
+  const [text, setText] = useState("");
+  const [gwId, setGWID] = useState("");
+  const [report, setReport] = useState("");
   const [step, setStep] = useState(0);
   const [substep, setSubStep] = useState(0);
-	// const [assignedStatus,setAssignedStatus]=useState("");
+  // const [assignedStatus,setAssignedStatus]=useState("");
 
-	const navigate=useNavigate();
-	const [open, setOpen] = useState('1');
+  const navigate = useNavigate();
+  const [open, setOpen] = useState("1");
   // const [temp, setTemp] = useState('1');
-	const [imageUpload, setImageUpload] = useState(null);
-	const toggle = (id) => {
-		if (open === id) {
-			setOpen();
-		} else {
-			setOpen(id);
-		}
-	};
+  const [imageUpload, setImageUpload] = useState(null);
+  const toggle = (id) => {
+    if (open === id) {
+      setOpen();
+    } else {
+      setOpen(id);
+    }
+  };
 
-  let temp = 0
+  let temp = 0;
 
-	useEffect(() => {
-    if (user !== "caseManager") navigate("/");
-    console.log("Hi there")
+  useEffect(() => {
+    if (user !== "CaseManager") navigate("/");
+    console.log("Hi there");
 
     // Set Setps Completed in the Process
     // --------------------------------
-    database.ref(`cases/Process/` + child["id"] + "/isComplete/").on("value", (snapshot) => {
-      console.log("Steps Completed", snapshot.val());
-      setStep(snapshot.val());
-    });
+    database
+      .ref(`cases/Process/` + child["id"] + "/isComplete/")
+      .on("value", (snapshot) => {
+        console.log("Steps Completed", snapshot.val());
+        setStep(snapshot.val());
+      });
     // ---------------------------------
-
 
     //  Set Deadline From Database
     //  -----------------------
@@ -60,53 +61,50 @@ const ChildProfile= ({user}) => {
         console.log("DeadLine", snapshot.val());
       });
     // -----------------------
-
   }, [child, user]);
 
-
-// DeadLine Section
-// -----------------------------------
-	const handleDeadLine = (e) => {
+  // DeadLine Section
+  // -----------------------------------
+  const handleDeadLine = (e) => {
     e.preventDefault();
-    console.log(e.target[0].value)
+    console.log(e.target[0].value);
     database.ref(`cases/DeadLine/` + child["id"]).update({
       DeadLine: e.target[0].value,
     });
-    setDeadLine(e.target[0].value)
-	}
-// ---------------------------------------
+    setDeadLine(e.target[0].value);
+  };
+  // ---------------------------------------
 
-// Comment Section(mId to be changed with the current managerId)
-// -----------------------------------------
-	  const handleComment = (e) => {
-      e.preventDefault();
+  // Comment Section(mId to be changed with the current managerId)
+  // -----------------------------------------
+  const handleComment = (e) => {
+    e.preventDefault();
+    database
+      .ref(`cases/comments/` + child["id"] + `/Manager`)
+      .once("value", (snapshot) => {
+        const existingArray = snapshot.val() || [];
+
+        const newArray = [
+          ...existingArray,
+          e.target[1].value + "@" + "mID" + "@" + new Date().toString(),
+        ];
+
         database
           .ref(`cases/comments/` + child["id"] + `/Manager`)
-          .once("value", (snapshot) => {
-            const existingArray = snapshot.val() || [];
+          .set(newArray);
+      });
+  };
+  // -------------------------------------------
 
-            const newArray = [
-              ...existingArray,
-              e.target[1].value + "@" + "mID" + "@" + new Date().toString(),
-            ];
-
-            database
-              .ref(`cases/comments/` + child["id"] + `/Manager`)
-              .set(newArray);
-          });
-	  }
-// -------------------------------------------
-  
-
-// Handle Accpet Section 
-// --------------------------------------
-  const handleAccept = (e) =>{
-    e.preventDefault()
-    console.log("HI there!")
-    setStep(1)
-    setSubStep(1)
-    console.log(step, substep)
-    console.log("Accepted")
+  // Handle Accpet Section
+  // --------------------------------------
+  const handleAccept = (e) => {
+    e.preventDefault();
+    console.log("HI there!");
+    setStep(1);
+    setSubStep(1);
+    console.log(step, substep);
+    console.log("Accepted");
     const caseDocRef = db.collection("cases").doc(child["id"]);
     const taskDocRef = db
       .collection("task")
@@ -133,56 +131,52 @@ const ChildProfile= ({user}) => {
         console.error("Error retrieving task document: ", error);
       });
 
-
-    if(step === 1)
-    {
-       database.ref(`cases/Process/` + child["id"] + `/Step1/Step1`).update({
-         isComplete: true,
-         stat: "Complete",
-       });
-       let isStep1Complete = true;
-       for(let i=1; i<=5; i++)
-       {
-          database.ref(`cases/Process/` + child["id"] + `/Step1/Step${i}/isComplete`).once("value", (snapshot) => {
+    if (step === 1) {
+      database.ref(`cases/Process/` + child["id"] + `/Step1/Step1`).update({
+        isComplete: true,
+        stat: "Complete",
+      });
+      let isStep1Complete = true;
+      for (let i = 1; i <= 5; i++) {
+        database
+          .ref(`cases/Process/` + child["id"] + `/Step1/Step${i}/isComplete`)
+          .once("value", (snapshot) => {
             isStep1Complete = snapshot.val() && isStep1Complete;
           });
-       }
-       if(isStep1Complete){
-         database.ref(`cases/Process/` + child["id"]).update({
-           isComplete: 1,
-         });
-       }
+      }
+      if (isStep1Complete) {
+        database.ref(`cases/Process/` + child["id"]).update({
+          isComplete: 1,
+        });
+      }
+    } else {
+      database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
+        isComplete: true,
+        stat: "Complete",
+      });
+      database.ref(`cases/Process/` + child["id"]).update({
+        isComplete: step,
+      });
     }
-    else 
-    {
-       database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
-         isComplete: true,
-         stat: "Complete",
-       });
-       database.ref(`cases/Process/` + child["id"] ).update({
-         isComplete: step,
-       });
-    }   
-  }
+  };
   // ----------------------------------
 
-
-// Handle Reject Section
+  // Handle Reject Section
   // -------------------------------------
-  const handleReject = (e) =>{
+  const handleReject = (e) => {
     e.preventDefault();
     console.log("Rejected");
     const taskDocRef = db
       .collection("task")
       .doc(child["id"] + step.toString() + substep.toString());
-     taskDocRef
-       .delete()
-       .then(() => {
-         console.log("Document successfully deleted");
-       })
-       .catch((error) => {
-         console.error("Error deleting document: ", error);
-       });
+    taskDocRef
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted");
+      })
+      .catch((error) => {
+        console.error("Error deleting document: ", error);
+      });
 
     if (step === 1) {
       database
@@ -193,22 +187,18 @@ const ChildProfile= ({user}) => {
           docs: "",
           stat: "In Progress",
         });
-    } 
-    else {
+    } else {
       database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
         isComplete: false,
         text: "",
         docs: "",
         stat: "In Progress",
       });
-
     }
+  };
+  // ---------------------------------------------
 
-  }
-// ---------------------------------------------
-
-
-	return (
+  return (
     <div className="overflow-y-auto bg-color2">
       <Card
         body
@@ -216,27 +206,66 @@ const ChildProfile= ({user}) => {
         style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
       >
         <div className="mt-3">
-            <div className="row"> 
-								<h1 className="col-6 p-2 m-2"> Child Details for {child["id"]}</h1>
-                <img className="col-4" alt="Child Photo" src={img} />
-            </div>
-							<ul type="unstyled" className="p-0">
-								{child!==undefined && keys.map((key)=> {
-									return <li key={key} className="w-full m-2 p-1 flex"> <strong className="w-1/3 ">{key} :</strong> <div className="w-2/3">{child[key]}</div></li>
-								})}
-            <li className="w-full m-2 p-1 flex" > <strong className="w-1/3"> Deadline:</strong> <div className="w-2/3">{deadLine}</div></li>
-							</ul>
+          <div className="row">
+            <h1 className="col-6 p-2 m-2"> Child Details for {child["id"]}</h1>
+            <img className="col-4" alt="Child Photo" src={img} />
+          </div>
+          <ul type="unstyled" className="p-0">
+            {child !== undefined &&
+              keys.map((key) => {
+                return (
+                  <li key={key} className="w-full m-2 p-1 flex">
+                    {" "}
+                    <strong className="w-1/3 ">{key} :</strong>{" "}
+                    <div className="w-2/3">{child[key]}</div>
+                  </li>
+                );
+              })}
+            <li className="w-full m-2 p-1 flex">
+              {" "}
+              <strong className="w-1/3"> Deadline:</strong>{" "}
+              <div className="w-2/3">{deadLine}</div>
+            </li>
+          </ul>
           <div className="mt-4 p-2">
             <strong>Steps Completed:</strong>
             <ul className="p-0">
-              {step >= 1 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 1</li>}
-              {step >= 2 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 2</li>}
-              {step >= 3 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 3</li>}
-              {step >= 4 && <li><span><GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark></span>Verification 4</li>}
+              {step >= 1 && (
+                <li>
+                  <span>
+                    <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
+                  </span>
+                  Verification 1
+                </li>
+              )}
+              {step >= 2 && (
+                <li>
+                  <span>
+                    <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
+                  </span>
+                  Verification 2
+                </li>
+              )}
+              {step >= 3 && (
+                <li>
+                  <span>
+                    <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
+                  </span>
+                  Verification 3
+                </li>
+              )}
+              {step >= 4 && (
+                <li>
+                  <span>
+                    <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
+                  </span>
+                  Verification 4
+                </li>
+              )}
             </ul>
-			</div>
-      </div>
-          {/* <div className="mt-2 p-2">
+          </div>
+        </div>
+        {/* <div className="mt-2 p-2">
             <label for="changeDeadline">
               <strong>Modify Deadline:</strong>
             </label>
@@ -251,7 +280,7 @@ const ChildProfile= ({user}) => {
 							</FormGroup>
             </Form>
           </div> */}
-          {/* <div className="m-2 p-2 rounded-2 bg-color2">
+        {/* <div className="m-2 p-2 rounded-2 bg-color2">
               <Form className=" m-2" onSubmit={(event) => handleCase(event)}>
                 <div className="font-bold text-2xl mb-2" >Edit</div>
                   <FormGroup >
@@ -269,7 +298,7 @@ const ChildProfile= ({user}) => {
           </div>
           {/* Assigned Worker Card */}
 
-         {/* <div className="justify-content-center m-2 mt-4 p-2 bg-color2 rounded-2">
+        {/* <div className="justify-content-center m-2 mt-4 p-2 bg-color2 rounded-2">
             <CardTitle className="m-1 p-2" tag="h4">
               Assigned Ground Worker
             </CardTitle>
@@ -349,8 +378,8 @@ const ChildProfile= ({user}) => {
             </Form>
           </div> */}
       </Card>
-    </div> 
+    </div>
   );
-}
+};
 
 export default ChildProfile;

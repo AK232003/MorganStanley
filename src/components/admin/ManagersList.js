@@ -6,14 +6,14 @@ import { db,database } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../profile.webp";
 
-const ManagersList = ({user,usersList}) => {
+const ManagersList = ({user,usersList, id}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
 	const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(!dropdownOpen);
 	useEffect(()=>{
-		if(user!=="admin") navigate("/");
+		if(user!=="Admin") navigate("/");
 	},[user])
 
     const[manager, setManager] = useState([]);

@@ -6,7 +6,7 @@ import { db,database } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../profile.webp";
 
-const WorkersList = ({user,usersList}) => {
+const WorkersList = ({user,usersList, id}) => {
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
@@ -14,7 +14,7 @@ const WorkersList = ({user,usersList}) => {
   const toggle = () => setDropdownOpen(!dropdownOpen);
 
 	useEffect(()=>{
-		if(user!=="admin") navigate("/");
+		if(user!=="Admin") navigate("/");
 	},[user])
 
     const[worker, setWorker] = useState([]);

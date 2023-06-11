@@ -14,35 +14,123 @@ import { Report, GroundWorkerDashboard,CaseDetails } from "./components/groundWo
 
 function App() {
   const [user, setUser] = useState(null);
+  const [id, setId] = useState(null);
   useEffect(() => {
-    if(user!==null) document.cookie=`user=${user}; expires=`+ new Date(2023,6,20).toUTCString();
+    setUser(localStorage.getItem('user'))
   }, [user]);
   return (
     <>
-    <div className={`${user!=="groundWorker"&& "sm:flex h-full"} sm:w-full ${user==="groundWorker" && "overflow-hidden max-h-full"} bg-color2`}>
+      <div
+        className={`${user !== "GroundWorker" && "max-h-screen"} ${
+          user === "GroundWorker" && "overflow-hidden max-h-full"
+        } bg-color2`}
+      >
         <Router>
           <AuthProvider>
             <Routes>
-              <Route exact path="/" element={<Login setuser={(value)=>setUser(value)}/>}/>
-              <Route exact path="/*" element={<Main user={user} setUser={(value)=>setUser(value)}/>}>
-                <Route exact path="caseManager" element={<Dashboard user={user}/>}/>
-                <Route path="caseManager/addChild" element={<AddChild user={user}/>}/>
-                <Route path="caseManager/reports" element={< AssignCases user={user}/>} />
-                <Route path="caseManager/profiles" element={< ChildrenList user={user}/>} />
-                <Route path="caseManager/taskStatus" element={< TaskStatus user={user}/>} />
-                <Route path="caseManager/taskComments" element={< TaskComments user={user}/>} />
-                <Route path="caseManager/profiles/:id" element={<ChildProfile user={user}/>} />
-                <Route exact path="admin" element={<AdminDashboard user={user}/>}/>
-                <Route exact path="admin/addUser" element={<AddUser user={user}/>}/>
-                <Route exact path="admin/managersList" element={<ManagersList user={user} />}/>
-                <Route exact path="admin/workersList" element={<WorkersList user={user} />}/>
-                <Route exact path="admin/childrenProfiles" element={<ChildrenProfile user={user}/>}/>
+              <Route
+                exact
+                path="/"
+                element={
+                  <Login
+                    setUser={(value) => setUser(value)}
+                    setId={(value) => setId(value)}
+                  />
+                }
+              />
+              <Route
+                exact
+                path="/*"
+                element={
+                  <Main
+                    user={user}
+                    id={id}
+                    setUser={(value) => setUser(value)}
+                    setId={(value) => setId(value)}
+                  />
+                }
+              >
+                <Route
+                  exact
+                  path="caseManager"
+                  element={<Dashboard user={user} id={id} />}
+                />
+                <Route
+                  path="caseManager/addChild"
+                  element={<AddChild user={user} id={id} />}
+                />
+                <Route
+                  path="caseManager/reports"
+                  element={<AssignCases user={user} id={id} />}
+                />
+                <Route
+                  path="caseManager/profiles"
+                  element={<ChildrenList user={user} id={id} />}
+                />
+                <Route
+                  path="caseManager/taskStatus"
+                  element={<TaskStatus user={user} id={id} />}
+                />
+                <Route
+                  path="caseManager/taskComments"
+                  element={<TaskComments user={user} id={id} />}
+                />
+                <Route
+                  path="caseManager/profiles/:id"
+                  element={<ChildProfile user={user} id={id} />}
+                />
+                <Route
+                  exact
+                  path="admin"
+                  element={<AdminDashboard user={user} id={id} />}
+                />
+                <Route
+                  exact
+                  path="admin/addUser"
+                  element={<AddUser user={user} id={id} />}
+                />
+                <Route
+                  exact
+                  path="admin/managersList"
+                  element={<ManagersList user={user} id={id} />}
+                />
+                <Route
+                  exact
+                  path="admin/workersList"
+                  element={<WorkersList user={user} id={id} />}
+                />
+                <Route
+                  exact
+                  path="admin/childrenProfiles"
+                  element={<ChildrenProfile user={user} id={id} />}
+                />
               </Route>
-              <Route path="/groundWorker" element={<GroundWorkerDashboard user={user} setuser={(value)=>setUser(value)}/>} />
-              <Route exact path="/groundWorker/caseDetails/:id" element={<CaseDetails user={user} setuser={(value)=>setUser(value)}/>}>
-                  <Route path="step1/*" element={<Report/>}></Route>
-                  <Route path="step2" element={<>hihi2</>}></Route>
-                  <Route path="step3" element={<>hihi3</>}></Route>
+              <Route
+                path="/groundWorker"
+                element={
+                  <GroundWorkerDashboard
+                    user={user}
+                    id={id}
+                    setuser={(value) => setUser(value)}
+                    setId={(value) => setId(value)}
+                  />
+                }
+              />
+              <Route
+                exact
+                path="/groundWorker/caseDetails/:id"
+                element={
+                  <CaseDetails
+                    user={user}
+                    id={id}
+                    setuser={(value) => setUser(value)}
+                    setId={(value) => setId(value)}
+                  />
+                }
+              >
+                <Route path="step1/*" element={<Report />}></Route>
+                <Route path="step2" element={<>hihi2</>}></Route>
+                <Route path="step3" element={<>hihi3</>}></Route>
               </Route>
             </Routes>
           </AuthProvider>

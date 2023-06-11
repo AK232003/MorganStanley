@@ -6,17 +6,17 @@ import { db,database } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../profile.webp";
 
-const TaskStatus= ({user}) => {
-	const navigate=useNavigate();
-	const [filter,setFilter]=useState("")
-	const [search,setSearch] = useState("");
-	const [caseSelected,setCase]=useState("");
-	const[children, setChildren] = useState([]);
-	const [child, setChild] = useState(null);
-	const [keys,setKeys]=useState(null);
-	const childrenCollectionRef = collection(db, "children");
-	const [dropdownOpen, setDropdownOpen] = useState(false);
-	const [modal, setModal] = useState(false);
+const TaskStatus = ({ user, id }) => {
+  const navigate = useNavigate();
+  const [filter, setFilter] = useState("");
+  const [search, setSearch] = useState("");
+  const [caseSelected, setCase] = useState("");
+  const [children, setChildren] = useState([]);
+  const [child, setChild] = useState(null);
+  const [keys, setKeys] = useState(null);
+  const childrenCollectionRef = collection(db, "children");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [modal, setModal] = useState(false);
   const [step, setStep] = useState(0);
   const [substep, setSubStep] = useState(0);
 
@@ -113,42 +113,41 @@ const handleAccept = async (e) =>{
 // ----------------------------------
 
 
-// Handle Reject Section
-// -------------------------------------
-const handleReject = (e) =>{
-	e.preventDefault();
-	console.log("Rejected");
-	const taskDocRef = db
-		.collection("task")
-		.doc(child["id"] + step.toString() + substep.toString());
-	 taskDocRef
-		 .delete()
-		 .then(() => {
-			 console.log("Document successfully deleted");
-		 })
-		 .catch((error) => {
-			 console.error("Error deleting document: ", error);
-		 });
+  // Handle Reject Section
+  // -------------------------------------
+  const handleReject = (e) => {
+    e.preventDefault();
+    console.log("Rejected");
+    const taskDocRef = db
+      .collection("task")
+      .doc(child["id"] + step.toString() + substep.toString());
+    taskDocRef
+      .delete()
+      .then(() => {
+        console.log("Document successfully deleted");
+      })
+      .catch((error) => {
+        console.error("Error deleting document: ", error);
+      });
 
-	if (step === 1) {
-		database
-			.ref(`cases/Process/` + child["id"] + `/Step1/Step${substep}`)
-			.update({
-				isComplete: false,
-				text: "",
-				docs: "",
-				stat: "In Progress",
-			});
-	} 
-	else {
-		database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
-			isComplete: false,
-			text: "",
-			docs: "",
-			stat: "In Progress",
-		});
-
-	}
+    if (step === 1) {
+      database
+        .ref(`cases/Process/` + child["id"] + `/Step1/Step${substep}`)
+        .update({
+          isComplete: false,
+          text: "",
+          docs: "",
+          stat: "In Progress",
+        });
+    } else {
+      database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
+        isComplete: false,
+        text: "",
+        docs: "",
+        stat: "In Progress",
+      });
+    }
+  };
 
 }
 
@@ -205,61 +204,79 @@ const handleReject = (e) =>{
 		<Modal centered isOpen={modal} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>Task Details for {caseSelected}</ModalHeader>
         <ModalBody>
-				<CardTitle className="m-1 p-2" tag="h4">
-              Assigned Ground Worker
-            </CardTitle>
+          <CardTitle className="m-1 p-2" tag="h4">
+            Assigned Ground Worker
+          </CardTitle>
 
-            <CardBody>
-              <div className="row">
-                <div className="col"> Worker ID</div>
-                <div className="col">ID aayega idhar</div>
+          <CardBody>
+            <div className="row">
+              <div className="col"> Worker ID</div>
+              <div className="col">ID aayega idhar</div>
+            </div>
+            <div className="row">
+              <div className="col"> Task Text</div>
+              <div className="col overflow-y-scroll h-52">
+                Lorem Ipsum is simply dummy text of the printing and typesetting
+                industry. Lorem Ipsum has been the industry's standard dummy
+                text ever since the 1500s, when an unknown printer took a galley
+                of type and scrambled it to make a type specimen book. It has
+                survived not only five centuries, but also the leap into
+                electronic typesetting, remaining essentially unchanged. It was
+                popularised in the 1960s with the release of Letraset sheets
+                containing Lorem Ipsum passages, and more recently with desktop
+                publishing software like Aldus PageMaker including versions of
+                Lorem Ipsum.
               </div>
-              <div className="row">
-                <div className="col"> Task Text</div>
-                <div className="col overflow-y-scroll h-52">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+            </div>
+            <div className="row">
+              <div className="col"> Related Files</div>
+              <div className="col">
+                <a href="." target="_blank" rel="noopener noreferrer">
+                  Report Link
+                </a>
               </div>
-              <div className="row">
-                <div className="col"> Related Files</div>
-                <div className="col">
-                  <a href="." target="_blank" rel="noopener noreferrer">
-                    Report Link
-                  </a>
-                </div>
-              </div>
+            </div>
 
-              <div className="row mt-1">
-                <div className="col m-1 p-1 bg-color3 rounded-pill">
-                  <Button
-                    className="w-full bg-transparent !border-none !text-textcolor"
-                    onClick={handleAccept}
-                  >
-                    Accept
-                  </Button>
-                </div>
-                <div className="col m-1 p-1 bg-color3 rounded-pill">
-                  <Button
-                    className="w-full bg-transparent !border-none !text-textcolor"
-                    onClick={handleReject}
-                  >
-                    Reject
-                  </Button>
-                </div>
+            <div className="row mt-1">
+              <div className="col m-1 p-1 bg-color3 rounded-pill">
+                <Button
+                  className="w-full bg-transparent !border-none !text-textcolor"
+                  onClick={handleAccept}
+                >
+                  Accept
+                </Button>
               </div>
-            </CardBody>
+              <div className="col m-1 p-1 bg-color3 rounded-pill">
+                <Button
+                  className="w-full bg-transparent !border-none !text-textcolor"
+                  onClick={handleReject}
+                >
+                  Reject
+                </Button>
+              </div>
+            </div>
+          </CardBody>
         </ModalBody>
 
         <ModalFooter>
           <Button color="primary" onClick={toggleModal}>
             Do Something
-          </Button>{' '}
+          </Button>{" "}
           <Button color="secondary" onClick={toggleModal}>
             Cancel
           </Button>
         </ModalFooter>
       </Modal>
-			{children.length>0? childrenLists() :<div className="spinner-border m-5 p-4" style={{position: "relative" ,top: "50%", left: "50%"}} role="status"></div>}
-	</div>
- );
-	
-}
+      {children.length > 0 ? (
+        childrenLists()
+      ) : (
+        <div
+          className="spinner-border m-5 p-4"
+          style={{ position: "relative", top: "50%", left: "50%" }}
+          role="status"
+        ></div>
+      )}
+    </div>
+  );
+};
 export default TaskStatus;

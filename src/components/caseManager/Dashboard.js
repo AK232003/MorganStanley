@@ -4,16 +4,19 @@ import PieChart from "../piechart";
 import { Card, CardBody, CardTitle} from "reactstrap";
 
 
-const Dashboard= ({user}) =>{
+const Dashboard= ({user, id}) =>{
   const navigate=useNavigate();
   const labels1 = ["Adopted", "Free to Adopt", "Surrendered"];
   const title1 = 'Case Statistics'
   const data1 = [100, 200, 50];
   // var piechart = Pie_chart(labels1, data1, title1)
+  
   useEffect(()=>{
     // console.log(user)
-    if(user!=="caseManager") navigate("/");
-  },[user])
+    
+    if(user!=="CaseManager") navigate("/");
+    
+  },[user, id])
   return (
     <div className="container overflow-hidden">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 m-2">
