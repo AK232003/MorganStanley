@@ -11,22 +11,35 @@ const TaskStatus = ({ user, id }) => {
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
   const [caseSelected, setCase] = useState("");
-  const [children, setChildren] = useState([]);
-  const [child, setChild] = useState(null);
+  const [tasks, setTasks] = useState([]);
+  const [task, setTask] = useState(null);
   const [keys, setKeys] = useState(null);
-  const childrenCollectionRef = collection(db, "children");
+  const childrenCollectionRef = collection(db, "task");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const [step, setStep] = useState(0);
   const [substep, setSubStep] = useState(0);
-
+  const mapOfTypes=new Map();
+  mapOfTypes.set("NPR","Newspaper Report");
+  mapOfTypes.set("TVR","TV Report");
+  mapOfTypes.set("FMR","File Missing Report");
+  mapOfTypes.set("MR","Medical Report");
+  mapOfTypes.set("SIR","SI Report");
+  mapOfTypes.set("FPR","Final Police Report");
+  mapOfTypes.set("PDC","Parent's Death Certificate");
+  mapOfTypes.set("OC","Orphan Certificate");
+  mapOfTypes.set("GTR","Guardian Trace Report");
+  mapOfTypes.set("SurrenderDeed","Surrender Deed")
+  mapOfTypes.set("NOC","NOC")
+  mapOfTypes.set("LFA","LFA")
+  mapOfTypes.set("Carings","CARINGS upload")
   const toggle = () => setDropdownOpen(!dropdownOpen);
 	const toggleModal = (caseno) =>{
 		setModal(!modal);
 		// console.log(typeof(caseno));
 		if(typeof(caseno)==="string"){
 			setCase(caseno);
-			setChild(children.filter(child => child["id"]===caseno)[0]);
+			setTask(tasks.filter(task => task["id"]===caseno)[0]);
 			// console.log(child);
 		}
 		else setCase("");
@@ -35,11 +48,29 @@ const TaskStatus = ({ user, id }) => {
 		if(user!=="CaseManager") navigate("/");
 	},[user])
     useEffect(() => {
-        const getChildren = async () => {
+      const fetchWorkerID=async (id)=>{
+        await db.collection("caseAssignment").doc(id).get().then((doc)=>{
+          if(doc.exists){
+            console.log(doc.data()["groundWorkerID"]);
+            return doc.data()["groundWorkerID"];
+          }
+          else{
+            return 123;
+          }
+        })
+      }
+      // fetchWorkerID("ST15");
+        const getTasks = async () => {
             const data = await getDocs(childrenCollectionRef);
-            setChildren(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
+            console.log(data.docs)
+            setTasks(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
+            // let temp=tasks;
+            // temp.map((doc)=>({...doc, workerID: fetchWorkerID(doc["id"].split("-")[0])}))
+            // console.log(temp)
+            // setTasks(temp);
+            console.log(tasks)
         };
-        getChildren();
+        getTasks();
     }, [])
 
 		// Handle Accpet Section 
@@ -51,7 +82,7 @@ const handleAccept = async (e) =>{
 	console.log(step, substep)
 	console.log("Accepted")
 
-	const caseID = child.id;
+	const caseID = task.id;
 
 	// const caseDocRef = db.collection("cases").doc(child["id"]);
 	// const taskDocRef = db
@@ -117,65 +148,66 @@ const handleAccept = async (e) =>{
   // -------------------------------------
   const handleReject = (e) => {
     e.preventDefault();
-    console.log("Rejected");
-    const taskDocRef = db
-      .collection("task")
-      .doc(child["id"] + step.toString() + substep.toString());
-    taskDocRef
-      .delete()
-      .then(() => {
-        console.log("Document successfully deleted");
-      })
-      .catch((error) => {
-        console.error("Error deleting document: ", error);
-      });
+    // console.log("Rejected");
+    // const taskDocRef = db
+    //   .collection("task")
+    //   .doc(child["id"] + step.toString() + substep.toString());
+    // taskDocRef
+    //   .delete()
+    //   .then(() => {
+    //     console.log("Document successfully deleted");
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error deleting document: ", error);
+    //   });
 
-    if (step === 1) {
-      database
-        .ref(`cases/Process/` + child["id"] + `/Step1/Step${substep}`)
-        .update({
-          isComplete: false,
-          text: "",
-          docs: "",
-          stat: "In Progress",
-        });
-    } else {
-      database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
-        isComplete: false,
-        text: "",
-        docs: "",
-        stat: "In Progress",
-      });
-    }
+    // if (step === 1) {
+    //   database
+    //     .ref(`cases/Process/` + child["id"] + `/Step1/Step${substep}`)
+    //     .update({
+    //       isComplete: false,
+    //       text: "",
+    //       docs: "",
+    //       stat: "In Progress",
+    //     });
+    // } else {
+    //   database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
+    //     isComplete: false,
+    //     text: "",
+    //     docs: "",
+    //     stat: "In Progress",
+    //   });
+    // }
   };
 
 
 
-    const childrenLists=()=>{
+    const taskLists=()=>{
         return (
             <div className="row mt-2">
-            {children.filter(children => {
+            {tasks.filter(task => {
 				if(search === "Search" || search === "") {
-					return children;
+					return task;
 				}
-				else if(children[filter].toLowerCase().includes(search.toLowerCase())){
-					return children;
+				else if(task[filter].toLowerCase().includes(search.toLowerCase())){
+					return task;
 				}
-				}).map((children) => {
+				}).map((task) => {
                 return  (
-				<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
-				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-40 h-40"/>
-				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(children["id"])}>Task Details</button>
-				</div>
+				<Card body className="col col-lg-5 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={task["id"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
 					<CardBody>
 						<List type="unstyled">
-							<li > <strong>Name :</strong> {children["Name"]}</li>
-							<li > <strong>Age :</strong> {children["Age"]}</li>
-							<li > <strong>District :</strong> {children["District"]}</li>
-							<li > <strong>State :</strong> {children["State"]}</li>
-							<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
+              {console.log(task["workerID"])}
+							<li > <strong>Task :</strong> {mapOfTypes.get(task["id"].split("-")[1])}</li>
+							<li > <strong>Docs :</strong> {<a href={task["Docs"]}>Task Report Link</a>}</li>
+							<li > <strong>Status :</strong> {task["Status"]}</li>
+							<li > <strong>Text :</strong> {task["Text"]}</li>
+							<li > <strong>Status :</strong> {task["isComplete"]?"Completed":"In Progress"}</li>
 						</List>
 					</CardBody>
+				<div>
+				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(task["id"])}>Task Details</button>
+				</div>
 				</Card>
             )})}
         </div>)
@@ -266,8 +298,8 @@ const handleAccept = async (e) =>{
           </Button>
         </ModalFooter>
       </Modal>
-      {children.length > 0 ? (
-        childrenLists()
+      {tasks.length > 0 ? (
+        taskLists()
       ) : (
         <div
           className="spinner-border m-5 p-4"

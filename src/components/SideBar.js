@@ -18,7 +18,7 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
     setuser(null);
     navigate("/");
   }
-  console.log(user,pathname)
+  console.log(user,pathname.split("/"))
 	return (
     <>
 	<div className={`h-screen sm:h-9/10  ${openSide ? "w-64" : "w-24"} ${!open && "hidden"} 
