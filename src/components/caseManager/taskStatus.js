@@ -23,11 +23,11 @@ const TaskStatus= ({user}) => {
   const toggle = () => setDropdownOpen(!dropdownOpen);
 	const toggleModal = (caseno) =>{
 		setModal(!modal);
-		console.log(typeof(caseno));
+		// console.log(typeof(caseno));
 		if(typeof(caseno)==="string"){
 			setCase(caseno);
 			setChild(children.filter(child => child["id"]===caseno)[0]);
-			console.log(child);
+			// console.log(child);
 		}
 		else setCase("");
 	};
@@ -44,69 +44,71 @@ const TaskStatus= ({user}) => {
 
 		// Handle Accpet Section 
 // --------------------------------------
-const handleAccept = (e) =>{
+const handleAccept = async (e) =>{
 	e.preventDefault()
-	console.log("HI there!")
 	setStep(1)
 	setSubStep(1)
 	console.log(step, substep)
 	console.log("Accepted")
-	const caseDocRef = db.collection("cases").doc(child["id"]);
-	const taskDocRef = db
-		.collection("task")
-		.doc(child["id"] + step.toString() + substep.toString());
 
-	taskDocRef
-		.get()
-		.then((taskDocSnapshot) => {
-			if (taskDocSnapshot.exists) {
-				const taskData = taskDocSnapshot.data();
-				caseDocRef
-					.update(taskData)
-					.then(() => {
-						console.log("Fields added successfully");
-					})
-					.catch((error) => {
-						console.error("Error updating case document: ", error);
-					});
-			} else {
-				console.log("Task document does not exist");
-			}
-		})
-		.catch((error) => {
-			console.error("Error retrieving task document: ", error);
-		});
+	const caseID = child.id;
+
+	// const caseDocRef = db.collection("cases").doc(child["id"]);
+	// const taskDocRef = db
+	// 	.collection("task")
+	// 	.doc(child["id"] + step.toString() + substep.toString());
+
+	// taskDocRef
+	// 	.get()
+	// 	.then((taskDocSnapshot) => {
+	// 		if (taskDocSnapshot.exists) {
+	// 			const taskData = taskDocSnapshot.data();
+	// 			caseDocRef
+	// 				.update(taskData)
+	// 				.then(() => {
+	// 					console.log("Fields added successfully");
+	// 				})
+	// 				.catch((error) => {
+	// 					console.error("Error updating case document: ", error);
+	// 				});
+	// 		} else {
+	// 			console.log("Task document does not exist");
+	// 		}
+	// 	})
+	// 	.catch((error) => {
+	// 		console.error("Error retrieving task document: ", error);
+	// 	});
 
 
-	if(step === 1)
-	{
-		 database.ref(`cases/Process/` + child["id"] + `/Step1/Step1`).update({
-			 isComplete: true,
-			 stat: "Complete",
-		 });
-		 let isStep1Complete = true;
-		 for(let i=1; i<=5; i++)
-		 {
-				database.ref(`cases/Process/` + child["id"] + `/Step1/Step${i}/isComplete`).once("value", (snapshot) => {
-					isStep1Complete = snapshot.val() && isStep1Complete;
-				});
-		 }
-		 if(isStep1Complete){
-			 database.ref(`cases/Process/` + child["id"]).update({
-				 isComplete: 1,
-			 });
-		 }
-	}
-	else 
-	{
-		 database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
-			 isComplete: true,
-			 stat: "Complete",
-		 });
-		 database.ref(`cases/Process/` + child["id"] ).update({
-			 isComplete: step,
-		 });
-	}   
+	// if(step === 1)
+	// {
+	// 	 database.ref(`cases/Process/` + child["id"] + `/Step1/Step1`).update({
+	// 		 isComplete: true,
+	// 		 stat: "Complete",
+	// 	 });
+	// 	 let isStep1Complete = true;
+	// 	 for(let i=1; i<=5; i++)
+	// 	 {
+	// 			database.ref(`cases/Process/` + child["id"] + `/Step1/Step${i}/isComplete`).once("value", (snapshot) => {
+	// 				isStep1Complete = snapshot.val() && isStep1Complete;
+	// 			});
+	// 	 }
+	// 	 if(isStep1Complete){
+	// 		 database.ref(`cases/Process/` + child["id"]).update({
+	// 			 isComplete: 1,
+	// 		 });
+	// 	 }
+	// }
+	// else 
+	// {
+	// 	 database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
+	// 		 isComplete: true,
+	// 		 stat: "Complete",
+	// 	 });
+	// 	 database.ref(`cases/Process/` + child["id"] ).update({
+	// 		 isComplete: step,
+	// 	 });
+	// }   
 }
 // ----------------------------------
 
@@ -167,14 +169,14 @@ const handleReject = (e) =>{
 				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
 				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(children["id"])}>Task Details</button>
 				</div>
-				<CardBody>
-								<List type="unstyled">
-								<li > <strong>Name :</strong> {children["Name"]}</li>
-								<li > <strong>Age :</strong> {children["Age"]}</li>
-								<li > <strong>District :</strong> {children["District"]}</li>
-								<li > <strong>State :</strong> {children["State"]}</li>
-								<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
-								</List>
+					<CardBody>
+						<List type="unstyled">
+							<li > <strong>Name :</strong> {children["Name"]}</li>
+							<li > <strong>Age :</strong> {children["Age"]}</li>
+							<li > <strong>District :</strong> {children["District"]}</li>
+							<li > <strong>State :</strong> {children["State"]}</li>
+							<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
+						</List>
 					</CardBody>
 				</Card>
             )})}
