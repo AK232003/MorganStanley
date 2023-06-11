@@ -24,31 +24,74 @@ const AssignedList=({user, id})=>{
 	}, [])
 	const childrenLists=()=>{
 		return (
-			<div className="row">
-			{children.filter(children => {
-				if(search === "Search" || search === "") {
-					return children;
-				}
-				else if(children[filter].toLowerCase().includes(search.toLowerCase())){
-					return children;
-				}
-			}).map((children) => {
-					return  (
-					<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${children["id"]}`, {state: children})}> 
-						<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
-						</div>
-						<CardBody>
-							<List type="unstyled">
-								<li > <strong>{t("Name")} :</strong> {children["Name"]}</li>
-								<li > <strong>{t("Age")} :</strong> {children["Age"]}</li>
-								<li > <strong>{t("District")} :</strong> {children["District"]}</li>
-								<li > <strong>{t("State")} :</strong> {children["State"]}</li>
-								<li > <strong>{t("Case Number")} :</strong> {children["Case Number"]}</li>
-							</List>
-						</CardBody>
-					</Card>
-				)})}
-			</div>)
+			<div className="grid  grid-cols-1 md:grid-cols-2 gap-0 mt-2">
+        {children
+          .filter((children) => {
+            if (
+              search === "Search" ||
+              search === "" ||
+              filter === "Select Filter"
+            ) {
+              return children;
+            } else if (
+              children[filter].toLowerCase().includes(search.toLowerCase())
+            ) {
+              return children;
+            }
+          })
+          .map((children) => {
+            return (
+              <Card
+                body
+                className="align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
+                key={children["id"]}
+                style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
+              >
+
+                <div className="flex flex-row w-full">
+                  <div className="flex flex-col basis-2/5">
+                  <img
+                    alt="Child Photo"
+                    src={
+                      children["Image"] !== undefined ? children["Image"] : img
+                    }
+                    className="rounded-full basis-4/5 w-36 h-36"
+                  />
+                    <div className="m-1 p-1 text-textcolor basis-1/5 justify-self-center md:text-base text-sm">
+                      <strong>Case No:</strong> {children["Case Number"]}
+                    </div>
+                </div>
+                <CardBody className="flex flex-col basis-3/5 p-1  ps-2">
+                  <List type="unstyled basis-4/5 md:text-base text-sm">
+                    <li>
+                      {" "}
+                      <strong>{t('Name')} :</strong> {children["Name"]}
+                    </li>
+                    <li>
+                      {" "}
+                      <strong>{t('Age')} :</strong> {children["Age"]}
+                    </li>
+                    <li>
+                      {" "}
+                      <strong>{t('District')} :</strong> {children["District"]}
+                    </li>
+                    <li>
+                      {" "}
+                      <strong>{t('State')} :</strong> {children["State"]}
+                    </li>
+                  </List>
+                  <button
+                    className="p-2 rounded-3 basis-1/5 bg-buttonColor justify-self-end text-white w-full"
+                    onClick={()=> navigate(`/groundWorker/caseDetails/${children["id"]}`, {state: children})}>
+                    {" "}
+                    View Progress
+                  </button>
+                </CardBody>
+                </div>
+              </Card>
+            );
+          })}
+      </div>)
 	}
 	return (
 <div className="container sm:mt-4 overflow-y-scroll rounded-3 bg-color2">

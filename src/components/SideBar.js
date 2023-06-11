@@ -115,15 +115,17 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
           <GroundWorkerSidebar user={user} openSide={openSide}/>
           </div> :""
           }
-          <div className={sideBarIconProperty}>
+        </div>
+        <div className={`w-full ms-2 ${!openSide &&" hidden"}`}>
           <Dropdown
             isOpen={dropdownOpen}
             toggle={toggle}
             direction="down"
+            className="me-1"
             onChange={(event) => console.log(event)}
           >
-        <DropdownToggle size="lg"
-              className="w-full "
+        <DropdownToggle size=""
+              className="!bg-buttonColor/[0.7] !border-none !btn-block w-95"
               caret>{language}</DropdownToggle>
         <DropdownMenu >
           <DropdownItem onClick={()=>{setLanguage("English");i18next.changeLanguage('en');}}>English</DropdownItem>
@@ -131,9 +133,8 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
           <DropdownItem onClick={()=>{setLanguage("मराठी");i18next.changeLanguage('mr');}}>मराठी</DropdownItem>
         </DropdownMenu>
       </Dropdown>
-          </div>
-        </div>
-            <div className={logoutIconProperty} onClick={handleLogout} >
+              </div>
+          <div className={logoutIconProperty} onClick={handleLogout} >
             <span><FaArrowAltCircleRight className="mx-3 mb-2 text-3xl text-logoutContent block float-left"></FaArrowAltCircleRight></span>
             <span className={`text-base font-medium ${!openSide && "hidden"}`}>{t('Logout')}</span>
           </div>

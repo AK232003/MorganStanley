@@ -150,12 +150,12 @@ const Report=({stepType}) => {
 
   return (
     <div className="bg-sideBarColor1 rounded-1 mx-2 md:ms-3 mt-3 md:me-0 drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll"> 
-      <div className="row mt-3 m-2 w-95">
-        <div className="col-9 p-0 font-bold text-3xl">
+      <div className="flex flex-row mt-3 m-2 w-95 justify-content-between">
+        <div className="basis-8/10 p-0 font-bold text-3xl">
           {" "}
           {mapOfTypes.get(type)[0]}
         </div>
-        <div className="col-3 p-2 rounded-2 font-medium bg-color2 ">
+        <div className={`basis-2/10 p-2 rounded-2 font-black text-xl text-white ${status==="In Progress" ? "bg-buttonColor" : "bg-green-700"}`}>
           {status}
         </div>
       </div>

@@ -37,11 +37,11 @@ const GroundWorkerSidebar = ({
   const caseID = child["id"];
   const [category, setCategory] = useState(child["Child Category"]);
 
-  const sideBarIconProperty = "flex flex-col text-lg text-textcolor bg-color3 rounded-1 p-2 items-center gap-x-4 mt-2 hover:bg-color6 cursor-pointer";
+  const sideBarIconProperty = " flex flex-col text-lg text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-hoverColor cursor-pointer";
   const [active, setActive] = useState(
-    location.split("/").length > 3 ? location.split("/")[4] : "step0"
+    location.split("/").length > 3 ? location.split("/")[4] : "0"
   );
-
+    console.log(active)
   const toggleAccordion = (id) => {
     if(category==="Surrenedered") return;
     if (active === id) setActive("step0");
@@ -69,11 +69,11 @@ const GroundWorkerSidebar = ({
     <>
       {user === "GroundWorker" && (
         <ul className="pt-2 ps-0">
-          <li className="text-xl text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color6 cursor-pointer" onClick={() => navigate("/groundWorker/caseDetails")} >
+          <li className={`text-xl text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-hoverColor cursor-pointer`} onClick={() => navigate("/groundWorker/caseDetails")} >
             <span><FaLongArrowAltLeft className="text-3xl text-textcolor block float-left"></FaLongArrowAltLeft></span>
             <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Back</span>
           </li>
-          <li className={sideBarIconProperty}>
+          <li className={sideBarIconProperty + `${active==="0" && " bg-hoverColor"}`}>
             <div onClick={() => { toggleAccordion("0"); navigate(`/groundWorker/caseDetails/${child["id"]}`, { state: child }) }} className={`${openSide ? `h-auto` : "h-8"} text-center`}>
               <span>  <FaClipboardList className="text-3xl text-textcolor block float-left"></FaClipboardList> </span>
               <span className={`text-base font-medium ms-2 ${!openSide && "hidden"}`}>
@@ -82,15 +82,15 @@ const GroundWorkerSidebar = ({
             </div>
           </li>
 
-          <li className={sideBarIconProperty}>
+          <li className={sideBarIconProperty + `${active==="step1" && " bg-hoverColor"}`}>
             {category==="Surrendered"? 
             <div onClick={() => navigate(`/groundWorker/caseDetails/${child["id"]}/step1/surrenderDeed`,{state: child})} className={`${openSide ?`h-auto`:"h-8"} text-center` }>
-             {mapOfTypes.get("SurrenderDeed")[2] ? <span><GiCheckMark className="text-3xl text-green-500 block float-left align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-3xl text-yellow-500 block float-left align-self-end"></FaRegClock></span> }
+             {mapOfTypes.get("SurrenderDeed")[2] ? <span><GiCheckMark className="text-3xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
+                  :<span><FaRegClock className="text-3xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
             <span className={`text-base font-medium ms-2 ${ !openSide && "hidden" }`}>
               Step-1: Surrender Deed 
             </span>
-          </div>
+              </div>
             : <div onClick={() => toggleAccordion("step1")} className={`${openSide ?`h-auto`:"h-8"} text-center` }>
                 <span>  <TbCircleNumber1 className="text-3xl text-textcolor block float-left"></TbCircleNumber1> </span>
                 <span className={`text-base font-medium ms-2 ${ !openSide && "hidden" }`}>
@@ -98,84 +98,83 @@ const GroundWorkerSidebar = ({
                 </span>
               </div>
               }
-              <div>
+              <div className="w-full">
                 {active === "step1" && openSide && (
-                  <ul className="pt-1 text-base font-medium">
+                  <ul className="pt-1 ps-0 text-base font-medium w-full">
                     <li>
-                        <button className="flex-column justify-items-start bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/newsPaperReport`,{state: child})}>
+                        <button className="justify-items-end bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/newsPaperReport`,{state: child})}>
                           News Paper Report
                           {mapOfTypes.get("NPR")[2] ? <span><GiCheckMark className="text-base text-green-500 block float-right align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-base text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
+                    :<span><FaRegClock className="text-base text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
                         </button>
                     </li>
                     <li>
-                        <button className="flex-column justify-items-start bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/TVReport`,{state: child})}>
+                        <button className="justify-items-end bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/TVReport`,{state: child})}>
                           TV Report
                           {mapOfTypes.get("TVR")[2] ? <span><GiCheckMark className="text-base text-green-500 block float-right align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-base text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
+                    :<span><FaRegClock className="text-base text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
                         </button>
                     </li>
                     {category==="Abandoned / Family not traceable" &&
                     <li>
-                        <button className="flex-column justify-items-start bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/fileMisingReport`,{state: child})}>
+                        <button className="justify-items-end bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/fileMisingReport`,{state: child})}>
                           File Missing Report
                           {mapOfTypes.get("FMR")[2] ? <span><GiCheckMark className="text-xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
+                    :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
                         </button>
                     </li>}
                     <li>
-                        <button className="flex-column justify-items-start bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/medicalReport`,{state: child})}>
+                        <button className="justify-items-end bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/medicalReport`,{state: child})}>
                           Medical Report
                           {mapOfTypes.get("MR")[2] ? <span><GiCheckMark className="text-xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
+                    :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
                         </button>
                     </li>
                     <li>
-                        <button className="flex-column justify-items-start bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/siReport`,{state: child})}>
+                        <button className="justify-items-end bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/siReport`,{state: child})}>
                           SI Report
                           {mapOfTypes.get("SIR")[2] ? <span><GiCheckMark className="text-xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
+                        :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
                         </button>
                     </li>
                     <li>
-                        <button className="flex-column justify-items-start bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/finalPoliceReport`,{state: child})}>
+                        <button className="justify-items-end bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/finalPoliceReport`,{state: child})}>
                           Final Police Report
                           {mapOfTypes.get("FPR")[2] ? <span><GiCheckMark className="text-xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
+                      :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
                         </button>
                     </li>
                     { category==="Orphaned - No Guardians" &&
                     <>
                       <li>
-                        <button className="flex-column justify-items-start bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/orphanCertificate`,{state: child})}>
+                        <button className="justify-items-end bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/orphanCertificate`,{state: child})}>
                         Orphan Certificate
                           {mapOfTypes.get("OC")[2] ? <span><GiCheckMark className="text-xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
+                       :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
                         </button>
                       </li>
                       <li>
-                        <button className="flex-column justify-items-start bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/PDC`,{state: child})}>
+                        <button className="justify-items-end bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/PDC`,{state: child})}>
                         Parent's Death Certificate
                           {mapOfTypes.get("PDC")[2] ? <span><GiCheckMark className="text-xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
+                     :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
                         </button>
                     </li>
                     </>
-                }
-                {category==="Admitted by Guardians" &&
+                      }
+                    {category==="Admitted by Guardians" &&
                     <li>
-                        <button className="flex-column justify-items-start bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/gtReport`,{state: child})}>
+                        <button className="justify-items-end bg-color2/[0.6] m-1  p-1 w-95 rounded-2 text-textcolor" onClick={()=>navigate(`/groundWorker/caseDetails/${child["id"]}/step1/gtReport`,{state: child})}>
                           Guardin Trace Report
                           {mapOfTypes.get("GTR")[2] ? <span><GiCheckMark className="text-xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
+                        :<span><FaRegClock className="text-xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }
                         </button>
                     </li>}
-                  </ul>
-                )}
+                  </ul>)}
               </div>
           </li>
           {category!=="Surrendered" &&
-            <li className={sideBarIconProperty}>
+            <li className={sideBarIconProperty + `${active==="step2" && " bg-hoverColor"}`}>
             <div onClick={() => { toggleAccordion("step2"); navigate(`/groundWorker/caseDetails/${child["id"]}/step2`, { state: child }) }} className={`${openSide ? `h-auto` : "h-8"} text-center`}> {/* get status and make it status==true?toggleAccordion("step2"):"" */}
               <span>  <TbCircleNumber2 className="text-3xl text-textcolor block float-left"></TbCircleNumber2> </span>
               <span className={`text-base font-medium ms-2 ${!openSide && "hidden"}`}>
@@ -186,10 +185,10 @@ const GroundWorkerSidebar = ({
           }
 
           {/* Step-3 Button */}
-          <li className={sideBarIconProperty}>
+          <li className={sideBarIconProperty+ `${active==="step3" && " bg-hoverColor"}`}>
             <div onClick={() => { toggleAccordion("step3"); navigate(`/groundWorker/caseDetails/${child["id"]}/step3`, { state: child }) }} className={`${openSide ? `h-auto` : "h-8"} text-center`}>
-            { category==="Surrendered"?(mapOfTypes.get("LFA")[2] ? <span><GiCheckMark className="text-3xl text-green-500 block float-left align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-3xl text-yellow-500 block float-left align-self-end"></FaRegClock></span>): 
+            { category==="Surrendered"?(mapOfTypes.get("LFA")[2] ? <span><GiCheckMark className="text-3xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
+                  :<span><FaRegClock className="text-3xl text-yellow-500 block float-right align-self-end"></FaRegClock></span>): 
                   <span>  <TbCircleNumber3 className="text-3xl text-textcolor block float-left"></TbCircleNumber3> </span> 
                 }
               <span className={`text-base font-medium ms-2 ${!openSide && "hidden"}`}>
@@ -199,10 +198,10 @@ const GroundWorkerSidebar = ({
           </li>
 
           {/* Step-4 Button */}
-          <li className={sideBarIconProperty}>
+          <li className={sideBarIconProperty+ `${active==="step4" && " bg-hoverColor"}`}>
             <div onClick={() => { toggleAccordion("step4"); navigate(`/groundWorker/caseDetails/${child["id"]}/step4`, { state: child }) }} className={`${openSide ? `h-auto` : "h-8"} text-center`}>
-            { category==="Surrendered"?(mapOfTypes.get("Carings")[2] ? <span><GiCheckMark className="text-3xl text-green-500 block float-left align-self-end"></GiCheckMark></span>
-                  :<span><FaRegClock className="text-3xl text-yellow-500 block float-left align-self-end"></FaRegClock></span>): 
+            { category==="Surrendered"?(mapOfTypes.get("Carings")[2] ? <span><GiCheckMark className="text-3xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
+                  :<span><FaRegClock className="text-3xl text-yellow-500 block float-right align-self-end"></FaRegClock></span>): 
                   <span>  <TbCircleNumber4 className="text-3xl text-textcolor block float-left"></TbCircleNumber4> </span> 
                 }
               <span className={`text-base font-medium ms-2 ${!openSide && "hidden"}`}>

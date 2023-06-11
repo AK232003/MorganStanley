@@ -38,7 +38,7 @@ module.exports = {
         '14': 'repeat(14, minmax(0, 1fr))',
       },
       gridRow: {
-        'span-12': 'span 13 / span 11',
+        'span-13': 'span 13 / span 13',
       }
     },
     
