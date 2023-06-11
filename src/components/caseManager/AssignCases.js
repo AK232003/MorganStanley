@@ -70,7 +70,7 @@ const AssignCases = ({ user, id }) => {
 	if(worker.length == 1) {
 		const childID = child["Case Number"].split("/").join("");
 
-		console.log(child)
+		// console.log(child)
 
 		const caseRef = doc(db, "caseAssignment", childID);
 		const caseSnap = await getDoc(caseRef)
@@ -86,7 +86,7 @@ const AssignCases = ({ user, id }) => {
 			let list;
 			let i;
 
-			console.log(caseData)
+			// console.log(caseData)
 
 			if(oldGWID !== workerID) {
 				const oldGWRef = doc(db, "Users", oldGWID)
@@ -117,7 +117,7 @@ const AssignCases = ({ user, id }) => {
 			}			
 		}
 
-		console.log(childID);
+		// console.log(childID);
 
 		if(child["Child Category"] === "Orphaned - No Guardians") {
 			addProcessOrphaned(childID)
