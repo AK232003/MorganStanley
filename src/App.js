@@ -6,7 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { db } from "./firebase";
 import { collection,getDocs } from "firebase/firestore";
 import Login from "./components/Login";
-import Dashboard1 from "./components/DashBoard1";
+// import Dashboard1 from "./components/DashBoard1";
 import Main from "./components/MainComponent";
 import { Dashboard, AddChild, AssignCases, ChildProfile, ChildrenList,TaskStatus,TaskComments } from "./components/caseManager/caseManager.js";
 import {AdminDashboard, AddUser ,ManagersList,WorkersList, ChildrenProfile} from "./components/admin/admin";
