@@ -5,13 +5,19 @@ import { FaSearch } from "react-icons/fa";
 import { db, database } from "../../firebase"
 import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc } from "firebase/firestore";
 import img from "../../profile.webp";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const TaskComments = ({ user, id }) => {
+
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [modal, setModal] = useState(false);
+  const [modalDeadline, setModalReport] = useState(false);
   const [caseSelected, setCase] = useState("");
   const [children, setChildren] = useState([]);
   const [deadLine, setDeadLine] = useState("");
@@ -173,6 +179,17 @@ const TaskComments = ({ user, id }) => {
   //   // -----------------------------------
   // }
 
+  const toggleModalDeadline = (caseno) => {
+    console.log(typeof caseno);
+    setModalReport(!modalDeadline);
+    if (typeof caseno === "string") {
+      setCase(caseno);
+      setChild(children.filter((child) => child["id"] === caseno)[0]);
+    } else {
+      setCase("");
+      setChild(null);
+    }
+  };
   const toggleModal = (caseno) => {
     setModal(!modal);
     console.log(typeof caseno);
@@ -236,23 +253,23 @@ const TaskComments = ({ user, id }) => {
                   <List type="unstyled basis-4/5 md:text-base text-sm">
                     <li>
                       {" "}
-                      <strong>Name :</strong> {children["Name"]}
+                      <strong>{t('Name')} :</strong> {children["Name"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>Age :</strong> {children["Age"]}
+                      <strong>{t('Age')} :</strong> {children["Age"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>District :</strong> {children["District"]}
+                      <strong>{t('District')} :</strong> {children["District"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>State :</strong> {children["State"]}
+                      <strong>{t('State')} :</strong> {children["State"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>Case Number :</strong> {children["Case Number"]}
+                      <strong>{t('Case Number')} :</strong> {children["Case Number"]}
                     </li>
                   </List>
                   <button
@@ -303,10 +320,10 @@ const TaskComments = ({ user, id }) => {
             </DropdownToggle>
             <DropdownMenu className="text-textcolor">
               <DropdownItem onClick={() => setFilter("Name")}>
-                Name
+                {t('Name')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("District")}>
-                District
+                {t('District')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("Case Number")}>
                 Case Number
@@ -354,7 +371,20 @@ const TaskComments = ({ user, id }) => {
               </div>
             </FormGroup>
           </Form>
-          <Form className="mt-2" onSubmit={(event) => handleDeadLine(event)}>
+        </ModalBody>
+      </Modal>
+      {/* Case Details */}
+      <Modal
+        centered
+        isOpen={modalDeadline}
+        toggle={toggleModalDeadline}
+        fullscreen="md"
+        size="sm"
+      >
+        <ModalHeader toggle={toggleModalDeadline}>
+          Deadlines for {caseSelected}
+        </ModalHeader>
+        <Form className="mt-2" onSubmit={(event) => handleDeadLine(event)}>
           <ModalBody>
             <label for="changeDeadline">
               <strong>Modify Deadline:</strong>
@@ -376,9 +406,7 @@ const TaskComments = ({ user, id }) => {
             </div>
           </FormGroup>
         </Form>
-        </ModalBody>
       </Modal>
-      {/* Case Details */}
       {children.length > 0 ? (
         childrenLists()
       ) : (

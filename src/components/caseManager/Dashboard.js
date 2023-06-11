@@ -2,12 +2,17 @@ import {React, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import PieChart from "../piechart";
 import { Card, CardBody, CardTitle} from "reactstrap";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 
 const Dashboard= ({user, id}) =>{
+
+  const { t } = useTranslation();
+
   const navigate=useNavigate();
-  const labels1 = ["Adopted", "Free to Adopt", "Surrendered"];
-  const title1 = 'Case Statistics'
+  const labels1 = [t('Adopted'), t('Free to Adopt'), t('Surrendered')];
+  const title1 = t('Case Statistics')
   const data1 = [100, 200, 50];
   // var piechart = Pie_chart(labels1, data1, title1)
   
@@ -21,9 +26,9 @@ const Dashboard= ({user, id}) =>{
     <div className="container overflow-hidden">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 m-2">
       {/* <div className="text-textcolor justify-self-start rounded-1 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md "> */}
-         <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">Dashboard</div>
+         <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">{t('Dashboard')}</div>
       {/* </div> */}
-        <button className="justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/caseManager/addChild")} > Add child</button>
+        <button className="justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/caseManager/addChild")} >{t('Add Child')}</button>
       </div>
       <Card className="row col-sm-5 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}>
       <div style={{ display: 'flex', justifyContent: 'center'}}>

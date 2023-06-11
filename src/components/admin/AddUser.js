@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Dropdown,DropdownItem,DropdownMenu, DropdownToggle,Form,Input, FormGroup,Label,Button} from "reactstrap";
 import { database, db, auth, storage } from "../../firebase";
 import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storage";
-
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const AddUser = ({ user, id }) => {
   const emailRef = useRef();
@@ -25,7 +26,7 @@ const AddUser = ({ user, id }) => {
   const [idToDelete, setID] = useState(null);
   const [nameToDelete, setname] = useState(null);
   const toggle = () => setDropdownOpen(!dropdownOpen);
-
+  const { t } = useTranslation();
   const navigate = useNavigate();
   useEffect(() => {
     if (user !== "Admin") navigate("/");
@@ -102,13 +103,13 @@ const AddUser = ({ user, id }) => {
             className="col-5 col-md-2 w-16 bg-color4 rounded-2 ms-0 m-2 mb-0 pb-0 p-1"
             onClick={() => setOpen(1)}
           >
-            Add User
+            {t('Add User')}
           </button>
           <button
             className="col-5 col-md-2 w-16 bg-color4 rounded-2 m-2 mb-0 pb-0  p-1"
             onClick={() => setOpen(2)}
           >
-            Delete User
+            {t('Delete User')}
           </button>
         </div>
         <hr className="border-solid h-px m-1"></hr>
@@ -124,7 +125,7 @@ const AddUser = ({ user, id }) => {
               onSubmit={(e) => createUser(e)}
             >
               <div className="form-outline mb-2">
-                <label className="form-label"> Name </label>
+                <label className="form-label"> {t('Name')} </label>
                 <input
                   type="text"
                   id="name"
@@ -134,7 +135,7 @@ const AddUser = ({ user, id }) => {
                 />
               </div>
               <div className="form-outline mb-2">
-                <label className="form-label"> Email </label>
+                <label className="form-label"> {t('Email')} </label>
                 <input
                   type="text"
                   id="email"
@@ -144,7 +145,7 @@ const AddUser = ({ user, id }) => {
                 />
               </div>
               <div className="form-outline mb-2">
-                <label className="form-label"> Password </label>
+                <label className="form-label"> {t('Password')} </label>
                 <input
                   type="text"
                   id="pass"
@@ -154,7 +155,7 @@ const AddUser = ({ user, id }) => {
                 />
               </div>
               <div className="form-outline mb-2">
-                <label className="form-label"> Phone Number </label>
+                <label className="form-label"> {t('Phone Number')} </label>
                 <input
                   type="text"
                   id="phone"
@@ -164,7 +165,7 @@ const AddUser = ({ user, id }) => {
                 />
               </div>
               <div className="form-outline mb-2">
-                <label className="form-label"> User ID </label>
+                <label className="form-label"> {t('User ID')} </label>
                 <input
                   type="text"
                   id="uid"
@@ -176,7 +177,7 @@ const AddUser = ({ user, id }) => {
               <div className="form-outline mb-2">
                 <label className="form-label" for="photo">
                   {" "}
-                  Photo
+                  {t('Photo')}
                 </label>
                 <Input
                   id="photo"
@@ -190,7 +191,7 @@ const AddUser = ({ user, id }) => {
                 />
               </div>
               <div className="form-outline mb-4">
-                <label className="form-label"> User Type </label>
+                <label className="form-label"> {t('User Type')} </label>
                 <Dropdown
                   isOpen={dropdownOpen}
                   toggle={toggle}
@@ -203,7 +204,7 @@ const AddUser = ({ user, id }) => {
                     className="rounded-md w-full h-auto !text-textcolor text-base p-2 border-0 bg-white shadow-md"
                     caret
                   >
-                    {type === "" ? "Select User Type" : type}
+                    {type === "" ? t('Select User Type') : type}
                   </DropdownToggle>
                   <DropdownMenu className="text-textcolor">
                     <DropdownItem onClick={() => setType("Admin")}>
@@ -220,7 +221,7 @@ const AddUser = ({ user, id }) => {
               </div>
               <div className="flex flex-col justify-content-center md:flex-row mb-4 bg-color5 rounded-2">
                 <button disabled={loading} className="w-30 m-1" type="submit">
-                  Create User
+                  {t('Create User')}
                 </button>
               </div>
             </form>
@@ -231,7 +232,7 @@ const AddUser = ({ user, id }) => {
               onSubmit={(event) => getManagerList(event)}
             >
               <FormGroup>
-                <Label for="wid"> Select User ID/Name </Label>
+                <Label for="wid"> {t('Select User ID/Name')} </Label>
                 <Dropdown
                   isOpen={dropdownOpen}
                   toggle={toggle}
@@ -245,7 +246,7 @@ const AddUser = ({ user, id }) => {
                     caret
                   >
                     {idToDelete === null
-                      ? "Select User"
+                      ? t('Select User')
                       : idToDelete + " " + nameToDelete}
                   </DropdownToggle>
                   <DropdownMenu className="text-textcolor">
@@ -260,7 +261,7 @@ const AddUser = ({ user, id }) => {
                                 setname(user["Name"]);
                               }}
                             >
-                              User ID: {user["UserID"]} --- Name: {user["Name"]}
+                              {t('User ID')}: {user["UserID"]} --- {t('Name')}: {user["Name"]}
                             </DropdownItem>
                           );
                       })}
@@ -270,7 +271,7 @@ const AddUser = ({ user, id }) => {
               <FormGroup row>
                 <div className="col-2">
                   <Button type="submit" color="primary">
-                    Delete
+                    {t('Delete')}
                   </Button>
                 </div>
               </FormGroup>

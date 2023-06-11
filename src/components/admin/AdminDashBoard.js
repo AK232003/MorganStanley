@@ -8,16 +8,20 @@ import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../logo_scroll.png";
 import profile from "../../profile.webp"
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const AdminDashboard= ({user, id}) =>{
+  const { t } = useTranslation();
+
   const navigate=useNavigate();
   const [filter,setFilter]=useState("")
 	const [search,setSearch] = useState("");
 	const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen(!dropdownOpen);
-  const labels1 = ["Adopted", "Free to Adopt", "Surrendered"];
-  const title1 = 'Case Statistics'
-  const title2 = "Child Statistics"
+  const labels1 = [t('Adopted'), t('Free to Adopt'), t('Surrendered')];
+  const title1 = t('Case Statistics')
+  const title2 = t('Child Statistics')
   const data1 = [100, 200, 50];
   // var piechart = Pie_chart(labels1, data1, title1)
   console.log(user, id);
@@ -54,11 +58,11 @@ const AdminDashboard= ({user, id}) =>{
 				</div>
 				<CardBody>
 								<List type="unstyled">
-								<li > <strong>Name :</strong> {children["Name"]}</li>
-								<li > <strong>Age :</strong> {children["Age"]}</li>
-								<li > <strong>District :</strong> {children["District"]}</li>
-								<li > <strong>State :</strong> {children["State"]}</li>
-								<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
+								<li > <strong>{t('Name')} :</strong> {children["Name"]}</li>
+								<li > <strong>{t('Age')} :</strong> {children["Age"]}</li>
+								<li > <strong>{t('District')} :</strong> {children["District"]}</li>
+								<li > <strong>{t('State')} :</strong> {children["State"]}</li>
+								<li > <strong>{t('Case Number')} :</strong> {children["Case Number"]}</li>
 								</List>
 					</CardBody>
 				</div>
@@ -69,9 +73,9 @@ const AdminDashboard= ({user, id}) =>{
     <div className="overflow-hidden">
       <div className="row m-2">
       <div className="col-6 text-textcolor justify-self-start rounded-4 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md ">
-         <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">Dashboard</div>
+         <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">{t('Dashboard')}</div>
       </div>
-        <button className="col-3 offset-3 justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/admin/addUser")} > Add User</button>
+        <button className="col-3 offset-3 justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/admin/addUser")} >{t('Add User')}</button>
       </div>
       <div className="row">
       <Card className="col-sm-6 justify-content-center m-2 p-2 cursor-pointer" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}>
@@ -97,12 +101,12 @@ const AdminDashboard= ({user, id}) =>{
     <div className="col-6 col-lg-10 w-full p-2">
 			<div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
 			<span><FaSearch className="text-lg text-black block float-left me-2"></FaSearch></span>
-			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={"Search"} onChange={(event)=>setSearch(event.target.value)}></input>
+			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={t('Search')} onChange={(event)=>setSearch(event.target.value)}></input>
 			</div>
 			</div>
 			<div className="col-auto col-lg-2 mt-2 md:p-2 p-1">
 			<Dropdown isOpen={dropdownOpen} toggle={toggle}  direction="down" onChange={(event)=>console.log(event)}>
-        <DropdownToggle size="lg" className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md" caret>{filter===""?"Select Filter":filter}</DropdownToggle>
+        <DropdownToggle size="lg" className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md" caret>{filter===""?t('Select Filter'):filter}</DropdownToggle>
         <DropdownMenu className="text-textcolor">
           <DropdownItem onClick={()=>setFilter("Name")}>Name</DropdownItem>
           <DropdownItem onClick={()=>setFilter("District")}>District</DropdownItem>

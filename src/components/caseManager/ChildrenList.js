@@ -5,8 +5,13 @@ import { FaSearch } from "react-icons/fa";
 import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../profile.webp";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const ChildrenList = ({ user, id }) => {
+
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
@@ -69,19 +74,19 @@ const ChildrenList = ({ user, id }) => {
                   <List type="unstyled basis-4/5 md:text-base text-sm">
                     <li>
                       {" "}
-                      <strong>Name :</strong> {children["Name"]}
+                      <strong>{t('Name')} :</strong> {children["Name"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>Age :</strong> {children["Age"]}
+                      <strong>{t('Age')} :</strong> {children["Age"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>District :</strong> {children["District"]}
+                      <strong>{t('District')} :</strong> {children["District"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>State :</strong> {children["State"]}
+                      <strong>{t('State')} :</strong> {children["State"]}
                     </li>
                   </List>
                   <button
@@ -116,8 +121,8 @@ const ChildrenList = ({ user, id }) => {
               type="text"
               placeholder={"Search"}
               onChange={(event) => setSearch(event.target.value)}
-              ></input>
-            </div>
+            ></input>
+          </div>
         </div>
         <div className="basis-2/10 my-1 px-2 pt-2 ">
           <Dropdown

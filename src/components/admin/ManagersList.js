@@ -5,8 +5,13 @@ import { FaSearch } from "react-icons/fa";
 import { db,database } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../profile.webp";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const ManagersList = ({user,usersList, id}) => {
+
+	const { t } = useTranslation();
+
 	const navigate=useNavigate();
 	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
@@ -45,13 +50,13 @@ const ManagersList = ({user,usersList, id}) => {
 				}).map((manager) => {
                 return  (
 								<Card body className="col col-md-5 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={manager["UserID"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
-								<div><img alt="Child Photo" src={manager["Image"]!==undefined?manager["Image"]:img} className="w-40 h-40"/>
+								<div><img alt="Child Photo" src={manager["Image"]!==undefined?manager["Image"]:img} className="w-60 h-40"/>
 								<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" > Assign</button>
 								</div>
 								<CardBody>
 												<List type="unstyled">
-												<li > <strong>Name :</strong> {manager["Name"]}</li>
-												<li > <strong>Phone :</strong> {manager["Phone"]}</li>
+												<li > <strong>{t('Name')} :</strong> {manager["Name"]}</li>
+												<li > <strong>{t('Phone Number')} :</strong> {manager["Phone"]}</li>
 												</List>
 									</CardBody>
 								</Card>
@@ -65,7 +70,7 @@ const ManagersList = ({user,usersList, id}) => {
 			<div className="col-6 col-lg-10 w-full p-2">
 			<div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
 			<span><FaSearch className="text-lg text-black block float-left me-2"></FaSearch></span>
-			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={"Search"} onChange={(event)=>setSearch(event.target.value)}></input>
+			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={t('Search')} onChange={(event)=>setSearch(event.target.value)}></input>
 			</div>
 			</div>
 			<div className="col-auto col-lg-2 mt-2 md:p-2 p-1">

@@ -5,8 +5,12 @@ import { FaSearch } from "react-icons/fa";
 import { db } from "../../firebase"
 import { collection, getDocs } from "firebase/firestore";
 import img from "../../profile.webp";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const Profiles = ({ user, id }) => {
+  const { t } = useTranslation();
+
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
@@ -65,23 +69,23 @@ const Profiles = ({ user, id }) => {
                   <List type="unstyled">
                     <li>
                       {" "}
-                      <strong>Name :</strong> {children["Name"]}
+                      <strong>{t('Name')} :</strong> {children["Name"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>Age :</strong> {children["Age"]}
+                      <strong>{t('Age')} :</strong> {children["Age"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>District :</strong> {children["District"]}
+                      <strong>{t('District')} :</strong> {children["District"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>State :</strong> {children["State"]}
+                      <strong>{t('State')} :</strong> {children["State"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>Case Number :</strong> {children["Case Number"]}
+                      <strong>{t('Case Number')} :</strong> {children["Case Number"]}
                     </li>
                   </List>
                 </CardBody>
@@ -102,7 +106,7 @@ const Profiles = ({ user, id }) => {
             <input
               className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0"
               type="text"
-              placeholder={"Search"}
+              placeholder={t('Search')}
               onChange={(event) => setSearch(event.target.value)}
             ></input>
           </div>
@@ -119,14 +123,14 @@ const Profiles = ({ user, id }) => {
               className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md"
               caret
             >
-              {filter === "" ? "Select Filter" : filter}
+              {filter === "" ? t('Select Filter') : filter}
             </DropdownToggle>
             <DropdownMenu className="text-textcolor">
               <DropdownItem onClick={() => setFilter("Name")}>
-                Name
+                {t('Name')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("District")}>
-                District
+                {t('District')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("Case Number")}>
                 Case Number

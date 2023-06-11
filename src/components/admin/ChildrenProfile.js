@@ -5,8 +5,13 @@ import { FaSearch } from "react-icons/fa";
 import { db, database } from "../../firebase"
 import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc } from "firebase/firestore";
 import img from "../../profile.webp";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const ChildrenProfile = ({ user, id }) => {
+
+	const { t } = useTranslation();
+
   const navigate = useNavigate();
   const [filter, setFilter] = useState("");
   const [search, setSearch] = useState("");
@@ -83,37 +88,37 @@ const ChildrenProfile = ({ user, id }) => {
                     src={
                       children["Image"] !== undefined ? children["Image"] : img
                     }
-                    className="w-40 h-40"
+                    className="w-60 h-40"
                   />
                   <button
                     className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
                     onClick={() => toggleModal(children["Case Number"])}
                   >
                     {" "}
-                    Profile
+                    {t('Profile')}
                   </button>
                 </div>
                 <CardBody>
                   <List type="unstyled">
                     <li>
                       {" "}
-                      <strong>Name :</strong> {children["Name"]}
+                      <strong>{t('Name')} :</strong> {children["Name"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>Age :</strong> {children["Age"]}
+                      <strong>{t('Age')} :</strong> {children["Age"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>District :</strong> {children["District"]}
+                      <strong>{t('District')} :</strong> {children["District"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>State :</strong> {children["State"]}
+                      <strong>{t('State')} :</strong> {children["State"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>Case Number :</strong> {children["Case Number"]}
+                      <strong>{t('Case Number')} :</strong> {children["Case Number"]}
                     </li>
                   </List>
                   <button
@@ -121,7 +126,7 @@ const ChildrenProfile = ({ user, id }) => {
                     onClick={() => toggleModalReport(children["id"])}
                   >
                     {" "}
-                    Case Report
+                    {t('Case Report')}
                   </button>
                 </CardBody>
               </Card>
@@ -162,10 +167,10 @@ const ChildrenProfile = ({ user, id }) => {
             </DropdownToggle>
             <DropdownMenu className="text-textcolor">
               <DropdownItem onClick={() => setFilter("Name")}>
-                Name
+                {t('Name')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("District")}>
-                District
+                {t('District')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("Case Number")}>
                 Case Number
