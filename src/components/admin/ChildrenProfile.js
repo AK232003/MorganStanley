@@ -172,8 +172,8 @@ const ChildrenProfile = ({ user, id }) => {
               <DropdownItem onClick={() => setFilter("District")}>
                 {t('District')}
               </DropdownItem>
-              <DropdownItem onClick={() => setFilter("District")}>
-                {t('Case Number')}
+              <DropdownItem onClick={() => setFilter("Case Number")}>
+                Case Number
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

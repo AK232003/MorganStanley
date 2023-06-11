@@ -216,7 +216,7 @@ const TaskComments = ({ user, id }) => {
 
   const childrenLists = () => {
     return (
-      <div className="row mt-2">
+      <div className="grid  grid-cols-1 md:grid-cols-2 gap-0 mt-2">
         {children
           .filter((children) => {
             if (search === "Search" || search === "") {
@@ -231,28 +231,26 @@ const TaskComments = ({ user, id }) => {
             return (
               <Card
                 body
-                className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
+                className="align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
                 key={children["id"]}
                 style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
               >
-                <div>
+
+                <div className="flex flex-row w-full">
+                  <div className="flex flex-col basis-2/5">
                   <img
                     alt="Child Photo"
                     src={
                       children["Image"] !== undefined ? children["Image"] : img
                     }
-                    className="w-60 h-40"
+                    className="rounded-full basis-4/5 w-36 h-36"
                   />
-                  <button
-                    className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
-                    onClick={() => toggleModal(children["id"])}
-                  >
-                    {" "}
-                    {t('See Comments')}
-                  </button>
+                    <div className="m-1 p-1 text-textcolor basis-1/5 justify-self-center md:text-base text-sm">
+                      <strong>Case No:</strong> {children["Case Number"]}
+                    </div>
                 </div>
-                <CardBody>
-                  <List type="unstyled">
+                <CardBody className="flex flex-col basis-3/5 p-1  ps-2">
+                  <List type="unstyled basis-4/5 md:text-base text-sm">
                     <li>
                       {" "}
                       <strong>{t('Name')} :</strong> {children["Name"]}
@@ -275,13 +273,14 @@ const TaskComments = ({ user, id }) => {
                     </li>
                   </List>
                   <button
-                    className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
-                    onClick={() => toggleModalDeadline(children["id"])}
+                    className="p-2 relative bottom-0 rounded-2 bg-buttonColor text-white w-full"
+                    onClick={() => toggleModal(children["id"])}
                   >
                     {" "}
-                    {t('Set Deadline')}
-                  </button>
+                    Comments/Deadline
+                    </button>
                 </CardBody>
+                </div>
               </Card>
             );
           })}
@@ -290,33 +289,34 @@ const TaskComments = ({ user, id }) => {
   };
   return (
     <div className="container lg:mt-4 overflow-y-scroll bg-color2">
-      <div className="row mt-4 h-16">
-        <div className="col-6 col-lg-10 w-full p-2">
+      <div className="flex flex-row w-full">
+        <div className="basis-8/10 w-full p-2 mt-1">
           <div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
             <span>
               <FaSearch className="text-lg text-black block float-left me-2"></FaSearch>
             </span>
             <input
-              className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0"
+              className="w-100 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0"
               type="text"
               placeholder={"Search"}
               onChange={(event) => setSearch(event.target.value)}
-            ></input>
-          </div>
+              ></input>
+            </div>
         </div>
-        <div className="col-auto col-lg-2 mt-2 md:p-2 p-1">
+        <div className="basis-2/10 my-1 px-2 pt-2 ">
           <Dropdown
             isOpen={dropdownOpen}
             toggle={toggleDropDown}
             direction="down"
+            className="shadow-md hover:shadow-xl max-h-full text-xl"
             onChange={(event) => console.log(event)}
           >
             <DropdownToggle
               size="lg"
-              className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md"
+              className="rounded-md w-auto h-auto !text-textcolor text-2xl p-2 border-0 !bg-buttonColor/[0.3] shadow-md"
               caret
             >
-              {filter === "" ? t('Select Filter') : filter}
+              {filter === "" ? "Filter" : filter}
             </DropdownToggle>
             <DropdownMenu className="text-textcolor">
               <DropdownItem onClick={() => setFilter("Name")}>
@@ -326,7 +326,7 @@ const TaskComments = ({ user, id }) => {
                 {t('District')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("Case Number")}>
-                {t('Case Number')}
+                Case Number
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

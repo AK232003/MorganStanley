@@ -4,7 +4,6 @@ import {BsPeopleFill}from 'react-icons/bs'
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import GroundWorkerSidebar from "./groundWorker/groundWorkerSidebar";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
 
 const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
 
@@ -14,9 +13,9 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   const {pathname}=useLocation();
   const isCaseDetailsView=matchPath("/groundWorker/caseDetails/*",pathname)
   console.log(isCaseDetailsView)
-  const sideBarIconProperty = "text-lg text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color6 cursor-pointer";
-  const logoutIconProperty = `${openSide ? "w-64" : "w-24"} absolute bottom-0 text-xl text-logoutContent duration-300 bg-logoutButton rounded-0 p-3 items-center bg-logoutButton cursor-pointer justify-items-center align-self-center`;
-  const sideIconProperty = `${openSide ? "w-64" : "w-24"} h-16 text-xl text-color2 duration-300 bg-sideBarColor2 rounded-0 p-2 items-center bg-sideBarColor2 cursor-pointer justify-items-center`;
+  const sideBarIconProperty = "text-lg text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-hoverColor cursor-pointer";
+  const logoutIconProperty = `${openSide ? "w-64" : "w-16"} absolute bottom-0 text-xl font-bold text-logoutContent duration-300 bg-sideBarColor1 rounded-0 p-3 ps-0 items-center cursor-pointer justify-items-center align-self-center`;
+  const sideIconProperty = `${openSide ? "w-64" : "w-16"} h-16 text-xl text-color2 duration-300 bg-sideBarColor2 rounded-0 py-2 items-center bg-sideBarColor2 cursor-pointer justify-items-center`;
 
   const handleLogout= ()=>{
     localStorage.setItem('user',null);
@@ -26,15 +25,12 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   console.log(user,pathname.split("/"))
 	return (
     <>
-	<div className={`h-screen sm:h-9/10  ${openSide ? "w-64" : "w-24"} ${!open && "hidden"} 
-  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-none md:relative  absolute md:top-14 top-0 opacity-100 hover:shadow-sideBarColor1 hover:opacity-100 md:block z-10`}>
+	<div className={`h-screen sm:h-9/10  ${openSide ? "w-64" : "w-16"} ${!open && "hidden"} 
+  ${open && "w-1/2 opacity-100"} bg-sideBarColor1 duration-300 rounded-none md:relative  absolute md:top-14 top-0 opacity-100 md:block z-10`}>
     <div className={sideIconProperty}>
-    <FaBars className={`md:!m-0 md:!ms-4 h-6 w-6 md:h-12  md:w-12 cursor-pointer text-sideBarColor1 duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()} style={{margin: "0.5rem 1rem"}}></FaBars>
+    <FaBars className={`md:!m-0 md:!ms-4 h-6 w-6 md:h-8  md:w-8 cursor-pointer text-sideBarColor1 duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()} style={{margin: "0.5rem 1rem"}}></FaBars>
     </div>
-    <div className = {`px-4 pb-4 pt-3`}>
-    <button onClick={() => i18next.changeLanguage('en')}>English</button>
-              <button onClick={() => i18next.changeLanguage('hi')}>Hindi</button>
-              <button onClick={() => i18next.changeLanguage('mr')}>Marathi</button>
+    <div className = {`ps-2 pt-3`}>
             {user === "CaseManager" &&
             <>
             <ul className="ps-0">

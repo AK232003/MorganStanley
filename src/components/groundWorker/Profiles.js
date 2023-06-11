@@ -133,7 +133,7 @@ const Profiles = ({ user, id }) => {
                 {t('District')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("Case Number")}>
-                {t('Case Number')}
+                Case Number
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
