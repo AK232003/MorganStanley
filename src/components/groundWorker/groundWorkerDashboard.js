@@ -4,7 +4,6 @@ import { List, Card, CardBody,CardTitle} from 'reactstrap';
 import Barchart from "../barchart";
 import PieChart from "../piechart";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
 
 const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
   const { t } = useTranslation();
@@ -31,9 +30,6 @@ const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
   }, [user]);
   return (
     <>
-    <button onClick={() => i18next.changeLanguage('en')}>English</button>
-               <button onClick={() => i18next.changeLanguage('hi')}>Hindi</button>
-               <button onClick={() => i18next.changeLanguage('mr')}>Marathi</button> 
       <div className="row">
         <div className="col-auto font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl mt-4">
         {t("GroundWorker Dashboard")}

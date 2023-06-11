@@ -4,7 +4,6 @@ import {BsPeopleFill}from 'react-icons/bs'
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import GroundWorkerSidebar from "./groundWorker/groundWorkerSidebar";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
 
 const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
 
@@ -32,9 +31,6 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
     <FaBars className={`md:!m-0 md:!ms-4 h-6 w-6 md:h-8  md:w-8 cursor-pointer text-sideBarColor1 duration-500 visible ${openSide && "rotate-[180deg]"}`} onClick={() => handdleToggle()} style={{margin: "0.5rem 1rem"}}></FaBars>
     </div>
     <div className = {`ps-2 pt-3`}>
-    <button onClick={() => i18next.changeLanguage('en')}>English</button>
-              <button onClick={() => i18next.changeLanguage('hi')}>Hindi</button>
-              <button onClick={() => i18next.changeLanguage('mr')}>Marathi</button>
             {user === "CaseManager" &&
             <>
             <ul className="ps-0">

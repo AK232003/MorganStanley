@@ -4,6 +4,7 @@ import { Navbar, NavItem, Nav, NavbarBrand } from 'reactstrap'
 // import {MdMarkUnreadChatAlt} from 'react-icons/md'
 import logo from "../logo_scroll.png"
 import { FaBars } from "react-icons/fa";
+import i18next from "i18next";
 
 const NavBar = ({user,open,setOpen,toggle}) => {
 
@@ -16,6 +17,9 @@ const NavBar = ({user,open,setOpen,toggle}) => {
         <Nav className="mr-auto">
             <NavItem></NavItem>
         </Nav>
+        <button className="bg-white" onClick={() => i18next.changeLanguage('en')}>English</button>
+        <button className="bg-white" onClick={() => i18next.changeLanguage('hi')}>Hindi</button>
+        <button className="bg-white" onClick={() => i18next.changeLanguage('mr')}>Marathi</button>
         {/* <Nav>
             <NavItem className="flex text-2xl align-middle"><MdMarkUnreadChatAlt className="float-left align-bottom"/>Alerts</NavItem>
         </Nav> */}
