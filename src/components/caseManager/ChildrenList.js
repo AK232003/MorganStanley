@@ -28,10 +28,14 @@ const ChildrenList = ({ user, id }) => {
   }, []);
   const childrenLists = () => {
     return (
-      <div className="row mt-2">
+<div className="grid  grid-cols-1 md:grid-cols-2 gap-0 mt-2">
         {children
           .filter((children) => {
-            if (search === "Search" || search === "") {
+            if (
+              search === "Search" ||
+              search === "" ||
+              filter === "Select Filter"
+            ) {
               return children;
             } else if (
               children[filter].toLowerCase().includes(search.toLowerCase())
@@ -43,29 +47,26 @@ const ChildrenList = ({ user, id }) => {
             return (
               <Card
                 body
-                className="col col-lg-5 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
-                key={children["Case Number"]}
+                className="align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
+                key={children["id"]}
                 style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
-                onClick={() =>
-                  navigate(`/caseManager/profiles/${children["id"]}`, {
-                    state: { children },
-                  })
-                }
               >
 
-            <div className="flex flex-row w-full"> 
-              <div className="basis-2/5">
-                <img
+                <div className="flex flex-row w-full">
+                  <div className="flex flex-col basis-2/5">
+                  <img
                     alt="Child Photo"
                     src={
                       children["Image"] !== undefined ? children["Image"] : img
                     }
-                    className="rounded-full basis-4/5 h-32 w-32 md:h-40 md:w-40"
-                    />
+                    className="rounded-full basis-4/5 w-36 h-36"
+                  />
+                    <div className="m-1 p-1 text-textcolor basis-1/5 justify-self-center md:text-base text-sm">
+                      <strong>Case No:</strong> {children["Case Number"]}
+                    </div>
                 </div>
-
-                <CardBody className="basis-3/5 p-1  ps-2">
-                <List type="unstyled md:text-base text-sm">
+                <CardBody className="flex flex-col basis-3/5 p-1  ps-2">
+                  <List type="unstyled basis-4/5 md:text-base text-sm">
                     <li>
                       {" "}
                       <strong>Name :</strong> {children["Name"]}
@@ -82,13 +83,20 @@ const ChildrenList = ({ user, id }) => {
                       {" "}
                       <strong>State :</strong> {children["State"]}
                     </li>
-                    <li>
-                      {" "}
-                      <strong>Case Number :</strong> {children["Case Number"]}
-                    </li>
                   </List>
+                  <button
+                    className="p-2 rounded-3 basis-1/5 bg-buttonColor justify-self-end text-white w-full"
+                    onClick={() =>
+                      navigate(`/caseManager/profiles/${children["id"]}`, {
+                        state: { children },
+                      })
+                    }
+                  >
+                    {" "}
+                    View Details
+                  </button>
                 </CardBody>
-              </div>
+                </div>
               </Card>
             );
           })}
@@ -97,34 +105,34 @@ const ChildrenList = ({ user, id }) => {
   };
   return (
     <div className="container lg:mt-4 overflow-y-scroll bg-color2">
-      <div className="flex flex-row">
+      <div className="flex flex-row w-full">
         <div className="basis-8/10 w-full p-2 mt-1">
           <div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
             <span>
               <FaSearch className="text-lg text-black block float-left me-2"></FaSearch>
             </span>
             <input
-              className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0"
+              className="w-100 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0"
               type="text"
               placeholder={"Search"}
               onChange={(event) => setSearch(event.target.value)}
               ></input>
             </div>
         </div>
-        <div className="basis-2/10 mt-1 p-2">
+        <div className="basis-2/10 my-1 px-2 pt-2 ">
           <Dropdown
             isOpen={dropdownOpen}
             toggle={toggle}
             direction="down"
-            className="shadow-md hover:shadow-xl"
+            className="shadow-md hover:shadow-xl max-h-full text-xl"
             onChange={(event) => console.log(event)}
           >
             <DropdownToggle
               size="lg"
-              className="rounded-md w-auto h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md"
+              className="rounded-md w-auto h-auto !text-textcolor text-2xl p-2 border-0 !bg-buttonColor/[0.3] shadow-md"
               caret
             >
-              {filter === "" ? "Select Filter" : filter}
+              {filter === "" ? "Filter" : filter}
             </DropdownToggle>
             <DropdownMenu className="text-textcolor">
               <DropdownItem onClick={() => setFilter("Name")}>
@@ -133,7 +141,7 @@ const ChildrenList = ({ user, id }) => {
               <DropdownItem onClick={() => setFilter("District")}>
                 District
               </DropdownItem>
-              <DropdownItem onClick={() => setFilter("District")}>
+              <DropdownItem onClick={() => setFilter("Case Number")}>
                 Case Number
               </DropdownItem>
             </DropdownMenu>

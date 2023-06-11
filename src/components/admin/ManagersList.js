@@ -74,7 +74,7 @@ const ManagersList = ({user,usersList, id}) => {
         <DropdownMenu className="text-textcolor">
           <DropdownItem onClick={()=>setFilter("Name")}>Name</DropdownItem>
           <DropdownItem onClick={()=>setFilter("District")}>District</DropdownItem>
-          <DropdownItem onClick={()=>setFilter("District")}>Case Number</DropdownItem>
+          <DropdownItem onClick={()=>setFilter("Case Number")}>Case Number</DropdownItem>
         </DropdownMenu>
       </Dropdown>
 			</div>

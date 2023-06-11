@@ -141,7 +141,7 @@ const handleAccept = async (e) =>{
 
   const taskLists=()=>{
     return (
-        <div className="row mt-2">
+      <div className="grid  grid-cols-1 md:grid-cols-2 gap-0 mt-2">
         {tasks.filter(task => {
     if(search === "Search" || search === "") {
       return task;
@@ -151,7 +151,9 @@ const handleAccept = async (e) =>{
     }
     }).map((task) => {
             return  (
-    <Card body className="col col-lg-5 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={task["id"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
+    <Card body 
+    className="align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
+    key={task["id"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
       <CardBody>
         <List type="unstyled">
           {/* {console.log(task["workerID"])} */}
@@ -172,24 +174,49 @@ const handleAccept = async (e) =>{
 
 return (
 	<div className="container lg:mt-4 overflow-y-scroll bg-color2">
-		<div className="row mt-4 h-16">
-			<div className="col-6 col-lg-10 w-full p-2">
-			<div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
-			<span><FaSearch className="text-lg text-black block float-left me-2"></FaSearch></span>
-			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={"Search"} onChange={(event)=>setSearch(event.target.value)}></input>
-			</div>
-			</div>
-			<div className="col-auto col-lg-2 mt-2 md:p-2 p-1">
-			<Dropdown isOpen={dropdownOpen} toggle={toggle}  direction="down" onChange={(event)=>console.log(event)}>
-        <DropdownToggle size="lg" className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md" caret>{filter===""?"Select Filter":filter}</DropdownToggle>
-        <DropdownMenu className="text-textcolor">
-          <DropdownItem onClick={()=>setFilter("Name")}>Name</DropdownItem>
-          <DropdownItem onClick={()=>setFilter("District")}>District</DropdownItem>
-          <DropdownItem onClick={()=>setFilter("District")}>Case Number</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-			</div>
-		</div>
+		<div className="flex flex-row w-full">
+        <div className="basis-8/10 w-full p-2 mt-1">
+          <div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
+            <span>
+              <FaSearch className="text-lg text-black block float-left me-2"></FaSearch>
+            </span>
+            <input
+              className="w-100 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0"
+              type="text"
+              placeholder={"Search"}
+              onChange={(event) => setSearch(event.target.value)}
+              ></input>
+            </div>
+        </div>
+        <div className="basis-2/10 my-1 px-2 pt-2 ">
+          <Dropdown
+            isOpen={dropdownOpen}
+            toggle={toggle}
+            direction="down"
+            className="shadow-md hover:shadow-xl max-h-full text-xl"
+            onChange={(event) => console.log(event)}
+          >
+            <DropdownToggle
+              size="lg"
+              className="rounded-md w-auto h-auto !text-textcolor text-2xl p-2 border-0 !bg-buttonColor/[0.3] shadow-md"
+              caret
+            >
+              {filter === "" ? "Filter" : filter}
+            </DropdownToggle>
+            <DropdownMenu className="text-textcolor">
+              <DropdownItem onClick={() => setFilter("Name")}>
+                Name
+              </DropdownItem>
+              <DropdownItem onClick={() => setFilter("District")}>
+                District
+              </DropdownItem>
+              <DropdownItem onClick={() => setFilter("Case Number")}>
+                Case Number
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      </div>
 		<Modal centered isOpen={modal} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>Task Details for {caseSelected}</ModalHeader>
         <ModalBody>
@@ -217,7 +244,7 @@ return (
                 Lorem Ipsum.
               </div>
             </div>
-            <div className="row">
+            <div className="row mt-4">
               <div className="col"> Related Files</div>
               <div className="col">
                 <a href="." target="_blank" rel="noopener noreferrer">
@@ -226,7 +253,12 @@ return (
               </div>
             </div>
 
-            <div className="row mt-1">
+            
+          </CardBody>
+        </ModalBody>
+
+        <ModalFooter className="">
+        <div className="row mt-1">
               <div className="col m-1 p-1 bg-color3 rounded-pill">
                 <Button
                   className="w-full bg-transparent !border-none !text-textcolor"
@@ -244,16 +276,6 @@ return (
                 </Button>
               </div>
             </div>
-          </CardBody>
-        </ModalBody>
-
-        <ModalFooter>
-          <Button color="primary" onClick={toggleModal}>
-            Do Something
-          </Button>{" "}
-          <Button color="secondary" onClick={toggleModal}>
-            Cancel
-          </Button>
         </ModalFooter>
       </Modal>
       {tasks.length > 0 ? (

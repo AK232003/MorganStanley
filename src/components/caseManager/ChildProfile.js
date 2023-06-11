@@ -4,6 +4,8 @@ import {GiCheckMark} from 'react-icons/gi'
 import img from "../../profile.webp";
 import { Card, } from "reactstrap";
 import { database, db, storage } from "../../firebase";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 const ChildProfile = ({ user, id }) => {
   const { state } = useLocation();
@@ -13,7 +15,19 @@ const ChildProfile = ({ user, id }) => {
   const [step, setStep] = useState(0);
 
   const navigate = useNavigate();
-
+  const pdfGenerate = async ()=>{
+    const input =  document.getElementById('profilePDF');
+    var doc = new jsPDF('portrait', 'px', 'a4', 'false')
+    const divContent = input.innerText;
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const imgWidth = doc.internal.pageSize.getWidth();
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  
+      doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+      doc.save("profile.pdf");
+    });
+  }
   useEffect(() => {
     if (user !== "CaseManager") navigate("/");
     console.log("Hi there");
@@ -40,20 +54,23 @@ const ChildProfile = ({ user, id }) => {
   }, [child, user]);
 
   return (
-    <div className="overflow-y-auto bg-color2">
+    <div>
+    <div className="overflow-y-auto bg-color2" >
       <Card
         body
-        className=" md:!flex-row !bg-color5/[0.6] m-2 p-2 mt-4"
+        className=" md:!flex-row !bg-color5/[0.6] m-2 md:p-5 mt-4"
         style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
+        id="profilePDF"
       >
         <div className="mt-3">
-          <div className="row">
-            <h1 className="col-6 p-2 m-2"> Child Details for {child["id"]}</h1>
-            <img className="col-4" alt="Child Photo" src={img} />
+          <div className="row justify-content-between">
+            <h1 className="col-6 col-sm-9 p-2 m-2"> Child Details for {child["id"]}</h1>
+            <img className="col-4 col-sm-2 w-20 h-30" alt="Child Photo" src={img} />
           </div>
           <ul type="unstyled" className="p-0">
             {child !== undefined &&
               keys.map((key) => {
+                if(key==="Image") return;
                 return (
                   <li key={key} className="w-full m-2 p-1 flex">
                     {" "}
@@ -108,6 +125,10 @@ const ChildProfile = ({ user, id }) => {
         </div>
         </Card>
     </div>
+    <div className=" md:!flex-row m-2 sm:p-2 mt-2">
+    <button className="p-2 rounded-3 bg-buttonColor text-white w-full sm:w-1/3 md:w-1/4 " onClick={pdfGenerate}>Download Report PDF</button>
+    </div>
+</div>
   );
 };
 

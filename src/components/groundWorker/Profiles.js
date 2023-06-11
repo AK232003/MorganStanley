@@ -128,7 +128,7 @@ const Profiles = ({ user, id }) => {
               <DropdownItem onClick={() => setFilter("District")}>
                 District
               </DropdownItem>
-              <DropdownItem onClick={() => setFilter("District")}>
+              <DropdownItem onClick={() => setFilter("Case Number")}>
                 Case Number
               </DropdownItem>
             </DropdownMenu>
