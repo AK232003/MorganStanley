@@ -46,7 +46,7 @@ const WorkersList = ({user,usersList, id}) => {
 				}).map((worker) => {
                 return  (
 						<Card body className="col col-md-5 align-items-center justify-content-center m-2 p-2 cursor-pointer" key={worker["UserID"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
-						<img alt="Child Photo" src={worker["Image"]!==undefined?worker["Image"]:img} className="w-60 h-40"/>
+						<img alt="Child Photo" src={worker["Image"]!==undefined?worker["Image"]:img} className="w-40 h-40"/>
 						
 						<CardBody>
 							<List type="unstyled">

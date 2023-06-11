@@ -45,7 +45,7 @@ const GroundWorkerSidebar = ({
           <ul className="pt-2 ps-0">
             
             {/* Step-1 Button */}
-            <li className="text-lg text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color6 cursor-pointer" onClick={()=>navigate("/groundWorker/caseDetails")} >
+            <li className="text-xl text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color6 cursor-pointer" onClick={()=>navigate("/groundWorker/caseDetails")} >
                 <span><FaLongArrowAltLeft className="text-3xl text-textcolor block float-left"></FaLongArrowAltLeft></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Back</span>
               </li>
