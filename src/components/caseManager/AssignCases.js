@@ -3,10 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { List, Card, CardBody, Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Button, Modal, ModalHeader, ModalBody, ModalFooter,Form, FormGroup,Label, Input } from "reactstrap";
 import { FaSearch } from "react-icons/fa";
 import { db, database } from "../../firebase"
-import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc } from "firebase/firestore";
+import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc, serverTimestamp } from "firebase/firestore";
 import { addProcessAbandoned, addProcessAdmittedByGuardians, addProcessOrphaned, addProcessSurrendered, addDeadline, intializeCaseComment } from "../addCase";
 import img from "../../profile.webp";
 import { elementTypeAcceptingRef } from "@mui/utils";
+
+function resolveAfter2Seconds() {
+	return new Promise(resolve => {
+	  setTimeout(() => {
+		resolve('resolved');
+	  }, 2000);
+	});
+  }
 
 const AssignCases = ({ user, id }) => {
   const navigate = useNavigate();
@@ -20,6 +28,9 @@ const AssignCases = ({ user, id }) => {
   const [deadLine, setDeadLine] = useState("");
   const [child, setChild] = useState(null);
   const [keys, setKeys] = useState(null);
+
+  const adminID = "admin"
+//   const [worker, setWorker] = useState(null);
   const childrenCollectionRef = collection(db, "children");
   const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
   // Case Creation Section(Worker Assigned to Children)
@@ -38,38 +49,133 @@ const AssignCases = ({ user, id }) => {
     // 		console.log(snapShot.data())
     // 	})
 
-    const childID = child["Case Number"].split("/").join("");
-    console.log(childID);
-
-	console.log("this")
-	console.log(localStorage.getItem('id'))
-	console.log(workerID)
-
-    // if(child["Child Category"] === "Orphaned - No Guardians") {
-    // 	addProcessOrphaned(id)
-    // }
-    // else if(child["Child Category"] === "Abandoned / Family not traceable") {
-    // 	addProcessAbandoned(id)
-    // }
-    // else if(child["Child Category"] === "Surrendered") {
-    // 	addProcessSurrendered(id)
-    // }
-    // else if(child["Child Category"] === "Admitted by Guardians") {
-    // 	addProcessAdmittedByGuardians(id)
-    // }
-    // addDeadline(id, "");
-    // intializeCaseComment(id)
+	let worker;
+	let manager;
+	let admin;
 
     await getDocs(collection(db, "Users")).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      console.log(
-        newData.filter((u) => u.id == workerID || u["Name"].includes(workerID))
-      );
-    });
-  };
+      	worker = querySnapshot.docs.map((doc) => ({...doc.data(),id: doc.id,})).filter((u) => u.id == workerID || u["Name"].includes(workerID));
+    })
+
+	const managerRef = doc(db, "Users", id);
+	const managerSnap = await getDoc(managerRef)
+	manager = managerSnap.data()
+
+	const adminRef = doc(db, "Users", adminID);
+	const adminSnap = await getDoc(adminRef)
+	admin = adminSnap.data()
+
+
+
+	if(worker.length == 1) {
+		const childID = child["Case Number"].split("/").join("");
+
+		console.log(child)
+
+		const caseRef = doc(db, "caseAssignment", childID);
+		const caseSnap = await getDoc(caseRef)
+		const caseData = caseSnap.data()
+
+		let oldGWID = null
+		let oldCMID = null
+
+		if(caseData) { //if case already exists, delete from assigned groundworker and casemanager, reassign to both
+			oldGWID = caseData["groundWorkerID"]
+			oldCMID = caseData["caseManagerID"]
+
+			let list;
+			let i;
+
+			console.log(caseData)
+
+			if(oldGWID !== workerID) {
+				const oldGWRef = doc(db, "Users", oldGWID)
+				const oldGWSnap = await getDoc(oldGWRef)
+				const oldGWData = oldGWSnap.data()
+
+				list = JSON.parse(JSON.stringify(oldGWData["CasesList"]))
+				i = list.indexOf(childID)
+				if(i > -1) list.splice(i, 1)
+
+				// console.log(list)
+				await updateDoc(oldGWRef, {
+					"CasesList": list
+				})
+			}
+
+			if(oldCMID !== id) {
+				const oldManagerRef = doc(db, "Users", oldCMID)
+				const oldManagerSnap = await getDoc(oldManagerRef)
+				const oldManagerData = oldManagerSnap.data()
+				
+				list = JSON.parse(JSON.stringify(oldManagerData["CasesList"]))
+				i = list.indexOf(childID)
+				if(i > -1) list.splice(i, 1)
+				await updateDoc(oldManagerRef, {
+					"CasesList": list
+				})
+			}			
+		}
+
+		console.log(childID);
+
+		if(child["Child Category"] === "Orphaned - No Guardians") {
+			addProcessOrphaned(childID)
+		}
+		else if(child["Child Category"] === "Abandoned / Family not traceable") {
+			addProcessAbandoned(childID)
+		}
+		else if(child["Child Category"] === "Surrendered") {
+			addProcessSurrendered(childID)
+		}
+		else if(child["Child Category"] === "Admitted by Guardians") {
+			addProcessAdmittedByGuardians(childID)
+		}
+		addDeadline(childID, "");
+		intializeCaseComment(childID)
+
+		setDoc(doc(db, "caseAssignment", childID), {
+			caseManagerID: id,
+			groundWorkerID: workerID,
+			dateAssigned: serverTimestamp()
+		})
+		
+		let newList = JSON.parse(JSON.stringify(worker[0]["CasesList"]))
+		newList.push(childID)
+
+		const workerRef = doc(db, "Users", workerID);
+		if(!oldGWID || oldGWID !== workerID) {
+			await updateDoc(workerRef, {
+				"CasesList": newList
+			})
+		}
+
+		newList = JSON.parse(JSON.stringify(manager["CasesList"]))
+		newList.push(childID)
+		if(!oldCMID || oldCMID !== id) {
+			await updateDoc(managerRef, {
+				"CasesList": newList
+			})
+		}
+
+
+		if(!caseData){ //only add to case list for admin if case is new
+			newList = JSON.parse(JSON.stringify(admin["CasesList"]))
+			newList.push(childID)
+			await updateDoc(adminRef, {
+				"CasesList": newList
+			})
+		}
+
+		console.log("task assigned")
+	}
+	else if(worker.length == 0) {
+		console.log("no valid worker id/name match")
+	}
+	else {
+		console.log("too many worker id/name matched, please be specific")
+	}
+};
 
   const toggleModalReport = (caseno) => {
     console.log(typeof caseno);
@@ -84,11 +190,11 @@ const AssignCases = ({ user, id }) => {
   };
   const toggleModal = (caseno) => {
     setModal(!modal);
-    console.log(typeof caseno);
+    // console.log(typeof caseno);
     if (typeof caseno === "string") {
       setCase(caseno);
       setChild(children.filter((child) => child["id"] === caseno)[0]);
-      console.log(child);
+    //   console.log(child);
     } else setCase("");
   };
   useEffect(() => {

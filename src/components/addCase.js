@@ -24,12 +24,14 @@ import { db } from "../firebase";
 
 export const addProcessSurrendered = async (caseNumber) => {
   await setDoc(doc(db, "caseProcesses", caseNumber), {
+  Step1: {
     SurrenderDeed: {
       Docs: "",
       Status: "In Progress",
       Text: "",
       isComplete: false,
     },
+  },
     LFA: {
       Docs: "",
       Status: "In Progress",
@@ -49,6 +51,7 @@ export const addProcessSurrendered = async (caseNumber) => {
 
 export const addProcessAdmittedByGuardians = async (caseNumber) => {
   await setDoc(doc(db, "caseProcesses", caseNumber), {
+  Step1: {
     SIR: {
       Docs: "",
       Status: "In Progress",
@@ -85,6 +88,7 @@ export const addProcessAdmittedByGuardians = async (caseNumber) => {
       Text: "",
       isComplete: false,
     },
+  },
     NOC: {
       Docs: "",
       Status: "In Progress",
@@ -110,6 +114,7 @@ export const addProcessAdmittedByGuardians = async (caseNumber) => {
 
 export const addProcessOrphaned = async (caseNumber) => {
   await setDoc(doc(db, "caseProcesses", caseNumber), {
+  Step1: {
     NPR: {
       Docs: "",
       Status: "In Progress",
@@ -152,6 +157,7 @@ export const addProcessOrphaned = async (caseNumber) => {
       Text: "",
       isComplete: false,
     },
+  },
     NOC: {
       Docs: "",
       Status: "In Progress",
@@ -177,6 +183,7 @@ export const addProcessOrphaned = async (caseNumber) => {
 
 export const addProcessAbandoned = async (caseNumber) => {
   await setDoc(doc(db, "caseProcesses", caseNumber), {
+  Step1: {
     FMR: {
       Docs: "",
       Status: "In Progress",
@@ -213,6 +220,7 @@ export const addProcessAbandoned = async (caseNumber) => {
       Text: "",
       isComplete: false,
     },
+  },
     NOC: {
       Docs: "",
       Status: "In Progress",
