@@ -37,7 +37,7 @@ const Report=() => {
   useEffect(() => {
     const ref = database.ref("childProfile"+`${id}`)
     setType(location.pathname.split("/")[5]);
-    console.log(location)
+    console.log(location.pathname.split("/")[5])
     // setStep(mapOfTypes.get(type)[1]);
     // database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
     //   setStatus(snapshot.val()[step]);
@@ -128,7 +128,7 @@ const Report=() => {
   // ---------------------------------------
 
   return (
-    <div className="w-95 md:w-3/5 bg-sideBarColor1  rounded-1 mx-2 md:ms-3 mt-3 md:me-0 drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll"> 
+    <div className="bg-sideBarColor1  rounded-1 mx-2 md:ms-3 mt-3 md:me-0 drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll"> 
       <div className="row mt-3 m-2 w-95">
         <div className="col p-0 font-bold text-3xl">
           {" "}

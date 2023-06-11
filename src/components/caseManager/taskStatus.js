@@ -32,7 +32,6 @@ const TaskStatus = ({ user, id }) => {
 		else setCase("");
 	};
 	useEffect(()=>{
-		console.log(user)
 		if(user!=="CaseManager") navigate("/");
 	},[user])
     useEffect(() => {

@@ -32,7 +32,6 @@ export function AuthProvider({ children }) {
           .set({
             userType: userType,
             Name: name,
-            Phone: phoneno,
             UserID: id,
             PhoneNo: phoneno,
             CasesList: ["start"],
@@ -60,7 +59,6 @@ export function AuthProvider({ children }) {
           .set({
             userType: userType,
             Name: name,
-            Phone: phoneno,
             UserID: id,
             PhoneNo: phoneno,
             CasesList: ["start"],
@@ -94,7 +92,6 @@ export function AuthProvider({ children }) {
           .set({
             userType: userType,
             Name: name,
-            Phone: phoneno,
             UserID: id,
             PhoneNo: phoneno,
             CasesList: ["start"],

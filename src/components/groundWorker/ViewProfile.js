@@ -5,7 +5,7 @@ import img from "../../profile.webp";
 import { Card, } from "reactstrap";
 import { database, db, storage } from "../../firebase";
 
-const ChildProfile = ({ user, id }) => {
+const ViewProfile = ({ user, id }) => {
   const { state } = useLocation();
   const [child, setChild] = useState(state["children"]);
   const [deadLine, setDeadLine] = useState("");
@@ -15,7 +15,7 @@ const ChildProfile = ({ user, id }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user !== "CaseManager") navigate("/");
+    if (user !== "GroundWorker") navigate("/");
     console.log("Hi there");
 
     // Set Setps Completed in the Process
@@ -111,4 +111,4 @@ const ChildProfile = ({ user, id }) => {
   );
 };
 
-export default ChildProfile;
+export default ViewProfile;
