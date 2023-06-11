@@ -12,6 +12,7 @@ import { Dashboard, AddChild, AssignCases, ChildProfile, ChildrenList,TaskStatus
 import {AdminDashboard, AddUser ,ManagersList,WorkersList, ChildrenProfile} from "./components/admin/admin";
 import { Report, GroundWorkerDashboard,Profiles, ViewProfile, CaseDetails } from "./components/groundWorker/groundWorker";
 import AssignedList from "./components/groundWorker/AssignedList";
+import './i18n';
 
 function App() {
   const [user, setUser] = useState(null);

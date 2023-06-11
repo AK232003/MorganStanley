@@ -6,7 +6,13 @@ import * as XLSX from "xlsx";
 import { setDoc, doc } from "firebase/firestore";
 import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storage";
 import {IoIosArrowDropdown} from 'react-icons/io'
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+
 const AddChild = ({ user, id }) => {
+
+  const { t } = useTranslation();
+
   const [open, setOpen] = useState("1");
   const [imageUpload, setImageUpload] = useState(null);
   const toggle = (id) => {
@@ -103,7 +109,7 @@ const AddChild = ({ user, id }) => {
         >
           <AccordionItem className="!bg-transparent">
             <h4 className="m-2 ms-4 cursor-pointer" onClick={() => toggle("1")}>
-              Section-1
+              {t('Section-1')}
               <span>
                 <IoIosArrowDropdown className="text-4xl block float-right"></IoIosArrowDropdown>
               </span>
@@ -112,7 +118,7 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="fullname" sm={2}>
                   {" "}
-                  Full Name{" "}
+                  {t('Full Name')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
@@ -126,7 +132,7 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="gender" sm={2}>
                   {" "}
-                  Gender{" "}
+                  {t('Gender')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
@@ -140,7 +146,7 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="dob" sm={2}>
                   {" "}
-                  Date of Birth{" "}
+                  {t('Date of Birth')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
@@ -154,7 +160,7 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="age" sm={2}>
                   {" "}
-                  Estimated Age{" "}
+                  {t('Estimated Age')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
@@ -169,22 +175,22 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="childCategory" sm={2}>
                   {" "}
-                  Category{" "}
+                  {t('Category')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input id="childCategory" name="category" type="select">
-                    <option> Abandoned / Family not traceable</option>
-                    <option> Surrendered</option>
-                    <option> Orphaned - No Guardians </option>
-                    <option> Admitted by Guardians </option>
+                    <option> {t('Abandoned / Family not traceable')}</option>
+                    <option> {t('Surrendered')}</option>
+                    <option> {t('Orphaned - No Guardians')} </option>
                     {/* <option> Child Admitted in CCI by Family </option> */}
+                    <option> {t('Admitted by Guardians')} </option>
                   </Input>
                 </Col>
               </FormGroup>
               <FormGroup row>
                 <Label for="image" sm={2}>
                   {" "}
-                  Image{" "}
+                  {t('Photo')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
@@ -202,7 +208,7 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="state" sm={2}>
                   {" "}
-                  State{" "}
+                  {t('State')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
@@ -216,7 +222,7 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="disctrict" sm={2}>
                   {" "}
-                  District{" "}
+                  {t('District')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
@@ -230,7 +236,7 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="home" sm={2}>
                   {" "}
-                  Home{" "}
+                  {t('Home')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input id="home" name="home" placeholder="Home" type="text" />
@@ -242,7 +248,7 @@ const AddChild = ({ user, id }) => {
               className="me-2 ms-4 mt-3 mb-3 cursor-pointer"
               onClick={() => toggle("2")}
             >
-              Section-2
+              {t('Section-2')}
               <span>
                 <IoIosArrowDropdown className="text-4xl block float-right"></IoIosArrowDropdown>
               </span>
@@ -251,13 +257,13 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="caseno" sm={2}>
                   {" "}
-                  Case Number{" "}
+                  {t('Case Number')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
                     id="caseno"
                     name="caseno"
-                    placeholder="Case Number"
+                    placeholder={t('Case Number')}
                     type="text"
                   />
                 </Col>
@@ -265,13 +271,13 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="rfa" sm={2}>
                   {" "}
-                  Reason For Admission{" "}
+                  {t('Reason For Admission')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
                     id="rfa"
                     name="rfa"
-                    placeholder="Reason For Admission"
+                    placeholder={t('Reason For Admission')}
                     type="textarea"
                   />
                 </Col>
@@ -279,13 +285,13 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="rff" sm={2}>
                   {" "}
-                  Reason For Flagging{" "}
+                  {t('Reason For Flagging')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
                     id="rff"
                     name="rff"
-                    placeholder="Reason For Flagging"
+                    placeholder={t('Reason For Flagging')}
                     type="text"
                   />
                 </Col>
@@ -293,13 +299,13 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="lvs" sm={2}>
                   {" "}
-                  Last Visit Since<span className="text-red-500">*</span>{" "}
+                  {t('Last Visit Since')}<span className="text-red-500">*</span>{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
                     id="lvs"
                     name="lvs"
-                    placeholder="Last Visit Since"
+                    placeholder={t('Last Visit Since')}
                     type="text"
                   />
                 </Col>
@@ -307,13 +313,13 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="lcs" sm={2}>
                   {" "}
-                  Last Call Since{" "}
+                  {t('Last Call Since')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
                     id="lcs"
                     name="lcs"
-                    placeholder="Last Call Since"
+                    placeholder={t('Last Call Since')}
                     type="text"
                   />
                 </Col>
@@ -321,26 +327,26 @@ const AddChild = ({ user, id }) => {
               <FormGroup row>
                 <Label for="guardian" sm={2}>
                   {" "}
-                  Guardian{" "}
+                  {t('Guardian')}{" "}
                 </Label>
                 <Col sm={10}>
                   <Input
                     id="guardian"
                     name="guardian"
-                    placeholder="Guardian"
+                    placeholder={t('Guardian')}
                     type="text"
                   />
                 </Col>
               </FormGroup>
               <FormGroup row>
                 <Label for="sibling" sm={2}>
-                  Sibling Details
+                  {t('Sibling Details')}
                 </Label>
                 <Col sm={10}>
                   <Input
                     id="sibling"
                     name="sibling"
-                    placeholder="Sibling Details"
+                    placeholder={t('Sibling Details')}
                     type="text"
                   />
                 </Col>
@@ -349,13 +355,13 @@ const AddChild = ({ user, id }) => {
 
               <FormGroup row>
                 <Label for="casehistory" sm={2}>
-                  Case History
+                  {t('Case History')}
                 </Label>
                 <Col sm={10}>
                   <Input
                     id="casehistory"
                     name="casehistory"
-                    placeholder="Case History"
+                    placeholder={t('Case History')}
                     type="textarea"
                   />
                 </Col>
@@ -368,7 +374,7 @@ const AddChild = ({ user, id }) => {
                 type="submit"
                 className="!bg-color3 !border-none !text-textcolor"
               >
-                Submit
+                {t('Submit')}
               </Button>
             </div>
           </FormGroup>
@@ -376,7 +382,7 @@ const AddChild = ({ user, id }) => {
       </Accordion>
       <div className="row">
         <Form onSubmit={(event) => handleUpload(event)}>
-          <div className="row m-2 text-3xl font-bold">Insert Excel Sheet</div>
+          <div className="row m-2 text-3xl font-bold">{t('Insert Excel Sheet')}</div>
           <div className="row m-1">
             <div className="col-12 col-sm-8 col-lg-6">
               <Input
@@ -395,7 +401,7 @@ const AddChild = ({ user, id }) => {
                 className="!bg-color3 !border-none !text-textcolor"
                 onClick={handleUpload}
               >
-                Submit
+                {t('Submit')}
               </Button>
             </div>
           </FormGroup>

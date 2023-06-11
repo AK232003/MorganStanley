@@ -3,14 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { List, Card, CardBody,CardTitle} from 'reactstrap';
 import Barchart from "../barchart";
 import PieChart from "../piechart";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [open,setOpen] =useState(false);
 	const [openSide, toggle] = useState(true);
-  const labels1 = ["Adopted", "Free to Adopt", "Surrendered"];
-  const title1 = 'Case Statistics'
-  const title2 = "Child Statistics"
+  const labels1 = [t('Adopted'), t('Free to Adopt'), t('Surrendered')];
+  const title1 = t('Case Statistics')
+  const title2 = t('Child Statistics')
   const data1 = [100, 200, 50];
 	const handleToggle=()=>{
     if(!open) toggle(!openSide); 
@@ -28,9 +31,12 @@ const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
   }, [user]);
   return (
     <>
+    <button onClick={() => i18next.changeLanguage('en')}>English</button>
+               <button onClick={() => i18next.changeLanguage('hi')}>Hindi</button>
+               <button onClick={() => i18next.changeLanguage('mr')}>Marathi</button> 
       <div className="row">
         <div className="col-auto font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl mt-4">
-          GroundWorker Dashboard
+        {t("GroundWorker Dashboard")}
         </div>
       </div>
       <div className="row">

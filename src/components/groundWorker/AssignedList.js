@@ -5,10 +5,12 @@ import { FaSearch } from "react-icons/fa";
 import { db } from "../../firebase"
 import { collection, getDocs, query } from "firebase/firestore";
 import img from "../../profile.webp";
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
 
 const AssignedList=({user, id})=>{
 	const navigate = useNavigate();
-	
+	const { t } = useTranslation();
 	const [children, setChildren] = useState([]);
 	const [filter,setFilter]=useState("Name")
 	const [search,setSearch] = useState("");
@@ -30,18 +32,18 @@ const AssignedList=({user, id})=>{
 				else if(children[filter].toLowerCase().includes(search.toLowerCase())){
 					return children;
 				}
-			}).map((child) => {
+			}).map((children) => {
 					return  (
-					<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={child["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${child["id"]}`, {state: child})}> 
-						<div><img alt="Child Photo" src={child["Image"]!==undefined?child["Image"]:img} className="w-40 h-40"/>
+					<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${children["id"]}`, {state: {children}})}> 
+						<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
 						</div>
 						<CardBody>
 							<List type="unstyled">
-								<li > <strong>Name :</strong> {child["Name"]}</li>
-								<li > <strong>Age :</strong> {child["Age"]}</li>
-								<li > <strong>District :</strong> {child["District"]}</li>
-								<li > <strong>State :</strong> {child["State"]}</li>
-								<li > <strong>Case Number :</strong> {child["Case Number"]}</li>
+								<li > <strong>{t("Name")} :</strong> {children["Name"]}</li>
+								<li > <strong>{t("Age")} :</strong> {children["Age"]}</li>
+								<li > <strong>{t("District")} :</strong> {children["District"]}</li>
+								<li > <strong>{t("State")} :</strong> {children["State"]}</li>
+								<li > <strong>{t("Case Number")} :</strong> {children["Case Number"]}</li>
 							</List>
 						</CardBody>
 					</Card>
@@ -54,14 +56,14 @@ const AssignedList=({user, id})=>{
 			<div className="col-8 col-md-10 w-full p-2">
 			<div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
 			<span><FaSearch className="text-lg text-black block float-left me-2"></FaSearch></span>
-			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={"Search"} onChange={(event)=>setSearch(event.target.value)}></input>
+			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={t("Search")} onChange={(event)=>setSearch(event.target.value)}></input>
 			</div>
 			</div>
 			<div className="col-4 col-md-2 mt-2 md:p-2 p-1">
 			<Input type="select" name="filter" id="filter" className="rounded-md w-full h-auto text-2xl p-2 border-0 !bg-color3 shadow-md" onChange={(event)=>setFilter(event.target.value)}>
-				<option>Name</option>
-				<option>District</option>
-				<option>Case Number</option>
+				<option>{t("Name")}</option>
+				<option>{t("District")}</option>
+				<option>{t("Case Number")}</option>
 			</Input>
 			</div>
 		</div>
