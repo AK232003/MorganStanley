@@ -4,6 +4,7 @@ import { List, Card, CardBody,CardTitle} from 'reactstrap';
 import Barchart from "../barchart";
 import PieChart from "../piechart";
 import { useTranslation } from "react-i18next";
+import Linechart from "../linechart";
 
 const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
   const { t } = useTranslation();
@@ -50,7 +51,7 @@ const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
         </div>
           <CardBody>
             {/* <<PieChart labels = {labels1} data={data1} title={title1}/>> */}
-            <Barchart />
+            <Linechart />
           </CardBody>
       </Card>
     </div>
