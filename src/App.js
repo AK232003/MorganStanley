@@ -48,9 +48,10 @@ function App() {
                 <Route path="groundWorker/profiles/:id" element={<ViewProfile user={user} id={id} />} />
                 <Route path="groundWorker/caseDetails" element={<AssignedList user={user} id={id} />} />
                 <Route path="groundWorker/caseDetails/:id" element={<CaseDetails user={user} id={id}/>}>
-                  <Route path="step1/*" element={<Report />}></Route>
-                  <Route path="step2/*" element={<>hihi2</>}></Route>
-                  <Route path="step3/*" element={<>hihi3</>}></Route>
+                  <Route path="step1/*" element={<Report stepType={1}/>}></Route>
+                  <Route path="step2/*" element={<Report stepType={2}/>}></Route>
+                  <Route path="step3/*" element={<Report stepType={3}/>}></Route>
+                  <Route path="step4/*" element={<Report stepType={4}/>}></Route>
                 </Route>
               </Route>
             </Routes>

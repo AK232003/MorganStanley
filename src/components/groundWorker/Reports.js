@@ -13,46 +13,86 @@ import {
   Button, Modal, ModalHeader, ModalBody
 } from "reactstrap";
 import { getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
+import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, collection, setDoc } from "firebase/firestore";
 import { database, db, storage } from "../../firebase";
-const Report=() => {
+const Report=({stepType}) => {
   const location = useLocation();
-  const [type, setType] = useState(location.pathname.split("/")[5]);
+  const [type, setType] = useState(stepType===1?location.pathname.split("/")[5]:stepType);
   const [modal, setModal] = useState(false);
   const toggleModal = () => {
     setModal(!modal);
   };
-  const [step, setStep] = useState("");
-  const [msg, setMsg] = useState("");
+
+  const [workerComments, setWorkerComments] = useState([]);
+  const [workerTime, setWorkerTime] = useState([]);
   const [newsReportText, setNewsReportText] = useState("");
-  const [comments, setComments] = useState("");
+  const [managerComments, setManagerComments] = useState("");
+  const [managerTime, setManagerTime] = useState([]);
+  const [comments, setComments] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [status, setStatus] = useState("Loading");
   const id = location.pathname.split("/")[3];
   const [imageUpload, setImageUpload] = useState(null);
   const mapOfTypes = new Map();
-  mapOfTypes.set("newsPaperReport", ["Newspaper Report", "Step1"]);
-  mapOfTypes.set("TVReport", ["TV Report", "Step2"]);
-  mapOfTypes.set("fileMisingReport", ["File Missing Report", "Step3"]);
-  mapOfTypes.set("medicalReport", ["Medical Report", "Step4"]);
-  mapOfTypes.set("siReport", ["SI Report", "Step5"]);
-
+  mapOfTypes.set("newsPaperReport", ["Newspaper Report", "Step1","NPR"]);
+  mapOfTypes.set("TVReport", ["TV Report", "Step2","TVR"]);
+  mapOfTypes.set("fileMisingReport", ["File Missing Report", "Step3","FMR"]);
+  mapOfTypes.set("medicalReport", ["Medical Report", "Step4","MR"]);
+  mapOfTypes.set("siReport", ["SI Report", "Step5","TVR"]);
+  mapOfTypes.set("finalPoliceReport", ["Final Police Report", "Step6","FPR"]);
+  mapOfTypes.set("PDC", ["Parent's Death Certificate", "Step7","PDC"]);
+  mapOfTypes.set("orphanCertificate", ["Orphan Certificate", "Step8","OC"]);
+  mapOfTypes.set("gtReport", ["Guardian Trace Report", "Step9","GTR"]);
+  mapOfTypes.set(2,["NOC","Step2","NOC"])
+  mapOfTypes.set(3,["LFA","Step3","LFA"])
+  mapOfTypes.set(4,["CARINGS upload","Step4","Carings"])
 
   useEffect(() => {
-    const ref = database.ref("childProfile"+`${id}`)
-    setType(location.pathname.split("/")[5]);
-    console.log(location.pathname.split("/")[5])
+    setType(stepType===1?location.pathname.split("/")[5]:stepType);
+    console.log(location.pathname.split("/"))
+    console.log(stepType,type);
     // setStep(mapOfTypes.get(type)[1]);
-    // database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
-    //   setStatus(snapshot.val()[step]);
-    //   setMsg(snapshot.val()["ManagerMessage"]);
-    // });
+    db.collection(`caseProcesses`).doc(`${id}`).get().then((doc)=>{
+      
+      let temp1=stepType;
+      if(stepType===1){temp1=type; }
+      else temp1=stepType;
+      console.log(temp1);
+      console.log(doc.data(),mapOfTypes.get(temp1)[2])
+      console.log(doc.data()[mapOfTypes.get(temp1)[2]])
+      if(doc.data()){
+        let temp=doc.data()[mapOfTypes.get(temp1)[2]]["Status"]
+        if(temp){
+          setStatus(temp);
+        }
+        else{
+          setStatus("Not Available")
+        }
+      }
+      else{
+        setStatus("Not Available")
+      }
+    })
+    
+    db.collection("caseComments").doc(`${id}`).get().then((doc)=>{
+      console.log(doc.data())
+      if(doc.data()){
+        setWorkerComments(doc.data()["WorkerComment"])
+        setWorkerTime(doc.data()["WorkerTime"])
+        setManagerComments(doc.data()["ManagerComment"])
+        setManagerTime(doc.data()["ManagerTime"])
+        console.log(workerComments,managerComments)
+      }
+      else{
+        setComments("Not Available");
+      }
+    })
   }, [location]);
   const handleSubmitInformation = (e) => {
-    console.log("Jitege")
     e.preventDefault();
-    // setStep(1);
-    // setSubStep(1);
-    setStep("PVR")
+    const step=mapOfTypes.get(type)[2];
+    console.log(step)
+
     console.log(newsReportText);
     console.log(comments)
 
@@ -66,36 +106,17 @@ const Report=() => {
         getDownloadURL(snapshot.ref)
           .then((url) => {
             db.collection("task")
-              .doc(id + step)
+              .doc(id+"-" + step)
               .set({
-                PVR: {
                   Docs: url,
                   Status: "Review",
                   Text:  e.target[0].value,
                   isComplete: false,
-                },
               })
               .then(() => {
                 console.log("task added!")
-                // if (step === 1) {
-                //   database
-                //     .ref(`cases/Process/` + id + `/Step1/Step` + `${substep}`)
-                //     .update({
-                //       isComplete: false,
-                //       text: id + step.toString() + substep.toString(),
-                //       docs: url,
-                //       stat: "In Review",
-                //     });
-                // } else {
-                //   database
-                //     .ref(`cases/Process/` + id + `/Step` + `${step}`)
-                //     .update({
-                //       isComplete: false,
-                //       text: id + step.toString() + "0",
-                //       docs: url,
-                //       stat: "In Review",
-                //     });
-                // }
+                setSubmitted(true);
+                alert(`${step} Report Added!`)
               })
               .catch((error) => {
                 console.error("Error creating document: ", error);
@@ -105,36 +126,24 @@ const Report=() => {
             console.error("Error getting download URL: ", error);
           });
       })
-    //   .catch((error) => {
-    //     console.error("Error uploading bytes: ", error);
-    //   });
-
-    // // database.ref("childProfile/" + `${id}`).update({ [step]: "In Progress" });
-    // // database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
-    // //   setStatus(snapshot.val()[step]);
-    // // });
-    // console.log("Success!")
-    setSubmitted(true);
   };
 
   // Comment Section(wId to be changed with the current workerId)
   // ----------------------------------
   const handleComment = (e) => {
     e.preventDefault();
-
-    console.log(e.target[0].value);
-    // database
-    //   .ref(`cases/comments/` + id + `/Worker`)
-    //   .once("value", (snapshot) => {
-    //     const existingArray = snapshot.val() || [];
-
-    //     const newArray = [
-    //       ...existingArray,
-    //       e.target[0].value + "@" + "wID" + "@" + new Date().toString(),
-    //     ];
-
-    //     database.ref(`cases/comments/` + id + `/Worker`).set(newArray);
-    //   });
+    var date = new Date();
+    var docRef = db.collection("caseComments").doc(id);
+    docRef.update({
+        WorkerComment: arrayUnion(e.target[0].value),
+        WorkerTime: arrayUnion(date),
+      }).then(() => {
+        console.log("Reply Sent Succesfully!");
+        // alert{"Comment added"}
+      })
+      .catch((error) => {
+        alert("Error sending comment:", error);
+      });
   };
   // ---------------------------------------
 
@@ -199,13 +208,6 @@ const Report=() => {
             </Button>
               </div>
             </Form>
-
-            {submitted && (
-              <div className="mt-4">
-                <h6>Your event report has been submitted.</h6>
-                {/* Additional logic or message for submitted form */}
-              </div>
-            )}
           </CardBody>
 
           <Modal centered isOpen={modal} toggle={toggleModal}>
@@ -214,7 +216,14 @@ const Report=() => {
         </ModalHeader>
         <ModalBody>
           <Form onSubmit={(event) => handleComment(event)}>
-            Comments History 
+            Comments History: {comments}. 
+            <div>
+              {managerComments && managerComments.map((comment)=> comment)}
+            </div>
+            <div>
+              Worker Comments. {`\n`}
+              {workerComments && workerComments.map((comment)=> comment)}
+            </div>
             <FormGroup row>
               <Label for="mid" sm={2}>
                 {" "}

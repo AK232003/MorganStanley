@@ -32,7 +32,7 @@ const AssignedList=({user, id})=>{
 				}
 			}).map((child) => {
 					return  (
-					<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={child["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${child["id"]}/step1/newsPaperReport`, {state: child})}> 
+					<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={child["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${child["id"]}`, {state: child})}> 
 						<div><img alt="Child Photo" src={child["Image"]!==undefined?child["Image"]:img} className="w-40 h-40"/>
 						</div>
 						<CardBody>

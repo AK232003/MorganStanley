@@ -148,7 +148,7 @@ const GroundWorkerSidebar = ({
 
             {/* Step-4 Button */}
             <li className={sideBarIconProperty}>
-              <div onClick={() => toggleAccordion("step4")} className={`${openSide ?`h-auto`:"h-8"} text-center` }>
+              <div onClick={() => {toggleAccordion("step4");navigate(`/groundWorker/caseDetails/${child["id"]}/step4`,{state: child}) }} className={`${openSide ?`h-auto`:"h-8"} text-center` }>
                 <span>  <TbCircleNumber4 className="text-3xl text-textcolor block float-left"></TbCircleNumber4> </span>
                 <span className={`text-base font-medium ms-2 ${ !openSide && "hidden" }`}>
                   Step-4: Upload Child to CARINGS

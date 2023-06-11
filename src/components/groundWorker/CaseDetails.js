@@ -12,9 +12,9 @@ const ViewProfile = ({ user, id }) => {
   const [deadLine, setDeadLine] = useState("");
   const [keys, setKeys] = useState(Object.keys(child));
   const [step, setStep] = useState(0);
-
+	console.log(location.pathname.split("/"))
   const navigate = useNavigate();
-
+	console.log()
   useEffect(() => {
     if (user !== "GroundWorker") navigate("/");
     console.log("Hi there");
