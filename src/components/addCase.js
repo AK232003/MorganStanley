@@ -24,14 +24,14 @@ import { db } from "../firebase";
 
 export const addProcessSurrendered = async (caseNumber) => {
   await setDoc(doc(db, "caseProcesses", caseNumber), {
-  Step1: {
+  // Step1: {
     SurrenderDeed: {
       Docs: "",
       Status: "In Progress",
       Text: "",
       isComplete: false,
     },
-  },
+  // },
     LFA: {
       Docs: "",
       Status: "In Progress",
