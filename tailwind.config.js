@@ -33,10 +33,10 @@ module.exports = {
       },
       gridTemplateRows: {
         // Simple 8 row grid
-        '10': 'repeat(10, minmax(0, 1fr))',
+        '14': 'repeat(14, minmax(0, 1fr))',
       },
       gridRow: {
-        'span-9': 'span 9 / span 9',
+        'span-12': 'span 13 / span 11',
       }
     },
     

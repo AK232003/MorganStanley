@@ -43,7 +43,7 @@ const ChildrenList = ({ user, id }) => {
             return (
               <Card
                 body
-                className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2 cursor-pointer"
+                className="col col-lg-5 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
                 key={children["Case Number"]}
                 style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
                 onClick={() =>
@@ -52,17 +52,20 @@ const ChildrenList = ({ user, id }) => {
                   })
                 }
               >
-                <div>
-                  <img
+
+            <div className="flex flex-row w-full"> 
+              <div className="basis-2/5">
+                <img
                     alt="Child Photo"
                     src={
                       children["Image"] !== undefined ? children["Image"] : img
                     }
-                    className="w-40 h-40"
-                  />
+                    className="rounded-full basis-4/5 h-32 w-32 md:h-40 md:w-40"
+                    />
                 </div>
-                <CardBody>
-                  <List type="unstyled">
+
+                <CardBody className="basis-3/5 p-1  ps-2">
+                <List type="unstyled md:text-base text-sm">
                     <li>
                       {" "}
                       <strong>Name :</strong> {children["Name"]}
@@ -85,6 +88,7 @@ const ChildrenList = ({ user, id }) => {
                     </li>
                   </List>
                 </CardBody>
+              </div>
               </Card>
             );
           })}
@@ -93,8 +97,8 @@ const ChildrenList = ({ user, id }) => {
   };
   return (
     <div className="container lg:mt-4 overflow-y-scroll bg-color2">
-      <div className="row mt-4 h-16">
-        <div className="col-6 col-lg-10 w-full p-2">
+      <div className="flex flex-row">
+        <div className="basis-8/10 w-full p-2 mt-1">
           <div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
             <span>
               <FaSearch className="text-lg text-black block float-left me-2"></FaSearch>
@@ -104,19 +108,20 @@ const ChildrenList = ({ user, id }) => {
               type="text"
               placeholder={"Search"}
               onChange={(event) => setSearch(event.target.value)}
-            ></input>
-          </div>
+              ></input>
+            </div>
         </div>
-        <div className="col-auto col-lg-2 mt-2 md:p-2 p-1">
+        <div className="basis-2/10 mt-1 p-2">
           <Dropdown
             isOpen={dropdownOpen}
             toggle={toggle}
             direction="down"
+            className="shadow-md hover:shadow-xl"
             onChange={(event) => console.log(event)}
           >
             <DropdownToggle
               size="lg"
-              className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md"
+              className="rounded-md w-auto h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md"
               caret
             >
               {filter === "" ? "Select Filter" : filter}

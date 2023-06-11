@@ -70,7 +70,7 @@ const AssignCases = ({ user, id }) => {
 	if(worker.length == 1) {
 		const childID = child["Case Number"].split("/").join("");
 
-		// console.log(child)
+		console.log(child)
 
 		const caseRef = doc(db, "caseAssignment", childID);
 		const caseSnap = await getDoc(caseRef)
@@ -86,7 +86,7 @@ const AssignCases = ({ user, id }) => {
 			let list;
 			let i;
 
-			// console.log(caseData)
+			console.log(caseData)
 
 			if(oldGWID !== workerID) {
 				const oldGWRef = doc(db, "Users", oldGWID)
@@ -117,7 +117,7 @@ const AssignCases = ({ user, id }) => {
 			}			
 		}
 
-		// console.log(childID);
+		console.log(childID);
 
 		if(child["Child Category"] === "Orphaned - No Guardians") {
 			addProcessOrphaned(childID)
@@ -233,28 +233,26 @@ const AssignCases = ({ user, id }) => {
             return (
               <Card
                 body
-                className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
+                className="col col-lg-5 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
                 key={children["id"]}
                 style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
               >
-                <div>
+
+                <div className="flex flex-row w-full">
+                  <div className="flex flex-col basis-2/5">
                   <img
                     alt="Child Photo"
                     src={
                       children["Image"] !== undefined ? children["Image"] : img
                     }
-                    className="w-40 h-40"
+                    className="rounded-full basis-4/5"
                   />
-                  <button
-                    className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
-                    onClick={() => toggleModal(children["id"])}
-                  >
-                    {" "}
-                    Assign
-                  </button>
+                    <div className="m-1 p-1 text-textcolor basis-1/5 justify-self-center md:text-base text-sm">
+                      <strong>Case No:</strong> {children["Case Number"]}
+                    </div>
                 </div>
-                <CardBody>
-                  <List type="unstyled">
+                <CardBody className="flex flex-col basis-3/5 p-1  ps-2">
+                  <List type="unstyled basis-4/5 md:text-base text-sm">
                     <li>
                       {" "}
                       <strong>Name :</strong> {children["Name"]}
@@ -271,19 +269,16 @@ const AssignCases = ({ user, id }) => {
                       {" "}
                       <strong>State :</strong> {children["State"]}
                     </li>
-                    <li>
-                      {" "}
-                      <strong>Case Number :</strong> {children["Case Number"]}
-                    </li>
                   </List>
                   <button
-                    className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
-                    onClick={() => toggleModalReport(children["id"])}
+                    className="p-2 rounded-3 basis-1/5 bg-buttonColor justify-self-end text-white w-full"
+                    onClick={() => toggleModal(children["id"])}
                   >
                     {" "}
-                    Case Report
+                    Assign
                   </button>
                 </CardBody>
+                </div>
               </Card>
             );
           })}

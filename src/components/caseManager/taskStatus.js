@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { List, Card, CardBody, Dropdown, DropdownToggle, CardTitle,DropdownMenu, DropdownItem, Button, Modal, ModalHeader, ModalBody, ModalFooter,Form, FormGroup,Label, Input } from "reactstrap";
 import { FaSearch } from "react-icons/fa";
 import { db,database } from "../../firebase"
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import img from "../../profile.webp";
 
 const TaskStatus = ({ user, id }) => {
@@ -12,9 +12,11 @@ const TaskStatus = ({ user, id }) => {
   const [search, setSearch] = useState("");
   const [caseSelected, setCase] = useState("");
   const [tasks, setTasks] = useState([]);
-  const [task, setTask] = useState(null);
+  const [task, setTask] = useState("");
+  const [casesList, setCasesList] = useState([0])
   const [keys, setKeys] = useState(null);
   const childrenCollectionRef = collection(db, "task");
+  
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const [step, setStep] = useState(0);
@@ -40,7 +42,7 @@ const TaskStatus = ({ user, id }) => {
 		if(typeof(caseno)==="string"){
 			setCase(caseno);
 			setTask(tasks.filter(task => task["id"]===caseno)[0]);
-			// console.log(child);
+			// console.log(children.filter(child => child["id"]===caseno)[0]);
 		}
 		else setCase("");
 	};
@@ -61,14 +63,23 @@ const TaskStatus = ({ user, id }) => {
       }
       // fetchWorkerID("ST15");
         const getTasks = async () => {
-            const data = await getDocs(childrenCollectionRef);
-            console.log(data.docs)
-            setTasks(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
-            // let temp=tasks;
-            // temp.map((doc)=>({...doc, workerID: fetchWorkerID(doc["id"].split("-")[0])}))
-            // console.log(temp)
-            // setTasks(temp);
-            console.log(tasks)
+          const data = await getDocs(childrenCollectionRef);
+          // console.log(data.docs)
+          setTasks(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
+          // let temp=tasks;
+          // temp.map((doc)=>({...doc, workerID: fetchWorkerID(doc["id"].split("-")[0])}))
+          // console.log(temp)
+          // setTasks(temp);
+          // console.log(tasks)
+          const managerRef = doc(db, "Users", id)
+          const casesSnap = await getDoc(managerRef)
+          let casesDataList = casesSnap.data()["CasesList"]
+          casesDataList.splice(0,1)
+      
+          // console.log(casesDataList)
+          // console.log(data)
+
+          setCasesList(casesDataList)
         };
         getTasks();
     }, [])
@@ -77,142 +88,89 @@ const TaskStatus = ({ user, id }) => {
 // --------------------------------------
 const handleAccept = async (e) =>{
 	e.preventDefault()
-	setStep(1)
-	setSubStep(1)
-	console.log(step, substep)
 	console.log("Accepted")
 
-	const caseID = task.id;
+  console.log(task["id"])
 
-	// const caseDocRef = db.collection("cases").doc(child["id"]);
-	// const taskDocRef = db
-	// 	.collection("task")
-	// 	.doc(child["id"] + step.toString() + substep.toString());
+	const tempTaskID = task["id"]
+	let t = tempTaskID.split("-");
+	const caseID = t[0]
+	const docType = t[1]
+	// console.log(docType)
 
-	// taskDocRef
-	// 	.get()
-	// 	.then((taskDocSnapshot) => {
-	// 		if (taskDocSnapshot.exists) {
-	// 			const taskData = taskDocSnapshot.data();
-	// 			caseDocRef
-	// 				.update(taskData)
-	// 				.then(() => {
-	// 					console.log("Fields added successfully");
-	// 				})
-	// 				.catch((error) => {
-	// 					console.error("Error updating case document: ", error);
-	// 				});
-	// 		} else {
-	// 			console.log("Task document does not exist");
-	// 		}
-	// 	})
-	// 	.catch((error) => {
-	// 		console.error("Error retrieving task document: ", error);
-	// 	});
+	// const caseID = child.id;
+	// console.log(caseID)
 
+	const caseAssignRef = doc(db, "caseAssignment", caseID)
+	const caseAssignSnap = await getDoc(caseAssignRef)
+	// console.log(caseAssignSnap.data())
+	let GWID = caseAssignSnap.data()["groundWorkerID"]
+	let CMID = caseAssignSnap.data()["caseManagerID"]
 
-	// if(step === 1)
-	// {
-	// 	 database.ref(`cases/Process/` + child["id"] + `/Step1/Step1`).update({
-	// 		 isComplete: true,
-	// 		 stat: "Complete",
-	// 	 });
-	// 	 let isStep1Complete = true;
-	// 	 for(let i=1; i<=5; i++)
-	// 	 {
-	// 			database.ref(`cases/Process/` + child["id"] + `/Step1/Step${i}/isComplete`).once("value", (snapshot) => {
-	// 				isStep1Complete = snapshot.val() && isStep1Complete;
-	// 			});
-	// 	 }
-	// 	 if(isStep1Complete){
-	// 		 database.ref(`cases/Process/` + child["id"]).update({
-	// 			 isComplete: 1,
-	// 		 });
-	// 	 }
-	// }
-	// else 
-	// {
-	// 	 database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
-	// 		 isComplete: true,
-	// 		 stat: "Complete",
-	// 	 });
-	// 	 database.ref(`cases/Process/` + child["id"] ).update({
-	// 		 isComplete: step,
-	// 	 });
-	// }   
+	const taskRef = doc(db, "task", tempTaskID);
+	const taskSnap = await getDoc(taskRef)
+	const taskData = taskSnap.data()
+	console.log(taskData)
+
+	const processRef = doc(db, "caseProcesses", caseID)
+	// const processSnap = doc(processRef)
+
+	let processUpdate = {}
+	processUpdate[docType] = {
+		"Docs": taskData["Docs"],
+		"Status": "Completed",
+		"Text": taskData["Text"],
+		"isComplete": true
+	}
+
+	await updateDoc(processRef, processUpdate)
+
+	deleteDoc(doc(db, "task", task["id"]))
+
+	console.log("Task Accepted!")
+
 }
 // ----------------------------------
-
-
   // Handle Reject Section
   // -------------------------------------
   const handleReject = (e) => {
     e.preventDefault();
-    // console.log("Rejected");
-    // const taskDocRef = db
-    //   .collection("task")
-    //   .doc(child["id"] + step.toString() + substep.toString());
-    // taskDocRef
-    //   .delete()
-    //   .then(() => {
-    //     console.log("Document successfully deleted");
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error deleting document: ", error);
-    //   });
 
-    // if (step === 1) {
-    //   database
-    //     .ref(`cases/Process/` + child["id"] + `/Step1/Step${substep}`)
-    //     .update({
-    //       isComplete: false,
-    //       text: "",
-    //       docs: "",
-    //       stat: "In Progress",
-    //     });
-    // } else {
-    //   database.ref(`cases/Process/` + child["id"] + `/Step${step}`).update({
-    //     isComplete: false,
-    //     text: "",
-    //     docs: "",
-    //     stat: "In Progress",
-    //   });
-    // }
+    deleteDoc(doc(db, "task", task["id"]))
   };
 
-
-
-    const taskLists=()=>{
-        return (
-            <div className="row mt-2">
-            {tasks.filter(task => {
-				if(search === "Search" || search === "") {
-					return task;
-				}
-				else if(task[filter].toLowerCase().includes(search.toLowerCase())){
-					return task;
-				}
-				}).map((task) => {
-                return  (
-				<Card body className="col col-lg-5 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={task["id"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
-					<CardBody>
-						<List type="unstyled">
-              {console.log(task["workerID"])}
-							<li > <strong>Task :</strong> {mapOfTypes.get(task["id"].split("-")[1])}</li>
-							<li > <strong>Docs :</strong> {<a href={task["Docs"]}>Task Report Link</a>}</li>
-							<li > <strong>Status :</strong> {task["Status"]}</li>
-							<li > <strong>Text :</strong> {task["Text"]}</li>
-							<li > <strong>Status :</strong> {task["isComplete"]?"Completed":"In Progress"}</li>
-						</List>
-					</CardBody>
-				<div>
-				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(task["id"])}>Task Details</button>
-				</div>
-				</Card>
-            )})}
-        </div>)
-    }
+  const taskLists=()=>{
     return (
+        <div className="row mt-2">
+        {tasks.filter(task => {
+    if(search === "Search" || search === "") {
+      return task;
+    }
+    else if(task[filter].toLowerCase().includes(search.toLowerCase())){
+      return task;
+    }
+    }).map((task) => {
+            return  (
+    <Card body className="col col-lg-5 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={task["id"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
+      <CardBody>
+        <List type="unstyled">
+          {/* {console.log(task["workerID"])} */}
+          <li > <strong>Task :</strong> {mapOfTypes.get(task["id"].split("-")[1])}</li>
+          <li > <strong>Docs :</strong> {<a href={task["Docs"]}>Task Report Link</a>}</li>
+          <li > <strong>Status :</strong> {task["Status"]}</li>
+          <li > <strong>Text :</strong> {task["Text"]}</li>
+          <li > <strong>Status :</strong> {task["isComplete"]?"Completed":"In Progress"}</li>
+        </List>
+      </CardBody>
+    <div>
+    <button className="m-2 p-2 rounded-2 bg-buttonColor text-white w-full" onClick={()=>toggleModal(task["id"])}>Task Details</button>
+    </div>
+    </Card>
+        )})}
+    </div>)
+}
+
+return (
 	<div className="container lg:mt-4 overflow-y-scroll bg-color2">
 		<div className="row mt-4 h-16">
 			<div className="col-6 col-lg-10 w-full p-2">
