@@ -8,14 +8,14 @@ import { auth, db, database } from "../firebase";
 // import addProcess from "./addCase";
 import { addProcessOrphaned } from "./addCase";
 
-const Login = ({setUser, setId}) => {
+const Login = ({setUser, id, setId,setName}) => {
 
   const emailRef = useRef();
   const passwordRef = useRef();
   const { login } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  // const [userID, setuserID] = useState(null)
+  const [userID, setuserID] = useState(null)
   // const [userHash, userHash] = useState(null);
   const [userType, setuserType] = useState(null);
   const navigate = useNavigate();
@@ -34,14 +34,15 @@ const Login = ({setUser, setId}) => {
 
 
   useEffect(()=>{
-    setUser(localStorage.getItem('user'))
-    setuserType(localStorage.getItem('user'))
-    if (localStorage.getItem('user')=== "GroundWorker" ) {
+    let temp=localStorage.getItem('user')
+    setUser(temp)
+    setuserType(localStorage.getItem('userID'))
+    if (temp=== "GroundWorker" ) {
       navigate("groundWorker");
-     } else if(localStorage.getItem('user') === "CaseManager"){
+     } else if(temp === "CaseManager"){
        navigate("caseManager");
      }
-     else if(localStorage.getItem('user')=== "Admin") {
+     else if(temp=== "Admin") {
        navigate("admin");
     }
     // fetchData()
@@ -61,6 +62,7 @@ const Login = ({setUser, setId}) => {
       return true;
     } catch (error) {
       console.log("Error Resetting password:", error);
+      alert("Error in Login! Try Forget Password");
       return false;
     }
   }
@@ -73,37 +75,45 @@ const Login = ({setUser, setId}) => {
       console.log(emailRef.current.value, passwordRef.current.value);
       const userHash = await login(emailRef.current.value, passwordRef.current.value);
       console.log(userHash)
-      let id=null;
       database.ref(`Users/${userHash[0]}/userID/`).once('value')
       .then((snapshot) => {
         setId(snapshot.val());
-        id=snapshot.val();
         console.log(snapshot.val(), "id");
       })
+      // .then(()=>{
+        // db.collection("Users").doc(id).get().then((doc)=>{
+        //   console.log(doc.data()["Name"]);
+        //   setName(doc.data()["Name"])
+        // })
+      // })
       .catch((error) => {
         console.log('Error fetching data:', error);
+        alert("Error signing In!")
       });
+
       setUser(userHash[1]);
+      
       if (userHash[1] === "GroundWorker" ) {
          console.log("ground worker route");
          localStorage.setItem('user',userHash[1]);
-        //  localStorage.setItem('user',id);
+         localStorage.setItem('userID',id);
          setUser("groundWorker");
          navigate("groundWorker");
         } else if(userHash[1] === "CaseManager"){
           localStorage.setItem('user',userHash[1]);
-          // localStorage.setItem('user',id);
+          localStorage.setItem('userID',id);
           console.log("case manager route")
           setUser("CaseManager")
           navigate("caseManager");
         }
         else if(userHash[1] === "Admin") {
           localStorage.setItem('user',userHash[1]);
-          // localStorage.setItem('user',id);
+          localStorage.setItem('userID',id);
           console.log("admin route")
          setUser("Admin")
           navigate("admin");
        }
+
     } catch {
       setError("Incorrect Username or Password");
     }

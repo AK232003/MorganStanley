@@ -39,7 +39,7 @@ const ManagersList = ({user,usersList, id}) => {
     }, [])
     const managerLists=()=>{
         return (
-            <div className="row">
+            <div className="grid  grid-cols-1 md:grid-cols-2 gap-0 mt-2">
             {manager.filter(manager => {
 				if(search === "Search" || search === "") {
 					return manager;
@@ -49,16 +49,19 @@ const ManagersList = ({user,usersList, id}) => {
 				}
 				}).map((manager) => {
                 return  (
-								<Card body className="col col-md-5 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={manager["UserID"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
-								<div><img alt="Child Photo" src={manager["Image"]!==undefined?manager["Image"]:img} className="w-60 h-40"/>
-								<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" > Assign</button>
+								<Card body className="align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={manager["UserID"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
+								 <div className="flex flex-row w-full">
+								 <div className="flex basis-2/5">
+									<img alt="Child Photo" src={manager["Image"]!==undefined?manager["Image"]:img} className="rounded-full basis-4/5 w-36 h-36"/>
 								</div>
-								<CardBody>
+								<CardBody className="flex flex-col basis-3/5 p-1  ps-2">
 												<List type="unstyled">
 												<li > <strong>{t('Name')} :</strong> {manager["Name"]}</li>
 												<li > <strong>{t('Phone Number')} :</strong> {manager["Phone"]}</li>
+												<li > <strong>{t('User ID')} :</strong> {manager["UserID"]}</li>
 												</List>
 									</CardBody>
+								</div>
 								</Card>
             )})}
         </div>)

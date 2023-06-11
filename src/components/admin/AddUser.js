@@ -98,22 +98,20 @@ const AddUser = ({ user, id }) => {
   return (
     <>
       <div className="container overflow-auto rounded-2 max-w-lg justify-content-center">
-        <div className="row mt-4">
-          <button
-            className="col-5 col-md-2 w-16 bg-color4 rounded-2 ms-0 m-2 mb-0 pb-0 p-1"
-            onClick={() => setOpen(1)}
-          >
+        <div className="flex flex-row justify-content-between mt-4">
+          <div className="w-auto">
+          <button className="w-30 text-white bg-buttonColor/[0.7] rounded-2 p-2" onClick={() => setOpen(1)}>
             {t('Add User')}
           </button>
-          <button
-            className="col-5 col-md-2 w-16 bg-color4 rounded-2 m-2 mb-0 pb-0  p-1"
-            onClick={() => setOpen(2)}
-          >
+          </div>
+          <div className="w-auto">
+          <button className="w-30 text-white bg-buttonColor/[0.7] rounded-2 p-2" onClick={() => setOpen(2)}>
             {t('Delete User')}
           </button>
+          </div>
         </div>
         <hr className="border-solid h-px m-1"></hr>
-        <div className="row  bg-color3">
+        <div className="flex w-full justify-content-center">
           {error && (
             <div className="alert alert-danger" role="alert">
               {error}
@@ -121,7 +119,7 @@ const AddUser = ({ user, id }) => {
           )}
           {open === 1 && (
             <form
-              className="d-flex flex-column overflow-y-auto"
+              className="d-flex flex-column overflow-y-auto bg-color3 rounded-2 shadow-md p-3"
               onSubmit={(e) => createUser(e)}
             >
               <div className="form-outline mb-2">

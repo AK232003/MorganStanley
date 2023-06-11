@@ -17,8 +17,10 @@ import './i18n';
 function App() {
   const [user, setUser] = useState(null);
   const [id, setId] = useState(null);
+  const [name,setName]=useState(null);
   useEffect(() => {
     setUser(localStorage.getItem('user'))
+    setId(localStorage.getItem('userID'))
   }, [user]);
   return (
     <>
@@ -30,8 +32,8 @@ function App() {
         <Router>
           <AuthProvider>
             <Routes>
-              <Route exact path="/" element={<Login setUser={(value) => setUser(value)} setId={(value) => setId(value)}/>}/>
-              <Route exact path="/*" element={ <Main user={user} id={id} setUser={(value) => setUser(value)} setId={(value) => setId(value)}/>}>
+              <Route exact path="/" element={<Login setUser={(value) => setUser(value)} id={id} setId={(value) => setId(value)} setName={(value)=>setName(value)}/>}/>
+              <Route exact path="/*" element={ <Main user={user} id={id} name={name} setUser={(value) => setUser(value)} setId={(value) => setId(value)}/>}>
                 <Route exact path="caseManager" element={<Dashboard user={user} id={id} />}/>
                 <Route path="caseManager/addChild" element={<AddChild user={user} id={id} />}/>
                 <Route path="caseManager/reports" element={<AssignCases user={user} id={id} />}/>

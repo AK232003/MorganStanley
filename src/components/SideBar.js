@@ -14,7 +14,6 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   const navigate=useNavigate();
   const {pathname}=useLocation();
   const isCaseDetailsView=matchPath("/groundWorker/caseDetails/*",pathname)
-  console.log(isCaseDetailsView)
   const sideBarIconProperty = "text-lg text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-hoverColor cursor-pointer";
   const logoutIconProperty = `${openSide ? "w-64" : "w-16"} absolute bottom-0 text-xl font-bold text-logoutContent duration-300 bg-sideBarColor1 rounded-0 p-3 ps-0 items-center cursor-pointer justify-items-center align-self-center`;
   const sideIconProperty = `${openSide ? "w-64" : "w-16"} h-16 text-xl text-color2 duration-300 bg-sideBarColor2 rounded-0 py-2 items-center bg-sideBarColor2 cursor-pointer justify-items-center`;
@@ -25,10 +24,10 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
 
   const handleLogout= ()=>{
     localStorage.setItem('user',null);
+    localStorage.setItem('userID',null);
     setuser(null);
     navigate("/");
   }
-  console.log(user,pathname.split("/"))
 	return (
     <>
 	<div className={`h-screen sm:h-9/10  ${openSide ? "w-64" : "w-16"} ${!open && "hidden"} 
@@ -96,7 +95,6 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
           {
           user === "GroundWorker" ? (user==="GroundWorker" && (isCaseDetailsView===null || isCaseDetailsView.params["*"]==='')) ?
           <div className="h-full flex flex-col ">
-            {console.log(user)}
             <ul className="pt-2 ps-0">
               <li className={sideBarIconProperty} onClick={()=>navigate("/groundWorker")} >
                 <span><FaHome className="text-3xl text-textcolor block float-left"></FaHome></span>

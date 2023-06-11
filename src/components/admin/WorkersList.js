@@ -39,29 +39,33 @@ const WorkersList = ({user,usersList, id}) => {
 			});
     }, [])
     const workerLists=()=>{
-        return (
-            <div className="row">
-            {worker.filter(worker => {
-				if(search === "Search" || search === "") {
-					return worker;
-				}
-				else if(worker[filter].toLowerCase().includes(search.toLowerCase())){
-					return worker;
-				}
-				}).map((worker) => {
-                return  (
-						<Card body className="col col-md-5 align-items-center justify-content-center m-2 p-2 cursor-pointer" key={worker["UserID"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
-						<img alt="Child Photo" src={worker["Image"]!==undefined?worker["Image"]:img} className="w-60 h-40"/>
-						
-						<CardBody>
-							<List type="unstyled">
-												<li > <strong>{t('Name')} :</strong> {worker["Name"]}</li>
-												<li > <strong>{t('Phone Number')} :</strong> {worker["Phone"]}</li>
-								</List>
+			return (
+				<div className="grid  grid-cols-1 md:grid-cols-2 gap-0 mt-2">
+				{worker.filter(worker => {
+		if(search === "Search" || search === "") {
+			return worker;
+		}
+		else if(worker[filter].toLowerCase().includes(search.toLowerCase())){
+			return worker;
+		}
+		}).map((worker) => {
+						return  (
+						<Card body className="align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={worker["UserID"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
+						 <div className="flex flex-row w-full">
+						 <div className="flex basis-2/5">
+							<img alt="Child Photo" src={worker["Image"]!==undefined?worker["Image"]:img} className="rounded-full basis-4/5 w-36 h-36"/>
+						</div>
+						<CardBody className="flex flex-col basis-3/5 p-1  ps-2">
+										<List type="unstyled">
+										<li > <strong>{t('Name')} :</strong> {worker["Name"]}</li>
+										<li > <strong>{t('Phone Number')} :</strong> {worker["Phone"]}</li>
+										<li > <strong>{t('User ID')} :</strong> {worker["UserID"]}</li>
+										</List>
 							</CardBody>
+						</div>
 						</Card>
-					)})}
-        </div>)
+				)})}
+		</div>)
     }
     return (
 	<div className="container mt-2 overflow-y-scroll bg-color2">
@@ -77,9 +81,9 @@ const WorkersList = ({user,usersList, id}) => {
 			<Dropdown isOpen={dropdownOpen} toggle={toggle}  direction="down" onChange={(event)=>console.log(event)}>
         <DropdownToggle size="lg" className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md" caret>{filter===""?"Select Filter":filter}</DropdownToggle>
         <DropdownMenu className="text-textcolor">
-          <DropdownItem onClick={()=>setFilter("Name")}>{t('Name')}</DropdownItem>
-          <DropdownItem onClick={()=>setFilter("District")}>{t('District')}</DropdownItem>
-          <DropdownItem onClick={()=>setFilter("District")}>{t('Case Number')}</DropdownItem>
+          <DropdownItem onClick={()=>setFilter("Name")}>Name</DropdownItem>
+          <DropdownItem onClick={()=>setFilter("District")}>District</DropdownItem>
+          <DropdownItem onClick={()=>setFilter("Case Number")}>Case Number</DropdownItem>
         </DropdownMenu>
       </Dropdown>
 			</div>

@@ -63,99 +63,99 @@ const ChildrenProfile = ({ user, id }) => {
 
   const childrenLists = () => {
     return (
-      <div className="row mt-2">
-        {children
-          .filter((children) => {
-            if (search === "Search" || search === "") {
-              return children;
-            } else if (
-              children[filter].toLowerCase().includes(search.toLowerCase())
-            ) {
-              return children;
-            }
-          })
-          .map((children) => {
-            return (
-              <Card
-                body
-                className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
-                key={children["Case Number"]}
-                style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
-              >
-                <div>
-                  <img
-                    alt="Child Photo"
-                    src={
-                      children["Image"] !== undefined ? children["Image"] : img
-                    }
-                    className="w-60 h-40"
-                  />
-                  <button
-                    className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
-                    onClick={() => toggleModal(children["Case Number"])}
-                  >
-                    {" "}
-                    {t('Profile')}
-                  </button>
-                </div>
-                <CardBody>
-                  <List type="unstyled">
-                    <li>
+      <div className="grid  grid-cols-1 md:grid-cols-2 gap-0 mt-2">
+          {children
+            .filter((children) => {
+              if (
+                search === "Search" ||
+                search === "" ||
+                filter === "Select Filter"
+              ) {
+                return children;
+              } else if (
+                children[filter].toLowerCase().includes(search.toLowerCase())
+              ) {
+                return children;
+              }
+            })
+            .map((children) => {
+              return (
+                <Card
+                  body
+                  className="align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
+                  key={children["id"]}
+                  style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
+                >
+  
+                  <div className="flex flex-row w-full">
+                    <div className="flex flex-col basis-2/5">
+                    <img
+                      alt="Child Photo"
+                      src={
+                        children["Image"] !== undefined ? children["Image"] : img
+                      }
+                      className="rounded-full basis-4/5 w-36 h-36"
+                    />
+                      <div className="m-1 p-1 text-textcolor basis-1/5 justify-self-center md:text-base text-sm">
+                        <strong>Case No:</strong> {children["Case Number"]}
+                      </div>
+                  </div>
+                  <CardBody className="flex flex-col basis-3/5 p-1  ps-2">
+                    <List type="unstyled basis-4/5 md:text-base text-sm">
+                      <li>
+                        {" "}
+                        <strong>Name :</strong> {children["Name"]}
+                      </li>
+                      <li>
+                        {" "}
+                        <strong>Age :</strong> {children["Age"]}
+                      </li>
+                      <li>
+                        {" "}
+                        <strong>District :</strong> {children["District"]}
+                      </li>
+                      <li>
+                        {" "}
+                        <strong>State :</strong> {children["State"]}
+                      </li>
+                    </List>
+                    <button
+                      className="p-2 rounded-3 basis-1/5 bg-buttonColor justify-self-end text-white w-full"
+                      onClick={() => toggleModal(children["id"])}
+                    >
                       {" "}
-                      <strong>{t('Name')} :</strong> {children["Name"]}
-                    </li>
-                    <li>
-                      {" "}
-                      <strong>{t('Age')} :</strong> {children["Age"]}
-                    </li>
-                    <li>
-                      {" "}
-                      <strong>{t('District')} :</strong> {children["District"]}
-                    </li>
-                    <li>
-                      {" "}
-                      <strong>{t('State')} :</strong> {children["State"]}
-                    </li>
-                    <li>
-                      {" "}
-                      <strong>{t('Case Number')} :</strong> {children["Case Number"]}
-                    </li>
-                  </List>
-                  <button
-                    className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
-                    onClick={() => toggleModalReport(children["id"])}
-                  >
-                    {" "}
-                    {t('Case Report')}
-                  </button>
-                </CardBody>
-              </Card>
-            );
-          })}
-      </div>
+                      Case Report
+                    </button>
+                  </CardBody>
+                  </div>
+                </Card>
+              );
+            })}
+        </div>
     );
   };
   return (
     <div className="container lg:mt-4 overflow-y-scroll bg-color2">
-      <div className="row mt-4 h-16">
-        <div className="col-6 col-lg-10 w-full p-2">
+      <div className="flex flex-row w-full">
+        <div className="basis-8/10 w-full p-2 mt-1">
           <div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
             <span>
               <FaSearch className="text-lg text-black block float-left me-2"></FaSearch>
             </span>
             <input
-              className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0"
+              className="w-100 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0"
               type="text"
               placeholder={"Search"}
               onChange={(event) => setSearch(event.target.value)}
-            ></input>
-          </div>
+              ></input>
+            </div>
         </div>
-        <div className="col-auto col-lg-2 mt-2 md:p-2 p-1">
+        <div className="basis-2/10 my-1 px-2 pt-2 ">
           <Dropdown
             isOpen={dropdownOpen}
             toggle={toggleDropDown}
             direction="down"
+            className="shadow-md hover:shadow-xl max-h-full text-xl"
             onChange={(event) => console.log(event)}
           >
             <DropdownToggle
@@ -188,47 +188,6 @@ const ChildrenProfile = ({ user, id }) => {
         size="lg"
       >
         <ModalHeader toggle={toggleModal}>
-          Assign Worker for {caseSelected}
-        </ModalHeader>
-        <ModalBody>
-          <ul type="unstyled" className="p-0">
-            {child !== null &&
-              keys !== null &&
-              keys.map((key) => {
-                return (
-                  <li key={key} className="w-full m-2 p-1 flex">
-                    {" "}
-                    <strong className="w-1/3 ">{key} :</strong>{" "}
-                    <div className="w-2/3">{child[key]}</div>
-                  </li>
-                );
-              })}
-            <li className="w-full m-2 p-1 flex">
-              {" "}
-              <strong className="w-1/3"> Deadline:</strong>{" "}
-              <div className="w-2/3">{deadLine}</div>
-            </li>
-          </ul>
-        </ModalBody>
-
-        <ModalFooter>
-          <Button color="primary" onClick={toggleModal}>
-            Do Something
-          </Button>{" "}
-          <Button color="secondary" onClick={toggleModal}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-      {/* Case Details */}
-      <Modal
-        centered
-        isOpen={modalReport}
-        toggle={toggleModalReport}
-        fullscreen="md"
-        size="lg"
-      >
-        <ModalHeader toggle={toggleModalReport}>
           Case Details for {caseSelected}
         </ModalHeader>
         <ModalBody>
@@ -252,7 +211,6 @@ const ChildrenProfile = ({ user, id }) => {
           </ul>
         </ModalBody>
 
-        <ModalFooter></ModalFooter>
       </Modal>
       {/* <div className="row mt-4 h-16">
 			<button className="col-2 text-white m-2 rounded-pill bg-color3" onClick={()=>setFilter("Assigned")}>Assigned </button>

@@ -53,16 +53,14 @@ const AdminDashboard= ({user, id}) =>{
                 return  (
 				<div className="basis-52 shrink-0 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}} > 
         <div>
-          <img alt="Child Photo"  src={profile} loading="lazy" className="w-40 h-40 rounded-full" onerror={img}/>
-          {/* src={children["Image"]!==undefined || children["Image"]===""?children["Image"]:img} */}
+          <img alt="Child Photo" loading="lazy" className="w-40 h-40 rounded-full" 
+          src={children["Image"]!==undefined || children["Image"]===""?children["Image"]:profile} />
 				</div>
 				<CardBody>
 								<List type="unstyled">
 								<li > <strong>{t('Name')} :</strong> {children["Name"]}</li>
-								<li > <strong>{t('Age')} :</strong> {children["Age"]}</li>
-								<li > <strong>{t('District')} :</strong> {children["District"]}</li>
-								<li > <strong>{t('State')} :</strong> {children["State"]}</li>
-								<li > <strong>{t('Case Number')} :</strong> {children["Case Number"]}</li>
+								<li > <strong>{t('Status')} :</strong> {children["Age"]}</li>
+								<li > <strong>{t('Deadline')} :</strong> {children["District"]}</li>
 								</List>
 					</CardBody>
 				</div>
@@ -71,11 +69,11 @@ const AdminDashboard= ({user, id}) =>{
     }
   return (
     <div className="overflow-hidden">
-      <div className="row m-2">
-      <div className="col-6 text-textcolor justify-self-start rounded-4 bg-color2 px-1 sm:px-3 py-1 ">
-         <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">{t('Admin Dashboard')}</div>
+      <div className="flex flex-row justify-content-between m-2">
+      <div className="text-textcolor justify-self-start rounded-4 bg-color2 px-1 sm:px-3 py-1 ">
+         <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">{t('Statistics')}</div>
       </div>
-        <button className="col-3 offset-3 justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/admin/addUser")} >{t('Add User')}</button>
+        <div className=" offset-3 p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" >{t('Admin Dashboard')}</div>
       </div>
       <div className="row">
       <Card className="col-sm-6 justify-content-center m-2 p-2 cursor-pointer" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}>
@@ -98,22 +96,50 @@ const AdminDashboard= ({user, id}) =>{
     </div>
     <hr className="border-solid" />
     <div className="row">
-    <div className="col-6 col-lg-10 w-full p-2">
-			<div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
-			<span><FaSearch className="text-lg text-black block float-left me-2"></FaSearch></span>
-			<input className="w-95 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0" type="text" placeholder={t('Search')} onChange={(event)=>setSearch(event.target.value)}></input>
-			</div>
-			</div>
-			<div className="col-auto col-lg-2 mt-2 md:p-2 p-1">
-			<Dropdown isOpen={dropdownOpen} toggle={toggle}  direction="down" onChange={(event)=>console.log(event)}>
-        <DropdownToggle size="lg" className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md" caret>{filter===""?t('Select Filter'):filter}</DropdownToggle>
-        <DropdownMenu className="text-textcolor">
-          <DropdownItem onClick={()=>setFilter("Name")}>Name</DropdownItem>
-          <DropdownItem onClick={()=>setFilter("District")}>District</DropdownItem>
-          <DropdownItem onClick={()=>setFilter("Case Number")}>Case Number</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-			</div>
+      <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl"> {t('Approaching Deadlines')}</div>
+      <div className="flex flex-row w-full">
+        <div className="basis-8/10 w-full p-2 mt-1">
+          <div className="rounded-md w-auto text-xl p-2 flex align-items-center bg-white shadow-md hover:shadow-xl">
+            <span>
+              <FaSearch className="text-lg text-black block float-left me-2"></FaSearch>
+            </span>
+            <input
+              className="w-100 bg-inherit text-slate-800 align-self-center font-sans placeholder:text-black focus-visible:outline-0"
+              type="text"
+              placeholder={"Search"}
+              onChange={(event) => setSearch(event.target.value)}
+            ></input>
+          </div>
+        </div>
+        <div className="basis-2/10 my-1 px-2 pt-2 ">
+          <Dropdown
+            isOpen={dropdownOpen}
+            toggle={toggle}
+            direction="down"
+            className="shadow-md hover:shadow-xl max-h-full text-xl"
+            onChange={(event) => console.log(event)}
+          >
+            <DropdownToggle
+              size="lg"
+              className="rounded-md w-auto h-auto !text-textcolor text-2xl p-2 border-0 !bg-buttonColor/[0.3] shadow-md"
+              caret
+            >
+              {filter === "" ? "Filter" : filter}
+            </DropdownToggle>
+            <DropdownMenu className="text-textcolor">
+              <DropdownItem onClick={() => setFilter("Name")}>
+                Name
+              </DropdownItem>
+              <DropdownItem onClick={() => setFilter("District")}>
+                District
+              </DropdownItem>
+              <DropdownItem onClick={() => setFilter("Case Number")}>
+                Case Number
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      </div>
     {children.length>0? childrenLists() :<div className="spinner-border m-5 p-4" style={{position: "relative" ,top: "50%", left: "50%"}} role="status"></div>}
     </div>
     </div>
