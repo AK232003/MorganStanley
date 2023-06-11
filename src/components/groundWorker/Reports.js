@@ -36,7 +36,6 @@ const Report=() => {
   mapOfTypes.set("medicalReport", ["Medical Report", "Step4"]);
   mapOfTypes.set("siReport", ["SI Report", "Step5"]);
 
-  const [substep, setSubStep] = useState(1);
 
   useEffect(() => {
     const ref = database.ref("childProfile"+`${id}`)
@@ -49,55 +48,63 @@ const Report=() => {
     // });
   }, [location]);
   const handleSubmitInformation = (e) => {
+    console.log("Jitege")
     e.preventDefault();
-    setStep(1);
-    setSubStep(1);
-
+    // setStep(1);
+    // setSubStep(1);
+    setStep("PVR")
     console.log(newsReportText);
     console.log(comments)
 
-    // const imageRef = storageRef(
-    //   storage,
-    //   `documents/${id}/NewsPublicationReport`
-    // );
+    const imageRef = storageRef(
+      storage,
+      `documents/${id}/${step}`
+    );
 
-    // uploadBytes(imageRef, imageUpload)
-    //   .then((snapshot) => {
-    //     getDownloadURL(snapshot.ref)
-    //       .then((url) => {
-    //         db.collection("task")
-    //           .doc(id + step.toString() + substep.toString())
-    //           .set({
-    //             "Photo Publication Report": url,
-    //             "Photo Publication Text": e.target[0].value,
-    //           })
-    //           .then(() => {
-    //             if (step === 1) {
-    //               database
-    //                 .ref(`cases/Process/` + id + `/Step1/Step`+`${substep}`)
-    //                 .update({
-    //                   isComplete: false,
-    //                   text: id + step.toString() + substep.toString(),
-    //                   docs: url,
-    //                   stat: "In Review",
-    //                 });
-    //             } else {
-    //               database.ref(`cases/Process/` + id + `/Step`+`${step}`).update({
-    //                 isComplete: false,
-    //                 text: id + step.toString() + "0",
-    //                 docs: url,
-    //                 stat: "In Review",
-    //               });
-    //             }
-    //           })
-    //           .catch((error) => {
-    //             console.error("Error creating document: ", error);
-    //           });
-    //       })
-    //       .catch((error) => {
-    //         console.error("Error getting download URL: ", error);
-    //       });
-    //   })
+    uploadBytes(imageRef, imageUpload)
+      .then((snapshot) => {
+        getDownloadURL(snapshot.ref)
+          .then((url) => {
+            db.collection("task")
+              .doc(id + step)
+              .set({
+                PVR: {
+                  Docs: url,
+                  Status: "Review",
+                  Text:  e.target[0].value,
+                  isComplete: false,
+                },
+              })
+              .then(() => {
+                console.log("task added!")
+                // if (step === 1) {
+                //   database
+                //     .ref(`cases/Process/` + id + `/Step1/Step` + `${substep}`)
+                //     .update({
+                //       isComplete: false,
+                //       text: id + step.toString() + substep.toString(),
+                //       docs: url,
+                //       stat: "In Review",
+                //     });
+                // } else {
+                //   database
+                //     .ref(`cases/Process/` + id + `/Step` + `${step}`)
+                //     .update({
+                //       isComplete: false,
+                //       text: id + step.toString() + "0",
+                //       docs: url,
+                //       stat: "In Review",
+                //     });
+                // }
+              })
+              .catch((error) => {
+                console.error("Error creating document: ", error);
+              });
+          })
+          .catch((error) => {
+            console.error("Error getting download URL: ", error);
+          });
+      })
     //   .catch((error) => {
     //     console.error("Error uploading bytes: ", error);
     //   });
