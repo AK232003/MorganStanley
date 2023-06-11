@@ -1,9 +1,11 @@
-import {React} from "react";
+import {React,useState} from "react";
 import { FaBars, FaRegUserCircle, FaTasks, FaArrowAltCircleRight, FaChild, FaHome, FaUserPlus,FaRegListAlt, FaClipboardList,FaComments  } from 'react-icons/fa';
 import {BsPeopleFill}from 'react-icons/bs'
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
 import GroundWorkerSidebar from "./groundWorker/groundWorkerSidebar";
 import { useTranslation } from "react-i18next";
+import {Dropdown,DropdownToggle,DropdownMenu,DropdownItem} from 'reactstrap';
+import i18next from "i18next";
 
 const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
 
@@ -16,6 +18,10 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   const sideBarIconProperty = "text-lg text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-hoverColor cursor-pointer";
   const logoutIconProperty = `${openSide ? "w-64" : "w-16"} absolute bottom-0 text-xl font-bold text-logoutContent duration-300 bg-sideBarColor1 rounded-0 p-3 ps-0 items-center cursor-pointer justify-items-center align-self-center`;
   const sideIconProperty = `${openSide ? "w-64" : "w-16"} h-16 text-xl text-color2 duration-300 bg-sideBarColor2 rounded-0 py-2 items-center bg-sideBarColor2 cursor-pointer justify-items-center`;
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [language,setLanguage]=useState("English");
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   const handleLogout= ()=>{
     localStorage.setItem('user',null);
@@ -109,6 +115,23 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
           <GroundWorkerSidebar user={user} openSide={openSide}/>
           </div> :""
           }
+          <div className={sideBarIconProperty}>
+          <Dropdown
+            isOpen={dropdownOpen}
+            toggle={toggle}
+            direction="down"
+            onChange={(event) => console.log(event)}
+          >
+        <DropdownToggle size="lg"
+              className="w-full "
+              caret>{language}</DropdownToggle>
+        <DropdownMenu >
+          <DropdownItem onClick={()=>{setLanguage("English");i18next.changeLanguage('en');}}>English</DropdownItem>
+          <DropdownItem onClick={()=>{setLanguage("हिंदी");i18next.changeLanguage('hi');}}>हिंदी</DropdownItem>
+          <DropdownItem onClick={()=>{setLanguage("मराठी");i18next.changeLanguage('mr');}}>मराठी</DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+          </div>
         </div>
             <div className={logoutIconProperty} onClick={handleLogout} >
             <span><FaArrowAltCircleRight className="mx-3 mb-2 text-3xl text-logoutContent block float-left"></FaArrowAltCircleRight></span>
