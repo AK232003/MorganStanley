@@ -29,7 +29,7 @@ const AssignCases = ({ user, id }) => {
     // Case Creation
     element.preventDefault();
 
-    console.log(element.target[0].value);
+    // console.log(element.target[0].value);
     const workerID = element.target[0].value;
 
     // const docRef = doc(db, "Users", workerID);
@@ -38,8 +38,12 @@ const AssignCases = ({ user, id }) => {
     // 		console.log(snapShot.data())
     // 	})
 
-    const id = child["Case Number"].split("/").join("");
-    console.log(id);
+    const childID = child["Case Number"].split("/").join("");
+    console.log(childID);
+
+	console.log("this")
+	console.log(localStorage.getItem('id'))
+	console.log(workerID)
 
     // if(child["Child Category"] === "Orphaned - No Guardians") {
     // 	addProcessOrphaned(id)

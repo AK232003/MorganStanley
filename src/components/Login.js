@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "reactstrap";
 
 import { collection, getDocs, setDoc, doc, serverTimestamp } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, database } from "../firebase";
 // import addProcess from "./addCase";
 import { addProcessOrphaned } from "./addCase";
 

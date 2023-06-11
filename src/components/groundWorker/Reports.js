@@ -35,8 +35,9 @@ const Report=() => {
   const [substep, setSubStep] = useState(1);
 
   useEffect(() => {
-    // const ref = database.ref("childProfile"+`${id}`)
+    const ref = database.ref("childProfile"+`${id}`)
     setType(location.pathname.split("/")[5]);
+    console.log(location)
     // setStep(mapOfTypes.get(type)[1]);
     // database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
     //   setStatus(snapshot.val()[step]);
@@ -47,57 +48,61 @@ const Report=() => {
     e.preventDefault();
     setStep(1);
     setSubStep(1);
-    const imageRef = storageRef(
-      storage,
-      `documents/${id}/NewsPublicationReport`
-    );
 
-    uploadBytes(imageRef, imageUpload)
-      .then((snapshot) => {
-        getDownloadURL(snapshot.ref)
-          .then((url) => {
-            db.collection("task")
-              .doc(id + step.toString() + substep.toString())
-              .set({
-                "Photo Publication Report": url,
-                "Photo Publication Text": e.target[0].value,
-              })
-              .then(() => {
-                if (step === 1) {
-                  database
-                    .ref(`cases/Process/` + id + `/Step1/Step`+`${substep}`)
-                    .update({
-                      isComplete: false,
-                      text: id + step.toString() + substep.toString(),
-                      docs: url,
-                      stat: "In Review",
-                    });
-                } else {
-                  database.ref(`cases/Process/` + id + `/Step`+`${step}`).update({
-                    isComplete: false,
-                    text: id + step.toString() + "0",
-                    docs: url,
-                    stat: "In Review",
-                  });
-                }
-              })
-              .catch((error) => {
-                console.error("Error creating document: ", error);
-              });
-          })
-          .catch((error) => {
-            console.error("Error getting download URL: ", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error uploading bytes: ", error);
-      });
+    console.log(newsReportText);
+    console.log(comments)
 
-    // database.ref("childProfile/" + `${id}`).update({ [step]: "In Progress" });
-    // database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
-    //   setStatus(snapshot.val()[step]);
-    // });
-    console.log("Success!")
+    // const imageRef = storageRef(
+    //   storage,
+    //   `documents/${id}/NewsPublicationReport`
+    // );
+
+    // uploadBytes(imageRef, imageUpload)
+    //   .then((snapshot) => {
+    //     getDownloadURL(snapshot.ref)
+    //       .then((url) => {
+    //         db.collection("task")
+    //           .doc(id + step.toString() + substep.toString())
+    //           .set({
+    //             "Photo Publication Report": url,
+    //             "Photo Publication Text": e.target[0].value,
+    //           })
+    //           .then(() => {
+    //             if (step === 1) {
+    //               database
+    //                 .ref(`cases/Process/` + id + `/Step1/Step`+`${substep}`)
+    //                 .update({
+    //                   isComplete: false,
+    //                   text: id + step.toString() + substep.toString(),
+    //                   docs: url,
+    //                   stat: "In Review",
+    //                 });
+    //             } else {
+    //               database.ref(`cases/Process/` + id + `/Step`+`${step}`).update({
+    //                 isComplete: false,
+    //                 text: id + step.toString() + "0",
+    //                 docs: url,
+    //                 stat: "In Review",
+    //               });
+    //             }
+    //           })
+    //           .catch((error) => {
+    //             console.error("Error creating document: ", error);
+    //           });
+    //       })
+    //       .catch((error) => {
+    //         console.error("Error getting download URL: ", error);
+    //       });
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error uploading bytes: ", error);
+    //   });
+
+    // // database.ref("childProfile/" + `${id}`).update({ [step]: "In Progress" });
+    // // database.ref("childProfile/" + `${id}`).on("value", (snapshot) => {
+    // //   setStatus(snapshot.val()[step]);
+    // // });
+    // console.log("Success!")
     setSubmitted(true);
   };
 
@@ -107,18 +112,18 @@ const Report=() => {
     e.preventDefault();
 
     console.log(e.target[0].value);
-    database
-      .ref(`cases/comments/` + id + `/Worker`)
-      .once("value", (snapshot) => {
-        const existingArray = snapshot.val() || [];
+    // database
+    //   .ref(`cases/comments/` + id + `/Worker`)
+    //   .once("value", (snapshot) => {
+    //     const existingArray = snapshot.val() || [];
 
-        const newArray = [
-          ...existingArray,
-          e.target[0].value + "@" + "wID" + "@" + new Date().toString(),
-        ];
+    //     const newArray = [
+    //       ...existingArray,
+    //       e.target[0].value + "@" + "wID" + "@" + new Date().toString(),
+    //     ];
 
-        database.ref(`cases/comments/` + id + `/Worker`).set(newArray);
-      });
+    //     database.ref(`cases/comments/` + id + `/Worker`).set(newArray);
+    //   });
   };
   // ---------------------------------------
 
