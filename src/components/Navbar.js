@@ -7,7 +7,7 @@ import { FaBars } from "react-icons/fa";
 import i18next from "i18next";
 
 const NavBar = ({user,open,setOpen,toggle}) => {
-
+    // console.log(user)
     return (
     <Navbar className="!bg-sideBarColor2 h-16">
         <div className={`h-14 w-14 ${!open && "row"} md:!hidden z-0 relative left-0 md:left-5 top-1 md:top-0 ${open&& "opacity-0"} overflow-hidden z-3 me-2`}>
@@ -20,6 +20,7 @@ const NavBar = ({user,open,setOpen,toggle}) => {
         {/* <Nav>
             <NavItem className="flex text-2xl align-middle"><MdMarkUnreadChatAlt className="float-left align-bottom"/>Alerts</NavItem>
         </Nav> */}
+        <Nav className="text-white">{user}</Nav>
     </Navbar>
     )
 }
