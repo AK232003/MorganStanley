@@ -43,6 +43,7 @@ const Report=({stepType}) => {
   mapOfTypes.set("PDC", ["Parent's Death Certificate", "Step7","PDC"]);
   mapOfTypes.set("orphanCertificate", ["Orphan Certificate", "Step8","OC"]);
   mapOfTypes.set("gtReport", ["Guardian Trace Report", "Step9","GTR"]);
+  mapOfTypes.set("surrenderDeed",["Surrender Deed","Step1","SurrenderDeed"])
   mapOfTypes.set(2,["NOC","Step2","NOC"])
   mapOfTypes.set(3,["LFA","Step3","LFA"])
   mapOfTypes.set(4,["CARINGS upload","Step4","Carings"])

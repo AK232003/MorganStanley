@@ -176,8 +176,8 @@ const AddChild = ({ user, id }) => {
                     <option> Abandoned / Family not traceable</option>
                     <option> Surrendered</option>
                     <option> Orphaned - No Guardians </option>
-                    {/* <option> Child Admitted in CCI by Family </option> */}
                     <option> Admitted by Guardians </option>
+                    {/* <option> Child Admitted in CCI by Family </option> */}
                   </Input>
                 </Col>
               </FormGroup>
