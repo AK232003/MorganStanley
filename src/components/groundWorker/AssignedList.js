@@ -30,18 +30,18 @@ const AssignedList=({user, id})=>{
 				else if(children[filter].toLowerCase().includes(search.toLowerCase())){
 					return children;
 				}
-			}).map((children) => {
+			}).map((child) => {
 					return  (
-					<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${children["id"]}`, {state: {children}})}> 
-						<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
+					<Card body className="col col-sm-5 gap-2 !flex-row align-items-center justify-content-center m-2 p-2 cursor-pointer" key={child["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}  onClick={()=> navigate(`/groundWorker/caseDetails/${child["id"]}/step1/newsPaperReport`, {state: child})}> 
+						<div><img alt="Child Photo" src={child["Image"]!==undefined?child["Image"]:img} className="w-60 h-40"/>
 						</div>
 						<CardBody>
 							<List type="unstyled">
-								<li > <strong>Name :</strong> {children["Name"]}</li>
-								<li > <strong>Age :</strong> {children["Age"]}</li>
-								<li > <strong>District :</strong> {children["District"]}</li>
-								<li > <strong>State :</strong> {children["State"]}</li>
-								<li > <strong>Case Number :</strong> {children["Case Number"]}</li>
+								<li > <strong>Name :</strong> {child["Name"]}</li>
+								<li > <strong>Age :</strong> {child["Age"]}</li>
+								<li > <strong>District :</strong> {child["District"]}</li>
+								<li > <strong>State :</strong> {child["State"]}</li>
+								<li > <strong>Case Number :</strong> {child["Case Number"]}</li>
 							</List>
 						</CardBody>
 					</Card>

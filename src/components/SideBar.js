@@ -1,10 +1,14 @@
 import {React} from "react";
 import { FaBars, FaRegUserCircle, FaTasks, FaArrowAltCircleRight, FaChild, FaHome, FaUserPlus,FaRegListAlt, FaClipboardList,FaComments  } from 'react-icons/fa';
 import {BsPeopleFill}from 'react-icons/bs'
-import { useNavigate } from "react-router-dom";
+import { matchPath, useLocation, useNavigate } from "react-router-dom";
+import GroundWorkerSidebar from "./groundWorker/groundWorkerSidebar";
 
 const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   const navigate=useNavigate();
+  const {pathname}=useLocation();
+  const isCaseDetailsView=matchPath("/groundWorker/caseDetails/*",pathname)
+  console.log(isCaseDetailsView)
   const sideBarIconProperty = "text-lg text-textcolor bg-color3 rounded-1 p-2 flex items-center gap-x-4 mt-2 hover:bg-color6 cursor-pointer";
   const logoutIconProperty = `${openSide ? "w-64" : "w-24"} absolute bottom-0 text-xl text-logoutContent duration-300 bg-logoutButton rounded-0 p-3 items-center bg-logoutButton cursor-pointer justify-items-center align-self-center`;
   const sideIconProperty = `${openSide ? "w-64" : "w-24"} h-16 text-xl text-color2 duration-300 bg-sideBarColor2 rounded-0 p-2 items-center bg-sideBarColor2 cursor-pointer justify-items-center`;
@@ -14,7 +18,7 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
     setuser(null);
     navigate("/");
   }
-  
+  console.log(user,pathname)
 	return (
     <>
 	<div className={`h-screen sm:h-9/10  ${openSide ? "w-64" : "w-24"} ${!open && "hidden"} 
@@ -26,6 +30,7 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
             {user === "CaseManager" &&
             <>
             <ul className="ps-0">
+              {console.log(user)}
               <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager")} >
                 <span><FaHome className="text-3xl text-textcolor block float-left"></FaHome></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Dashboard</span>
@@ -51,13 +56,9 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Task Comments</span>
               </li>
             </ul>
-              {/* <div className={logoutIconProperty} onClick={handleLogout} >
-                <span><FaArrowAltCircleRight className="text-3xl text-textcolor block float-left"></FaArrowAltCircleRight></span>
-                <span className={`text-base font-medium flex-1 m-2 ${!openSide && "hidden"}`}>Logout</span>
-              </div> */}
             </>
             }
-          {user === "Admin" &&
+          {user === "Admin" && 
           <div className="h-full flex flex-col ">
             <ul className="pt-2 ps-0">
               <li className={sideBarIconProperty} onClick={()=>navigate("/admin")} >
@@ -82,6 +83,28 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
               </li>
             </ul>
         </div>
+          }
+          {
+          user === "GroundWorker" ? (user==="GroundWorker" && (isCaseDetailsView===null || isCaseDetailsView.params["*"]==='')) ?
+          <div className="h-full flex flex-col ">
+            {console.log(user)}
+            <ul className="pt-2 ps-0">
+              <li className={sideBarIconProperty} onClick={()=>navigate("/groundWorker")} >
+                <span><FaHome className="text-3xl text-textcolor block float-left"></FaHome></span>
+                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Dashboard</span>
+              </li>
+              <li className={sideBarIconProperty} onClick={()=>navigate("/groundWorker/profiles")} >
+                <span><FaRegUserCircle className="text-3xl text-textcolor block float-left"></FaRegUserCircle></span>
+                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Children Profiles</span>
+              </li>
+              <li className={sideBarIconProperty} onClick={()=>navigate("/groundWorker/caseDetails")} >
+                <span><FaClipboardList className="text-3xl text-textcolor block float-left"></FaClipboardList></span>
+                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Assigned Cases</span>
+              </li>
+            </ul>
+        </div>: <div className="h-full flex flex-col">
+          <GroundWorkerSidebar user={user} openSide={openSide}/>
+          </div> :""
           }
         </div>
             <div className={logoutIconProperty} onClick={handleLogout} >
