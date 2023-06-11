@@ -12,7 +12,6 @@ const TaskComments = ({ user, id }) => {
   const [search, setSearch] = useState("");
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [modal, setModal] = useState(false);
-  const [modalDeadline, setModalReport] = useState(false);
   const [caseSelected, setCase] = useState("");
   const [children, setChildren] = useState([]);
   const [deadLine, setDeadLine] = useState("");
@@ -174,17 +173,6 @@ const TaskComments = ({ user, id }) => {
   //   // -----------------------------------
   // }
 
-  const toggleModalDeadline = (caseno) => {
-    console.log(typeof caseno);
-    setModalReport(!modalDeadline);
-    if (typeof caseno === "string") {
-      setCase(caseno);
-      setChild(children.filter((child) => child["id"] === caseno)[0]);
-    } else {
-      setCase("");
-      setChild(null);
-    }
-  };
   const toggleModal = (caseno) => {
     setModal(!modal);
     console.log(typeof caseno);
@@ -226,27 +214,22 @@ const TaskComments = ({ user, id }) => {
             return (
               <Card
                 body
-                className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
+                className="col col-lg-5 align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2"
                 key={children["id"]}
                 style={{ boxShadow: "0 2px 4px 0 rgba(0, 0, 0, 0.2)" }}
               >
+                <div className="flex flex-row">
+
                 <div>
                   <img
                     alt="Child Photo"
                     src={
                       children["Image"] !== undefined ? children["Image"] : img
                     }
-                    className="w-60 h-40"
-                  />
-                  <button
-                    className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
-                    onClick={() => toggleModal(children["id"])}
-                  >
-                    {" "}
-                    See Comments
-                  </button>
+                    className="w-40 h-40"
+                    />
                 </div>
-                <CardBody>
+                <div>
                   <List type="unstyled">
                     <li>
                       {" "}
@@ -269,14 +252,15 @@ const TaskComments = ({ user, id }) => {
                       <strong>Case Number :</strong> {children["Case Number"]}
                     </li>
                   </List>
-                  <button
-                    className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
-                    onClick={() => toggleModalDeadline(children["id"])}
+                    </div>
+                </div>
+                <button
+                    className="m-2 p-2 relative bottom-0 rounded-pill bg-color4 text-textcolor w-full"
+                    onClick={() => toggleModal(children["id"])}
                   >
                     {" "}
-                    Set Deadline
+                    See Comments And Modify Deadline
                   </button>
-                </CardBody>
               </Card>
             );
           })}
@@ -366,20 +350,7 @@ const TaskComments = ({ user, id }) => {
               </div>
             </FormGroup>
           </Form>
-        </ModalBody>
-      </Modal>
-      {/* Case Details */}
-      <Modal
-        centered
-        isOpen={modalDeadline}
-        toggle={toggleModalDeadline}
-        fullscreen="md"
-        size="sm"
-      >
-        <ModalHeader toggle={toggleModalDeadline}>
-          Deadlines for {caseSelected}
-        </ModalHeader>
-        <Form className="mt-2" onSubmit={(event) => handleDeadLine(event)}>
+          <Form className="mt-2" onSubmit={(event) => handleDeadLine(event)}>
           <ModalBody>
             <label for="changeDeadline">
               <strong>Modify Deadline:</strong>
@@ -401,7 +372,9 @@ const TaskComments = ({ user, id }) => {
             </div>
           </FormGroup>
         </Form>
+        </ModalBody>
       </Modal>
+      {/* Case Details */}
       {children.length > 0 ? (
         childrenLists()
       ) : (

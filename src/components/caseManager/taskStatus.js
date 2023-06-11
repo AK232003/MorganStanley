@@ -164,7 +164,7 @@ const handleAccept = async (e) =>{
 				}).map((children) => {
                 return  (
 				<Card body className="col col-lg-5 !flex-row align-items-center !bg-sideBarColor1 !border-none justify-content-center m-2 p-2" key={children["Case Number"]} style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}> 
-				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-60 h-40"/>
+				<div><img alt="Child Photo" src={children["Image"]!==undefined?children["Image"]:img} className="w-40 h-40"/>
 				<button className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full" onClick={()=>toggleModal(children["id"])}>Task Details</button>
 				</div>
 					<CardBody>

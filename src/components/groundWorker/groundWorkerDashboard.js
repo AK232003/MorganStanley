@@ -1,14 +1,17 @@
 import { React, useState,useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import { FaArrowAltCircleRight } from "react-icons/fa";
-import AssignedList from "./AssignedList";
-import { Button } from "reactstrap";
-import NavBar from "../Navbar";
+import { useNavigate } from "react-router-dom";
+import { List, Card, CardBody,CardTitle} from 'reactstrap';
+import Barchart from "../barchart";
+import PieChart from "../piechart";
 
 const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
   const navigate = useNavigate();
   const [open,setOpen] =useState(false);
 	const [openSide, toggle] = useState(true);
+  const labels1 = ["Adopted", "Free to Adopt", "Surrendered"];
+  const title1 = 'Case Statistics'
+  const title2 = "Child Statistics"
+  const data1 = [100, 200, 50];
 	const handleToggle=()=>{
     if(!open) toggle(!openSide); 
     open?setOpen(false):setOpen(open);
@@ -25,12 +28,30 @@ const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
   }, [user]);
   return (
     <>
-      <div className="row justify-between">
-        {/* <div className="text-textcolor justify-self-start rounded-1 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md "> */}
+      <div className="row">
         <div className="col-auto font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl mt-4">
           GroundWorker Dashboard
         </div>
       </div>
+      <div className="row">
+      <Card className="col-sm-6 justify-content-center m-2 p-2 cursor-pointer" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}>
+      <div style={{ display: 'flex', justifyContent: 'center'}}>
+      <CardTitle tag="h5"><strong>{title2}</strong></CardTitle>
+        </div>
+          <CardBody>
+            <PieChart labels = {labels1} data={data1} title={title1}/>
+          </CardBody>
+      </Card>
+      <Card className="col justify-content-center m-2 p-2 cursor-pointer" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}>
+      <div style={{ display: 'flex', justifyContent: 'center'}}>
+      <CardTitle tag="h5"><strong>{title1}</strong></CardTitle>
+        </div>
+          <CardBody>
+            {/* <<PieChart labels = {labels1} data={data1} title={title1}/>> */}
+            <Barchart />
+          </CardBody>
+      </Card>
+    </div>
     </>
   );
 };

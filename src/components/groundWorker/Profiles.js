@@ -58,7 +58,7 @@ const Profiles = ({ user, id }) => {
                     src={
                       children["Image"] !== undefined ? children["Image"] : img
                     }
-                    className="w-60 h-40"
+                    className="w-40 h-40"
                   />
                 </div>
                 <CardBody>

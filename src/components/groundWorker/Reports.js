@@ -10,13 +10,17 @@ import {
   Col,
   Label,
   Input,
-  Button,
+  Button, Modal, ModalHeader, ModalBody
 } from "reactstrap";
 import { getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
 import { database, db, storage } from "../../firebase";
 const Report=() => {
   const location = useLocation();
   const [type, setType] = useState(location.pathname.split("/")[5]);
+  const [modal, setModal] = useState(false);
+  const toggleModal = () => {
+    setModal(!modal);
+  };
   const [step, setStep] = useState("");
   const [msg, setMsg] = useState("");
   const [newsReportText, setNewsReportText] = useState("");
@@ -128,23 +132,20 @@ const Report=() => {
   // ---------------------------------------
 
   return (
-    <div className="bg-sideBarColor1  rounded-1 mx-2 md:ms-3 mt-3 md:me-0 drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll"> 
+    <div className="bg-sideBarColor1 rounded-1 mx-2 md:ms-3 mt-3 md:me-0 drop-shadow-xl shadow-xl opacity-90 hover:shadow-sideBarColor1 hover:opacity-100 sm:block align-items-center justify-content-center overflow-y-scroll"> 
       <div className="row mt-3 m-2 w-95">
-        <div className="col p-0 font-bold text-3xl">
+        <div className="col-9 p-0 font-bold text-3xl">
           {" "}
           {mapOfTypes.get(type)[0]}
         </div>
-        <div className="col-auto p-0"></div>
-        <div className="font-medium bg-color2 justify-self-center p-2">
+        <div className="col-3 p-2 rounded-2 font-medium bg-color2 ">
           {status}
         </div>
       </div>
 
-      <div className="row m-2 mt-3 w-95">
-        <Card className="my-4">
+      <div className="row m-2 my-4 mt-3 bg-sideBarColor1 w-max-fit">
           <CardBody>
             <CardTitle tag="h5">Event Report:</CardTitle>
-
             <Form onSubmit={handleSubmitInformation}>
               <FormGroup row>
                 <Label for="newsreporttext" sm={2}>
@@ -158,7 +159,7 @@ const Report=() => {
                     value={newsReportText}
                     onChange={(e) => setNewsReportText(e.target.value)}
                     placeholder="Enter news report text"
-                    rows={3}
+                    rows={10}
                   />
                 </div>
               </FormGroup>
@@ -178,13 +179,18 @@ const Report=() => {
                   />
                 </div>
               </FormGroup>
+              <div className="flex justify-between">
 
               <Button
-                className="bg-color3 border-none text-textcolor"
+                className="!bg-buttonColor !border-none text-textcolor"
                 type="submit"
-              >
+                >
                 Submit
               </Button>
+            <Button className="!bg-buttonColor !border-none text-textcolor" onClick={()=>toggleModal()}>
+                    View and Add Comments
+            </Button>
+              </div>
             </Form>
 
             {submitted && (
@@ -194,43 +200,47 @@ const Report=() => {
               </div>
             )}
           </CardBody>
-        </Card>
 
-        <Card className="my-4">
-          <CardBody>
-            <CardTitle tag="h5">Manager Message:</CardTitle>
-            <CardSubtitle className="mb-3">{"HI"}</CardSubtitle>
-
-            <Form onSubmit={handleComment}>
-              <FormGroup>
-                <Label for="comments">Comments:</Label>
+          <Modal centered isOpen={modal} toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal}>
+          Comments for tasks related to {location.pathname.split("/")[3]}.
+        </ModalHeader>
+        <ModalBody>
+          <Form onSubmit={(event) => handleComment(event)}>
+            Comments History 
+            <FormGroup row>
+              <Label for="mid" sm={2}>
+                {" "}
+                Manager id{" "}
+              </Label>
+              <Col sm={10}>
+                <div> Manager message</div>
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label for="mid" sm={2}>
+                {" "}
+                Comments{" "}
+              </Label>
+              <Col sm={10}>
                 <Input
+                  id="mid"
+                  name="mid"
+                  placeholder="Comments"
                   type="textarea"
-                  name="comments"
-                  id="comments"
-                  value={comments}
-                  onChange={(e) => setComments(e.target.value)}
-                  placeholder="Enter your comments"
-                  rows={3}
                 />
-              </FormGroup>
-
-              <Button
-                className="bg-color3 border-none text-textcolor"
-                type="submit"
-              >
-                Submit
-              </Button>
-            </Form>
-
-            {submitted && (
-              <div className="mt-4">
-                <h6>Your comment has been submitted.</h6>
-                {/* Additional logic or message for submitted form */}
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <div className="col-2 m-2">
+                <Button type="submit" color="primary">
+                  Submit
+                </Button>
               </div>
-            )}
-          </CardBody>
-        </Card>
+            </FormGroup>
+          </Form>
+        </ModalBody>
+      </Modal>
       </div>
     </div>
   );

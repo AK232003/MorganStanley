@@ -243,7 +243,7 @@ const AssignCases = ({ user, id }) => {
                     src={
                       children["Image"] !== undefined ? children["Image"] : img
                     }
-                    className="w-60 h-40"
+                    className="w-40 h-40"
                   />
                   <button
                     className="m-2 p-2 rounded-pill bg-color4 text-textcolor w-full"
