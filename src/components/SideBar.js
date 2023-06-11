@@ -108,7 +108,7 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
               </li>
               <li className={sideBarIconProperty} onClick={()=>navigate("/groundWorker/caseDetails")} >
                 <span><FaClipboardList className="text-3xl text-textcolor block float-left"></FaClipboardList></span>
-                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>Assigned Cases</span>
+                <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Assigned Cases')}</span>
               </li>
             </ul>
         </div>: <div className="h-full flex flex-col">
