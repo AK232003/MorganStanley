@@ -7,7 +7,7 @@ import { collection, getDocs, setDoc, doc, serverTimestamp } from "firebase/fire
 import { auth, db, database } from "../firebase";
 // import addProcess from "./addCase";
 import { addProcessOrphaned } from "./addCase";
-
+import exportToExcel from "../excel";
 const Login = ({setUser, id, setId,setName}) => {
 
   const emailRef = useRef();
@@ -201,6 +201,13 @@ const Login = ({setUser, id, setId,setName}) => {
               onClick={handleForgetPassword}
             >
               <b>Forget Password</b>
+            </button>
+            <button
+              type="submit"
+              className="w-full bg-themecolor mt-3 mb-2 px-4 py-2 rounded text-white"
+              onClick={()=>exportToExcel()}
+            >
+              <b>Download Excel Template</b>
             </button>
           </div>
         </div>
