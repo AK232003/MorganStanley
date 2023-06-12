@@ -5,6 +5,7 @@ import img from "../../profile.webp";
 import { Card, } from "reactstrap";
 import { database, db, storage } from "../../firebase";
 import html2pdf from 'html2pdf.js';
+import { t } from "i18next";
 
 const ChildProfile = ({ user, id }) => {
   const { state } = useLocation();
@@ -80,19 +81,19 @@ const ChildProfile = ({ user, id }) => {
               })}
             <li className="w-full m-2 p-1 flex">
               {" "}
-              <strong className="w-1/3"> Deadline:</strong>{" "}
+              <strong className="w-1/3"> {t('Deadline')}:</strong>{" "}
               <div className="w-2/3">{deadLine}</div>
             </li>
           </ul>
           <div className="mt-4 p-2">
-            <strong>Steps Completed:</strong>
+            <strong>{t('Steps Completed')}:</strong>
             <ul className="p-0">
               {step >= 1 && (
                 <li>
                   <span>
                     <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
                   </span>
-                  Verification 1
+                  {t('Verification')} 1
                 </li>
               )}
               {step >= 2 && (
@@ -100,7 +101,7 @@ const ChildProfile = ({ user, id }) => {
                   <span>
                     <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
                   </span>
-                  Verification 2
+                  {t('Verification')} 2
                 </li>
               )}
               {step >= 3 && (
@@ -108,7 +109,7 @@ const ChildProfile = ({ user, id }) => {
                   <span>
                     <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
                   </span>
-                  Verification 3
+                  {t('Verification')} 3
                 </li>
               )}
               {step >= 4 && (
@@ -116,7 +117,7 @@ const ChildProfile = ({ user, id }) => {
                   <span>
                     <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
                   </span>
-                  Verification 4
+                  {t('Verification')} 4
                 </li>
               )}
             </ul>

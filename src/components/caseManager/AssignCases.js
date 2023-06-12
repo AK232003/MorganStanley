@@ -7,6 +7,7 @@ import { FieldValue, arrayUnion, getDocs, getDoc, updateDoc, doc, getFirestore, 
 import { addProcessAbandoned, addProcessAdmittedByGuardians, addProcessOrphaned, addProcessSurrendered, addDeadline, intializeCaseComment } from "../addCase";
 import img from "../../profile.webp";
 import { elementTypeAcceptingRef } from "@mui/utils";
+import { t } from "i18next";
 
 function resolveAfter2Seconds() {
 	return new Promise(resolve => {
@@ -290,19 +291,19 @@ const AssignCases = ({ user, id }) => {
                   <List type="unstyled basis-4/5 md:text-base text-sm">
                     <li>
                       {" "}
-                      <strong>Name :</strong> {children["Name"]}
+                      <strong>{t('Name')} :</strong> {children["Name"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>Age :</strong> {children["Age"]}
+                      <strong>{t('Age')} :</strong> {children["Age"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>District :</strong> {children["District"]}
+                      <strong>{t('District')} :</strong> {children["District"]}
                     </li>
                     <li>
                       {" "}
-                      <strong>State :</strong> {children["State"]}
+                      <strong>{t('State')} :</strong> {children["State"]}
                     </li>
                   </List>
                   <button
@@ -310,7 +311,7 @@ const AssignCases = ({ user, id }) => {
                     onClick={() => toggleModal(children["id"])}
                   >
                     {" "}
-                    Assign
+                    {t('Assign')}
                   </button>
                 </CardBody>
                 </div>
@@ -353,13 +354,13 @@ const AssignCases = ({ user, id }) => {
             </DropdownToggle>
             <DropdownMenu className="text-textcolor">
               <DropdownItem onClick={() => setFilter("Name")}>
-                Name
+                {t('Name')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("District")}>
-                District
+                {t('District')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("Case Number")}>
-                Case Number
+                {t('Case Number')}
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>
@@ -398,7 +399,7 @@ const AssignCases = ({ user, id }) => {
                                 setname(user["Name"])
                               }}
                             >
-                              'Worker ID': {user["UserID"]} --- Name: {user["Name"]}
+                              'Worker ID': {user["UserID"]} --- {t('Name')}: {user["Name"]}
                             </DropdownItem>
                           );
                       })}
@@ -408,7 +409,7 @@ const AssignCases = ({ user, id }) => {
 
         <ModalFooter className="!bg-sideBarColor1 !border-none">
         <Button type="submit" className="!bg-buttonColor !border-none" onClick={()=>handleCase()}>
-                  Assign
+                  {t('Assign')}
                 </Button>
         </ModalFooter>
       </Modal>
@@ -438,7 +439,7 @@ const AssignCases = ({ user, id }) => {
               })}
             <li className="w-full m-2 p-1 flex">
               {" "}
-              <strong className="w-1/3"> Deadline:</strong>{" "}
+              <strong className="w-1/3"> {t('Deadline')}:</strong>{" "}
               <div className="w-2/3">{deadLine}</div>
             </li>
           </ul>

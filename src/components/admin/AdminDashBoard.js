@@ -129,13 +129,13 @@ const AdminDashboard= ({user, id}) =>{
             </DropdownToggle>
             <DropdownMenu className="text-textcolor">
               <DropdownItem onClick={() => setFilter("Name")}>
-                Name
+                {t('Name')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("District")}>
-                District
+                {t('District')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("Case Number")}>
-                Case Number
+                {t('Case Number')}
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

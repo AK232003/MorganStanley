@@ -104,19 +104,19 @@ const ChildrenProfile = ({ user, id }) => {
                     <List type="unstyled basis-4/5 md:text-base text-sm">
                       <li>
                         {" "}
-                        <strong>Name :</strong> {children["Name"]}
+                        <strong>{t('Name')} :</strong> {children["Name"]}
                       </li>
                       <li>
                         {" "}
-                        <strong>Age :</strong> {children["Age"]}
+                        <strong>{t('Age')} :</strong> {children["Age"]}
                       </li>
                       <li>
                         {" "}
-                        <strong>District :</strong> {children["District"]}
+                        <strong>{t('District')} :</strong> {children["District"]}
                       </li>
                       <li>
                         {" "}
-                        <strong>State :</strong> {children["State"]}
+                        <strong>{t('State')} :</strong> {children["State"]}
                       </li>
                     </List>
                     <button
@@ -124,7 +124,7 @@ const ChildrenProfile = ({ user, id }) => {
                       onClick={() => toggleModal(children["id"])}
                     >
                       {" "}
-                      Case Report
+                      {t('Case Report')}
                     </button>
                   </CardBody>
                   </div>
@@ -173,7 +173,7 @@ const ChildrenProfile = ({ user, id }) => {
                 {t('District')}
               </DropdownItem>
               <DropdownItem onClick={() => setFilter("Case Number")}>
-                Case Number
+                {t('Case Number')}
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

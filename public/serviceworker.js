@@ -1,5 +1,5 @@
 console.warn('sw file in public folder')
-let cacheData = "app-V20";
+let cacheData = "app-V1";
 this.addEventListener("install", (event) => {
     event.waitUntil(
         caches.open(cacheData).then((cache) => {

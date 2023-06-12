@@ -80,9 +80,9 @@ const ManagersList = ({user,usersList, id}) => {
 			<Dropdown isOpen={dropdownOpen} toggle={toggle}  direction="down" onChange={(event)=>console.log(event)}>
         <DropdownToggle size="lg" className="rounded-md w-full h-auto !text-textcolor text-2xl p-2 border-0 !bg-color3 shadow-md" caret>{filter===""?"Select Filter":filter}</DropdownToggle>
         <DropdownMenu className="text-textcolor">
-          <DropdownItem onClick={()=>setFilter("Name")}>Name</DropdownItem>
-          <DropdownItem onClick={()=>setFilter("District")}>District</DropdownItem>
-          <DropdownItem onClick={()=>setFilter("Case Number")}>Case Number</DropdownItem>
+          <DropdownItem onClick={()=>setFilter("Name")}>{t('Name')}</DropdownItem>
+          <DropdownItem onClick={()=>setFilter("District")}>{t('District')}</DropdownItem>
+          <DropdownItem onClick={()=>setFilter("Case Number")}>{t('Case Number')}</DropdownItem>
         </DropdownMenu>
       </Dropdown>
 			</div>
