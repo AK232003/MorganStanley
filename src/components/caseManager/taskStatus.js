@@ -41,13 +41,12 @@ const TaskStatus = ({ user, id }) => {
 
 	const toggleModal = (caseno) =>{
 		setModal(!modal);
-		// console.log(typeof(caseno));
-		// if(typeof(caseno)==="string"){
-		// 	setCase(caseno);
-		// 	setTask(tasks.filter(task => task["id"]===caseno)[0]);
-			// console.log(children.filter(child => child["id"]===caseno)[0]);
-		// }
-		// else setCase("");
+		console.log(typeof(caseno));
+		if(typeof(caseno)==="string"){
+			setCase(caseno);
+			setTask(tasks.filter(task => task["id"]===caseno)[0]);
+		}
+		else setCase("");
 	};
 	useEffect(()=>{
 		if(user!=="CaseManager") navigate("/");
@@ -103,12 +102,7 @@ const handleAccept = async (e) =>{
 
 	// const caseID = child.id;
 	// console.log(caseID)
-
-	const caseAssignRef = doc(db, "caseAssignment", caseID)
-	const caseAssignSnap = await getDoc(caseAssignRef)
 	// console.log(caseAssignSnap.data())
-	let GWID = caseAssignSnap.data()["groundWorkerID"]
-	let CMID = caseAssignSnap.data()["caseManagerID"]
 
 	const taskRef = doc(db, "task", tempTaskID);
 	const taskSnap = await getDoc(taskRef)
@@ -224,7 +218,7 @@ return (
         <ModalHeader toggle={toggleModal}>Task Details for {caseSelected}</ModalHeader>
         <ModalBody>
           <CardTitle className="m-1 p-2" tag="h4">
-            Assign Ground Worker
+            Task Proposal
           </CardTitle>
 
           <CardBody>
