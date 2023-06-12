@@ -23,6 +23,7 @@ const AdminDashboard= ({user, id}) =>{
   const title1 = t('Case Statistics')
   const title2 = t('Child Statistics')
   const data1 = [100, 200, 50];
+  const tempDate=["20/06/2023","22/06/2023","28/06/2023"]
   // var piechart = Pie_chart(labels1, data1, title1)
   console.log(user, id);
   useEffect(()=>{
@@ -60,7 +61,7 @@ const AdminDashboard= ({user, id}) =>{
 								<List type="unstyled">
 								<li > <strong>{t('Name')} :</strong> {children["Name"]}</li>
 								<li > <strong>{t('Status')} :</strong> {children["Age"]}</li>
-								<li > <strong>{t('Deadline')} :</strong> {children["District"]}</li>
+								<li > <strong>{t('Deadline')} :</strong> 22/06/23</li>
 								</List>
 					</CardBody>
 				</div>

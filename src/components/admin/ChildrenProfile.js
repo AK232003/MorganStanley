@@ -195,6 +195,7 @@ const ChildrenProfile = ({ user, id }) => {
             {child !== null &&
               keys !== null &&
               keys.map((key) => {
+                if(key==="Image") return
                 return (
                   <li key={key} className="w-full m-2 p-1 flex">
                     {" "}

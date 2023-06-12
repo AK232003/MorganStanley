@@ -75,6 +75,7 @@ const Login = ({setUser, id, setId,setName}) => {
       console.log(emailRef.current.value, passwordRef.current.value);
       const userHash = await login(emailRef.current.value, passwordRef.current.value);
       console.log(userHash)
+      if(userHash===false) alert("Error signing In!")
       database.ref(`Users/${userHash[0]}/userID/`).once('value')
       .then((snapshot) => {
         setId(snapshot.val());

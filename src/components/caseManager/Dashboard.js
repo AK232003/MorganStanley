@@ -73,7 +73,7 @@ const Dashboard= ({user, id}) =>{
 								<List type="unstyled">
 								<li > <strong>{t('Name')} :</strong> {children["Name"]}</li>
 								<li > <strong>{t('Status')} :</strong> {children["Age"]}</li>
-								<li > <strong>{t('Deadline')} :</strong> {children["District"]}</li>
+								<li > <strong>{t('Deadline')} :</strong> 22/06/23</li>
 								</List>
 					</CardBody>
 				</div>

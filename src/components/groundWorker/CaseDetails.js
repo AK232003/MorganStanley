@@ -67,7 +67,7 @@ const CaseDetails = ({ user, id }) => {
         <div className="mt-3">
           <div className="row justify-content-between">
             <h1 className="col-6 col-sm-9 p-2 m-2"> Child Details for {child["id"]}</h1>
-            <img className="col-4 col-sm-2 w-20 h-30" alt="Child Photo" src={img} />
+            <img className="col-4 col-sm-2 w-20 h-30" alt="Child Photo" src={child["Image"]?child["Image"]:img} />
           </div>
           <ul type="unstyled" className="p-0">
             {child !== undefined &&

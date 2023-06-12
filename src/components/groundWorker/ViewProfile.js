@@ -49,11 +49,12 @@ const ViewProfile = ({ user, id }) => {
         <div className="mt-3">
           <div className="row">
             <h1 className="col-6 p-2 m-2"> Child Details for {child["id"]}</h1>
-            <img className="col-4" alt="Child Photo" src={img} />
+            <img className="col-4" alt="Child Photo" src={child["Image"]?child["Image"]:img} />
           </div>
           <ul type="unstyled" className="p-0">
             {child !== undefined &&
               keys.map((key) => {
+                if(key==="Image") return
                 return (
                   <li key={key} className="w-full m-2 p-1 flex">
                     {" "}
