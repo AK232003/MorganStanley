@@ -43,9 +43,11 @@ const TaskComments = ({ user, id }) => {
       .then(() => {
         console.log("Deadline updated successfully!");
         setDeadLine(e.target[0].value);
+        alert("Deadline Set!");
       })
       .catch((error) => {
         console.log("Error updating Deadline:", error);
+        alert("Error updating Deadline");
       });
     setDeadLine(e.target[0].value);
   };
@@ -63,9 +65,11 @@ const TaskComments = ({ user, id }) => {
       })
       .then(() => {
         console.log("Reply Sent Succesfully!");
+        alert("Reply Set!");
       })
       .catch((error) => {
         console.log("Error sending comment:", error);
+        alert("Error sending Reply");
       });
   };
   // -------------------------------------------

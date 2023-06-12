@@ -125,6 +125,7 @@ const Report=({stepType}) => {
           })
           .catch((error) => {
             console.error("Error getting download URL: ", error);
+            alert("Error while adding report");
           });
       })
   };

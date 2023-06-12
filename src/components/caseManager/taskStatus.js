@@ -125,6 +125,7 @@ const handleAccept = async (e) =>{
 	deleteDoc(doc(db, "task", task["id"]))
 
 	console.log("Task Accepted!")
+  alert("Task Accepted!")
 
 }
 // ----------------------------------
@@ -134,6 +135,7 @@ const handleAccept = async (e) =>{
     e.preventDefault();
 
     deleteDoc(doc(db, "task", task["id"]))
+    alert("task Rejected");
   };
 
   const taskLists=()=>{
