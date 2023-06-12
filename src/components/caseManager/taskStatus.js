@@ -13,10 +13,12 @@ const TaskStatus = ({ user, id }) => {
   const [caseSelected, setCase] = useState("");
   const [tasks, setTasks] = useState([]);
   const [task, setTask] = useState("");
+
   const [casesList, setCasesList] = useState([0])
   const [keys, setKeys] = useState(null);
   const childrenCollectionRef = collection(db, "task");
-  
+
+
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [modal, setModal] = useState(false);
   const [step, setStep] = useState(0);
@@ -36,15 +38,16 @@ const TaskStatus = ({ user, id }) => {
   mapOfTypes.set("LFA","LFA")
   mapOfTypes.set("Carings","CARINGS upload")
   const toggle = () => setDropdownOpen(!dropdownOpen);
+
 	const toggleModal = (caseno) =>{
 		setModal(!modal);
 		// console.log(typeof(caseno));
-		if(typeof(caseno)==="string"){
-			setCase(caseno);
-			setTask(tasks.filter(task => task["id"]===caseno)[0]);
+		// if(typeof(caseno)==="string"){
+		// 	setCase(caseno);
+		// 	setTask(tasks.filter(task => task["id"]===caseno)[0]);
 			// console.log(children.filter(child => child["id"]===caseno)[0]);
-		}
-		else setCase("");
+		// }
+		// else setCase("");
 	};
 	useEffect(()=>{
 		if(user!=="CaseManager") navigate("/");
@@ -66,8 +69,8 @@ const TaskStatus = ({ user, id }) => {
           const data = await getDocs(childrenCollectionRef);
           // console.log(data.docs)
           setTasks(data.docs.map((doc) => ({...doc.data(), id:doc.id})))
-          // let temp=tasks;
-          // temp.map((doc)=>({...doc, workerID: fetchWorkerID(doc["id"].split("-")[0])}))
+          let temp=tasks;
+          temp.map((doc)=>({...doc, workerID: fetchWorkerID(doc["id"].split("-")[0])}))
           // console.log(temp)
           // setTasks(temp);
           // console.log(tasks)
@@ -161,7 +164,7 @@ const handleAccept = async (e) =>{
           <li > <strong>Docs :</strong> {<a href={task["Docs"]}>Task Report Link</a>}</li>
           <li > <strong>Status :</strong> {task["Status"]}</li>
           <li > <strong>Text :</strong> {task["Text"]}</li>
-          <li > <strong>Status :</strong> {task["isComplete"]?"Completed":"In Progress"}</li>
+          <li > <strong>Complete :</strong> {task["isComplete"]?"Completed":"In Progress"}</li>
         </List>
       </CardBody>
     <div>
@@ -221,37 +224,10 @@ return (
         <ModalHeader toggle={toggleModal}>Task Details for {caseSelected}</ModalHeader>
         <ModalBody>
           <CardTitle className="m-1 p-2" tag="h4">
-            Assigned Ground Worker
+            Assign Ground Worker
           </CardTitle>
 
           <CardBody>
-            <div className="row">
-              <div className="col"> Worker ID</div>
-              <div className="col">ID aayega idhar</div>
-            </div>
-            <div className="row">
-              <div className="col"> Task Text</div>
-              <div className="col overflow-y-scroll h-52">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </div>
-            </div>
-            <div className="row mt-4">
-              <div className="col"> Related Files</div>
-              <div className="col">
-                <a href="." target="_blank" rel="noopener noreferrer">
-                  Report Link
-                </a>
-              </div>
-            </div>
 
             
           </CardBody>

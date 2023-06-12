@@ -16,10 +16,10 @@ const NavBar = ({user,id,name,open,setOpen,toggle}) => {
           <FaBars className="md:h-14 md:w-14 h-8 w-8  p-1 cursor-pointer text-sideBarColor1 visible" onClick={() =>{ setOpen(!open); toggle(true)}}></FaBars>
     </div>
         <NavbarBrand tag="div"><NavLink to={user}><img alt="logo" src={logo} width="90%" className="md:h-12 h-10 md:ms-3 ms:2 p-1"></img></NavLink></NavbarBrand>
-        <Nav className="ms-auto text-white">
+        <Nav className=" text-white">
             
-            <NavItem className="mx-2">{id} </NavItem>
-            <NavItem className="mx-2">{user} </NavItem>
+            <NavItem className="mx-1">{id} </NavItem>
+            <NavItem className="ms-0">{user} </NavItem>
         </Nav>
         {/* <Nav>
             <NavItem className="flex text-2xl align-middle"><MdMarkUnreadChatAlt className="float-left align-bottom"/>Alerts</NavItem>

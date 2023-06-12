@@ -334,10 +334,10 @@ const TaskComments = ({ user, id }) => {
       </div>
       {/* Assign Worker */}
       <Modal centered isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal} className="!bg-sideBarColor1 !border-none">
           Comments for tasks related to {caseSelected}
         </ModalHeader>
-        <ModalBody>
+        <ModalBody className="!bg-sideBarColor1 !border-none">
           <Form onSubmit={(event) => handleComment(event)}>
             Comments History
             <FormGroup row>
@@ -363,29 +363,11 @@ const TaskComments = ({ user, id }) => {
                 />
               </Col>
             </FormGroup>
-            <FormGroup row>
-              <div className="col-2 m-2">
-                <Button type="submit" color="primary">
+        <Button type="submit" className="!bg-buttonColor !border-none">
                   Submit
                 </Button>
-              </div>
-            </FormGroup>
           </Form>
-        </ModalBody>
-      </Modal>
-      {/* Case Details */}
-      <Modal
-        centered
-        isOpen={modalDeadline}
-        toggle={toggleModalDeadline}
-        fullscreen="md"
-        size="sm"
-      >
-        <ModalHeader toggle={toggleModalDeadline}>
-          Deadlines for {caseSelected}
-        </ModalHeader>
-        <Form className="mt-2" onSubmit={(event) => handleDeadLine(event)}>
-          <ModalBody>
+          <Form className="mt-2" onSubmit={(event) => handleDeadLine(event)}>
             <label for="changeDeadline">
               <strong>Modify Deadline:</strong>
             </label>
@@ -397,15 +379,13 @@ const TaskComments = ({ user, id }) => {
                 type="date"
               />
             </FormGroup>
-          </ModalBody>
-          <FormGroup row>
-            <div className="m-2">
-              <Button type="submit" color="primary">
+              <Button type="submit" className="!bg-buttonColor !border-none">
                 Change Deadline
               </Button>
-            </div>
-          </FormGroup>
         </Form>
+        </ModalBody>
+        <ModalFooter className="!bg-sideBarColor1 !border-none"> 
+        </ModalFooter>
       </Modal>
       {children.length > 0 ? (
         childrenLists()

@@ -8,6 +8,7 @@ import { getDownloadURL, ref as storageRef, uploadBytes, } from "firebase/storag
 import {IoIosArrowDropdown} from 'react-icons/io'
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
+import exportToExcel from "../../excel";
 
 const AddChild = ({ user, id }) => {
 
@@ -89,6 +90,7 @@ const AddChild = ({ user, id }) => {
           "Total Shelter Home Stay": element.target[16].value,
           "Case History": element.target[17].value,
         });
+        alert("Child Added!");
       });
     });
   };
@@ -107,7 +109,7 @@ const AddChild = ({ user, id }) => {
           className="!bg-color5/[0.6] !border-none rounded-2"
           onSubmit={(event) => handleSubmitInformation(event)}
         >
-          <AccordionItem className="!bg-transparent">
+          <AccordionItem className="!bg-transparent !border-none">
             <h4 className="m-2 ms-4 cursor-pointer" onClick={() => toggle("1")}>
               {t('Section-1')}
               <span>
@@ -403,7 +405,17 @@ const AddChild = ({ user, id }) => {
               >
                 {t('Submit')}
               </Button>
-            </div>
+              </div>
+              <div className="col-auto offset-1 m-2">
+
+              <Button
+                type="submit"
+                className="!bg-color3 !border-none !text-textcolor"
+                onClick={()=>exportToExcel()}
+                >
+                {t('Download Excel Template')}
+              </Button>
+                </div>
           </FormGroup>
         </Form>
       </div>
@@ -411,116 +423,3 @@ const AddChild = ({ user, id }) => {
   );
 };
 export default AddChild
-
-
-// GARBAGE
-		// const id = element["Case Number"].split("/").join("");
-		// const id = element.target[11].value.split("/").join("");
-		// const imageRef = storageRef(storage, `children/${id}`);
-		// let dt = new Date();
-		// dt.setMonth(dt.getMonth()+1);
-		// console.log(dt);
-		// uploadBytes(imageRef, imageUpload)
-    //   .then((snapshot) => {
-    //     getDownloadURL(snapshot.ref)
-    //       .then((url) => {
-		// 	db.collection("children").doc(id).set({
-		// 		"Name": element.target[1].value,
-		// 		"Gender": element.target[2].value,
-		// 		"Date Of Birth": element.target[3].value,
-		// 		"Age": element.target[4].value,
-		// 		"Child Category":element.target[5].value,
-		// 		"Image": url,
-		// 		"State": element.target[7].value,
-		// 		"District": element.target[8].value,
-		// 		"Home": element.target[9].value,
-		// 		"Case Number": element.target[11].value,
-		// 		"Reason For Admission": element.target[12].value,
-		// 		"Reason For Flagging": element.target[13].value,
-		// 		"Last Visit Since": element.target[14].value,
-		// 		"Last Call Since": element.target[15].value,
-		// 		"Guardian": element.target[16].value,
-		// 		"Sibling": element.target[17].value,
-		// 		"Total Shelter Home Stay": element.target[18].value,
-		// 		// "CWC Last Review": element.target[19].value,
-		// 		// "Last CWC Order": element.target[20].value,
-		// 		"Case History": element.target[19].value,
-		// 		// "Documents Completed": element.target[23].value,
-		// 		// "Documents Pending": element.target[24].value,
-		// 		// "News Paper Publications Pending": element.target[25].value,
-		// 		// "Police Report Pending": element.target[26].value,
-		// 		// "Surrender Pending": element.target[27].value,
-		// 		// "Status": element.target[28].value
-		// 	}).then(() => {
-		// 		console.log("Document successfully written with ID: ", id);
-		// 		// Create an entry in the Realtime Database for the child profile
-		// 		// database
-		// 		//   .ref("childProfile/" + id)
-		// 		//   .set({
-		// 		// 	AssignStatus: "Not Assigned",
-		// 		// 	WorkerID: "",
-		// 		// 	ManagerID: "",
-		// 		// 	Deadline: dt.toISOString().substring(0, 10) // ISO can also be used
-		// 		//   });
-
-		// 		   	database.ref(`cases/comments/` + id ).set({
-    //         			Worker: ["Start"],
-    //         		 	Manager: ["Start"],
-    //       			 });
-		// 	  })
-		// 	  .catch((error) => {
-		// 		console.error("Error writing document: ", error);
-		// 	  });
-    //       })
-		// console.log(user);   
-      // })
-
-
-							{/* <AccordionHeader targetId="3">Section-3</AccordionHeader>
-							<AccordionBody accordionId="3">
-							<FormGroup row>
-								<Label for="docscomp" sm={2}>Documents Completed</Label>
-								<Col sm={10}>
-									<Input id="docscomp" name="docscomp" placeholder="Documents Completed" type="text"/></Col>
-							</FormGroup>
-							<FormGroup row>
-								<Label for="docspend" sm={2}>Documents Pending</Label>
-								<Col sm={10}>
-									<Input id="docspend" name="docspend" placeholder="Documents Pending" type="text"/></Col>
-							</FormGroup>
-							<FormGroup row>
-								<Label for="newspend" sm={2}>News Paper Publications Pending</Label>
-								<Col sm={10}>
-									<Input id="newspend" name="newspend" placeholder="News Paper Publications Pending" type="text"/></Col>
-							</FormGroup>
-							<FormGroup row>
-								<Label for="policepend" sm={2}>Police Report Pending</Label>
-								<Col sm={10}>
-									<Input id="policepend" name="policepend" placeholder="Police Report Pending" type="text"/></Col>
-							</FormGroup>
-							<FormGroup row>
-								<Label for="surrenderpend" sm={2}>Surrender Pending</Label>
-								<Col sm={10}>
-									<Input id="surrenderpend" name="surrenderpend" placeholder="Surrender Pending" type="text"/></Col>
-							</FormGroup>
-							<FormGroup row>
-								<Label for="status" sm={2}>Status</Label>
-								<Col sm={10}>
-								<Input id="status" name="status" type="select" >
-										<option>Not Assigned</option>	
-										<option>Assigned</option>
-										<option>Completed </option>
-									</Input>
-								</Col>
-							</FormGroup>
-					</AccordionBody> */}
-												{/* <FormGroup row>
-								<Label for="cwclr" sm={2}>CWC Last Review</Label>
-								<Col sm={10}>
-									<Input id="cwclr" name="cwclr" placeholder="CWC last review" type="date"/></Col>
-							</FormGroup>
-							<FormGroup row>
-								<Label for="cwclo" sm={2}>Last CWC Order</Label>
-								<Col sm={10}>
-									<Input id="cwclo" name="cwclo" placeholder="CWC last order" type="text"/></Col>
-							</FormGroup> */}

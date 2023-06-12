@@ -73,7 +73,7 @@ const AdminDashboard= ({user, id}) =>{
       <div className="text-textcolor justify-self-start rounded-4 bg-color2 px-1 sm:px-3 py-1 ">
          <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">{t('Statistics')}</div>
       </div>
-        <div className=" offset-3 p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" >{t('Admin Dashboard')}</div>
+        <div className=" p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" >{t('Admin Dashboard')}</div>
       </div>
       <div className="row">
       <Card className="col-sm-6 justify-content-center m-2 p-2 cursor-pointer" style={{boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.2)'}}>

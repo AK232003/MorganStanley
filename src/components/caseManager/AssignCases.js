@@ -26,23 +26,28 @@ const AssignCases = ({ user, id }) => {
   const [caseSelected, setCase] = useState("");
   const [children, setChildren] = useState([]);
   const [deadLine, setDeadLine] = useState("");
+  const [workersList,setWorkersList]=useState(null);
+  const [idToAssign, setID] = useState(null);
+  const [nameToAssign, setname] = useState(null);
   const [child, setChild] = useState(null);
   const [keys, setKeys] = useState(null);
-
+  const [dropdownOpen2, setDropdownOpen2] = useState(false);
+  const toggle2 = () => setDropdownOpen2(!dropdownOpen2);
   const adminID = "admin"
+  console.log(idToAssign)
 //   const [worker, setWorker] = useState(null);
   const childrenCollectionRef = collection(db, "children");
   const toggleDropDown = () => setDropdownOpen(!dropdownOpen);
   // Case Creation Section(Worker Assigned to Children)
   // (mId to be changed to the manager Id)
   // ----------------------------------------
-  const handleCase = async (element) => {
+  const handleCase = async () => {
     // Case Creation
-    element.preventDefault();
+    // element.preventDefault();
 
     // console.log(element.target[0].value);
-    const workerID = element.target[0].value;
-
+    const workerID = idToAssign;
+    console.log(idToAssign)
     // const docRef = doc(db, "Users", workerID);
     // const docSnap = await getDoc(docRef)
     // 	.then((snapShot) => {
@@ -88,7 +93,7 @@ const AssignCases = ({ user, id }) => {
 
 			console.log(caseData)
 
-			if(oldGWID !== workerID) {
+			if(oldGWID !== workerID && oldGWID) {
 				const oldGWRef = doc(db, "Users", oldGWID)
 				const oldGWSnap = await getDoc(oldGWRef)
 				const oldGWData = oldGWSnap.data()
@@ -103,7 +108,7 @@ const AssignCases = ({ user, id }) => {
 				})
 			}
 
-			if(oldCMID !== id) {
+			if(oldCMID !== id && oldCMID) {
 				const oldManagerRef = doc(db, "Users", oldCMID)
 				const oldManagerSnap = await getDoc(oldManagerRef)
 				const oldManagerData = oldManagerSnap.data()
@@ -199,6 +204,32 @@ const AssignCases = ({ user, id }) => {
   };
   useEffect(() => {
     if (user !== "CaseManager") navigate("/");
+    const getWorkerList = () => {
+      const usersRef = db.collection("Users");
+  
+      usersRef
+        .doc("admin")
+        .get()
+        .then((doc) => {
+          if (doc.exists) {
+            const data = doc.data();
+            let workerList = data.WorkersList;
+            workerList=workerList.slice(1);
+            db.collection("Users").where('UserID','in',workerList).get().then((docs)=>{
+              let workers=[];
+    
+              if(!docs.empty) {
+                docs.forEach((doc)=>{workers.push(doc.data())});
+                setWorkersList(workers);
+              }
+            })
+          } 
+        })
+        .catch((error) => {
+          console.log("Error getting Users document:", error);
+        });
+    };
+    getWorkerList();
   }, [user]);
   useEffect(() => {
     if (child !== null) setKeys(Object.keys(child));
@@ -332,32 +363,49 @@ const AssignCases = ({ user, id }) => {
       </div>
       {/* Assign Worker */}
       <Modal centered isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal} className="!bg-sideBarColor1 !border-none">
           Assign Worker for {caseSelected}
         </ModalHeader>
-        <ModalBody>
-          <Form className=" m-2" onSubmit={(event) => handleCase(event)}>
-            <FormGroup>
-              <Label for="wid"> Select Worker ID/Name </Label>
-              <Input id="wid" name="wid" placeholder="Worker ID" type="text" />
-            </FormGroup>
-            <FormGroup row>
-              <div className="col-2">
-                <Button type="submit" color="primary">
-                  Assign
-                </Button>
-              </div>
-            </FormGroup>
-          </Form>
+        <ModalBody className="!bg-sideBarColor1 !border-none">
+            
+          <Dropdown
+                  isOpen={dropdownOpen2}
+                  toggle={toggle2}
+                  direction="down"
+                  onChange={(event) => console.log(event)}
+                >
+                  <DropdownToggle
+                    size="sm"
+                    className="rounded-md w-full h-auto !text-textcolor text-base p-2 border-0 bg-white shadow-md"
+                    caret
+                  >
+                    {idToAssign === null
+                      ? "Select User"
+                      : idToAssign + " " + nameToAssign}
+                  </DropdownToggle>
+                  <DropdownMenu className="text-textcolor">
+                    {workersList &&
+                      workersList.map((user) => {
+                          return (
+                            <DropdownItem
+                              key={user["UserID"]}
+                              onClick={() => {
+                                setID(user["UserID"]);
+                                setname(user["Name"])
+                              }}
+                            >
+                              'Worker ID': {user["UserID"]} --- Name: {user["Name"]}
+                            </DropdownItem>
+                          );
+                      })}
+                  </DropdownMenu>
+                </Dropdown>
         </ModalBody>
 
-        <ModalFooter>
-          <Button color="primary" onClick={toggleModal}>
-            Do Something
-          </Button>{" "}
-          <Button color="secondary" onClick={toggleModal}>
-            Cancel
-          </Button>
+        <ModalFooter className="!bg-sideBarColor1 !border-none">
+        <Button type="submit" className="!bg-buttonColor !border-none" onClick={()=>handleCase()}>
+                  Assign
+                </Button>
         </ModalFooter>
       </Modal>
       {/* Case Details */}

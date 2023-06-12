@@ -50,7 +50,7 @@ const Dashboard= ({user, id}) =>{
       {/* <div className="text-textcolor justify-self-start rounded-1 bg-color3 px-1 sm:px-3 py-1 drop-shadow-md "> */}
          <div className="font-sans text-justify align-text-bottom fw-bold text-2xl sm:text-4xl">{t('CaseManager Dashboard')}</div>
       {/* </div> */}
-        <button className="justify-self-start sm:justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/caseManager/addChild")} >{t('Add Child')}</button>
+        <button className="justify-self-end p-2 rounded-pill bg-themecolor shadow-md drop-shadow-md text-white hover:shadow-themecolor/[0.5]" onClick={()=>navigate("/caseManager/addChild")} >{t('Add Child')}</button>
       </div>
 
     <div className="row">

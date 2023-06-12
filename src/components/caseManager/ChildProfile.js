@@ -4,8 +4,7 @@ import {GiCheckMark} from 'react-icons/gi'
 import img from "../../profile.webp";
 import { Card, } from "reactstrap";
 import { database, db, storage } from "../../firebase";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
+import html2pdf from 'html2pdf.js';
 
 const ChildProfile = ({ user, id }) => {
   const { state } = useLocation();
@@ -15,19 +14,19 @@ const ChildProfile = ({ user, id }) => {
   const [step, setStep] = useState(0);
 
   const navigate = useNavigate();
-  const pdfGenerate = async ()=>{
-    const input =  document.getElementById('profilePDF');
-    var doc = new jsPDF('portrait', 'px', 'a4', 'false')
-    const divContent = input.innerText;
-    html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL('image/png');
-      const imgWidth = doc.internal.pageSize.getWidth();
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  const pdfGenerate = () => {
+    const element = document.getElementById('profilePDF');
+    const options = {
+      margin: 0,
+      filename: 'profile.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' },
+      autoPaging: true
+    };
   
-      doc.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      doc.save("profile.pdf");
-    });
-  }
+    html2pdf().set(options).from(element).save();
+  };
   useEffect(() => {
     if (user !== "CaseManager") navigate("/");
     console.log("Hi there");
@@ -65,7 +64,7 @@ const ChildProfile = ({ user, id }) => {
         <div className="mt-3">
           <div className="row justify-content-between">
             <h1 className="col-6 col-sm-9 p-2 m-2"> Child Details for {child["id"]}</h1>
-            <img className="col-4 col-sm-2 w-20 h-30" alt="Child Photo" src={img} />
+            <img className="col-4 col-sm-2 w-20 h-30" alt="Child Photo" src={child["Image"]!==null?child["Image"]:img} />
           </div>
           <ul type="unstyled" className="p-0">
             {child !== undefined &&
