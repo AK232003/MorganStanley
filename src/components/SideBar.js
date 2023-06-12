@@ -21,7 +21,7 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [language,setLanguage]=useState("English");
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-
+  console.log(pathname);
   const handleLogout= ()=>{
     localStorage.setItem('user',null);
     localStorage.setItem('userID',null);
@@ -39,27 +39,27 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
             {user === "CaseManager" &&
             <>
             <ul className="ps-0">
-              <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager")} >
+              <li className={sideBarIconProperty + `${pathname==="/caseManager" && " bg-hoverColor"}`} onClick={()=>navigate("/caseManager")} >
                 <span><FaHome className="text-3xl text-textcolor block float-left"></FaHome></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Dashboard')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager/addChild")} >
+              <li className={sideBarIconProperty+ `${pathname==="/caseManager/addChild" && " bg-hoverColor"}`} onClick={()=>navigate("/caseManager/addChild")} >
                 <span><FaChild className="text-3xl text-textcolor block float-left"></FaChild></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Add Child')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager/profiles")}>
+              <li className={sideBarIconProperty+ `${pathname==="/caseManager/profiles" && " bg-hoverColor"}`} onClick={()=>navigate("/caseManager/profiles")}>
                 <span><FaRegUserCircle className="text-3xl text-textcolor block float-left"></FaRegUserCircle></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Children Profiles')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager/reports")} >
+              <li className={sideBarIconProperty+ `${pathname==="/caseManager/reports" && " bg-hoverColor"}`} onClick={()=>navigate("/caseManager/reports")} >
                 <span><BsPeopleFill className="text-3xl text-textcolor block float-left"></BsPeopleFill></span>
               <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Assign Cases')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager/taskStatus")} >
+              <li className={sideBarIconProperty+ `${pathname==="/caseManager/taskStatus" && " bg-hoverColor"}`} onClick={()=>navigate("/caseManager/taskStatus")} >
                 <span><FaTasks className="text-3xl text-textcolor block float-left"></FaTasks></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Task Status')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/caseManager/taskComments")} >
+              <li className={sideBarIconProperty+ `${pathname==="/caseManager/taskComments" && " bg-hoverColor"}`} onClick={()=>navigate("/caseManager/taskComments")} >
                 <span><FaComments className="text-3xl text-textcolor block float-left"></FaComments></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Task Comments')}</span>
               </li>
@@ -69,23 +69,23 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
           {user === "Admin" && 
           <div className="h-full flex flex-col ">
             <ul className="pt-2 ps-0">
-            <li className={sideBarIconProperty} onClick={()=>navigate("/admin")} >
+            <li className={sideBarIconProperty+ `${pathname==="/admin" && " bg-hoverColor"}`} onClick={()=>navigate("/admin")} >
                 <span><FaHome className="text-3xl text-textcolor block float-left"></FaHome></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Dashboard')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/admin/addUser")} >
+              <li className={sideBarIconProperty+ `${pathname==="/admin/addUser" && " bg-hoverColor"}`} onClick={()=>navigate("/admin/addUser")} >
                 <span><FaUserPlus className="text-3xl text-textcolor block float-left"></FaUserPlus></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Add User')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/admin/managersList")} >
+              <li className={sideBarIconProperty+ `${pathname==="/admin/managersList" && " bg-hoverColor"}`} onClick={()=>navigate("/admin/managersList")} >
                 <span><FaRegListAlt className="text-3xl text-textcolor block float-left"></FaRegListAlt></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Managers List')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/admin/workersList")} >
+              <li className={sideBarIconProperty+ `${pathname==="/admin/workersList" && " bg-hoverColor"}`} onClick={()=>navigate("/admin/workersList")} >
                 <span><FaClipboardList className="text-3xl text-textcolor block float-left"></FaClipboardList></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Workers List')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/admin/childrenProfiles")} >
+              <li className={sideBarIconProperty+ `${pathname==="/admin/childrenProfiles" && " bg-hoverColor"}`} onClick={()=>navigate("/admin/childrenProfiles")} >
                 <span><FaChild className="text-3xl text-textcolor block float-left"></FaChild></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Child Profile')}</span>
               </li>
@@ -96,15 +96,15 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
           user === "GroundWorker" ? (user==="GroundWorker" && (isCaseDetailsView===null || isCaseDetailsView.params["*"]==='')) ?
           <div className="h-full flex flex-col ">
             <ul className="pt-2 ps-0">
-              <li className={sideBarIconProperty} onClick={()=>navigate("/groundWorker")} >
+              <li className={sideBarIconProperty+ `${pathname==="/groundWorker" && " bg-hoverColor"}`} onClick={()=>navigate("/groundWorker")} >
                 <span><FaHome className="text-3xl text-textcolor block float-left"></FaHome></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Dashboard')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/groundWorker/profiles")} >
+              <li className={sideBarIconProperty+ `${pathname==="/groundWorker/profiles" && " bg-hoverColor"}`} onClick={()=>navigate("/groundWorker/profiles")} >
                 <span><FaRegUserCircle className="text-3xl text-textcolor block float-left"></FaRegUserCircle></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Children Profiles')}</span>
               </li>
-              <li className={sideBarIconProperty} onClick={()=>navigate("/groundWorker/caseDetails")} >
+              <li className={sideBarIconProperty+ `${pathname==="/groundWorker/caseDetails" && " bg-hoverColor"}`} onClick={()=>navigate("/groundWorker/caseDetails")} >
                 <span><FaClipboardList className="text-3xl text-textcolor block float-left"></FaClipboardList></span>
                 <span className={`text-base font-medium flex-1 ${!openSide && "hidden"}`}>{t('Assigned Cases')}</span>
               </li>

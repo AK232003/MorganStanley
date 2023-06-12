@@ -21,6 +21,11 @@ const TaskComments = ({ user, id }) => {
   const [caseSelected, setCase] = useState("");
   const [children, setChildren] = useState([]);
   const [deadLine, setDeadLine] = useState("");
+  const [workerComments, setWorkerComments] = useState([]);
+  const [workerTime, setWorkerTime] = useState([]);
+  const [comments, setComments] = useState([]);
+  const [managerComments, setManagerComments] = useState("");
+  const [managerTime, setManagerTime] = useState([]);
   const [child, setChild] = useState(null);
   const [keys, setKeys] = useState(null);
   const childrenCollectionRef = collection(db, "children");
@@ -204,7 +209,21 @@ const TaskComments = ({ user, id }) => {
   }, [user]);
   useEffect(() => {
     if (child !== null) setKeys(Object.keys(child));
-  }, [child]);
+    if(child!=null){
+      db.collection("caseComments").doc(`${child["id"]}`).get().then((doc)=>{
+      console.log(doc.data())
+      if(doc.data()){
+        setWorkerComments(doc.data()["WorkerComment"])
+        setWorkerTime(doc.data()["WorkerTime"])
+        setManagerComments(doc.data()["ManagerComment"])
+        setManagerTime(doc.data()["ManagerTime"])
+        console.log(workerComments,managerComments);
+      }
+      else{
+        setComments("Not Available");
+      }
+    }
+    )}},[child]);
 
   useEffect(() => {
     const getChildren = async () => {
@@ -339,17 +358,20 @@ const TaskComments = ({ user, id }) => {
         </ModalHeader>
         <ModalBody className="!bg-sideBarColor1 !border-none">
           <Form onSubmit={(event) => handleComment(event)}>
-            Comments History
-            <FormGroup row>
-              <Label for="mid" sm={2}>
-                {" "}
-                worker id{" "}
-              </Label>
-              <Col sm={10}>
-                <div> worker message</div>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
+            Comments History {comments}
+            <div className="flex flex-row m-2  mb-4">
+              <div className="basis-1/2 border-solid border-2">
+              <div className="text-semibold text-xl">Manager Comments.</div>
+                <div>
+                {managerComments && managerComments.map((comment)=> comment)}
+                </div>
+              </div>
+              <div className="basis-1/2 border-solid border-2">
+              <div className="text-semibold text-xl">Worker Comments. </div>
+              {workerComments && workerComments.map((comment)=> comment)}
+              </div>
+                </div>
+            <FormGroup row className="mt-2">
               <Label for="mid" sm={2}>
                 {" "}
                 Comments{" "}
@@ -363,11 +385,11 @@ const TaskComments = ({ user, id }) => {
                 />
               </Col>
             </FormGroup>
-        <Button type="submit" className="!bg-buttonColor !border-none">
+        <Button type="submit" className="!bg-buttonColor !border-none mb-3" block>
                   Submit
                 </Button>
           </Form>
-          <Form className="mt-2" onSubmit={(event) => handleDeadLine(event)}>
+          <Form className="mt-4" onSubmit={(event) => handleDeadLine(event)}>
             <label for="changeDeadline">
               <strong>Modify Deadline:</strong>
             </label>
@@ -379,7 +401,7 @@ const TaskComments = ({ user, id }) => {
                 type="date"
               />
             </FormGroup>
-              <Button type="submit" className="!bg-buttonColor !border-none">
+              <Button type="submit" className="!bg-buttonColor !border-none" block>
                 Change Deadline
               </Button>
         </Form>
