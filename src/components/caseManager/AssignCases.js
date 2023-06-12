@@ -112,13 +112,14 @@ const AssignCases = ({ user, id }) => {
 				const oldManagerRef = doc(db, "Users", oldCMID)
 				const oldManagerSnap = await getDoc(oldManagerRef)
 				const oldManagerData = oldManagerSnap.data()
-				
-				list = JSON.parse(JSON.stringify(oldManagerData["CasesList"]))
-				i = list.indexOf(childID)
-				if(i > -1) list.splice(i, 1)
-				await updateDoc(oldManagerRef, {
-					"CasesList": list
-				})
+				if(oldManagerData){
+          list = JSON.parse(JSON.stringify(oldManagerData["CasesList"]))
+          i = list.indexOf(childID)
+          if(i > -1) list.splice(i, 1)
+          await updateDoc(oldManagerRef, {
+            "CasesList": list
+          })
+        }
 			}			
 		}
 
@@ -154,14 +155,17 @@ const AssignCases = ({ user, id }) => {
 				"CasesList": newList
 			})
 		}
+    console.log()
+		if(manager) {
 
-		newList = JSON.parse(JSON.stringify(manager["CasesList"]))
-		newList.push(childID)
-		if(!oldCMID || oldCMID !== id) {
-			await updateDoc(managerRef, {
-				"CasesList": newList
-			})
-		}
+      newList = JSON.parse(JSON.stringify(manager["CasesList"]))
+      newList.push(childID)
+      if(!oldCMID || oldCMID !== id) {
+        await updateDoc(managerRef, {
+          "CasesList": newList
+        })
+      }
+    }
 
 
 		if(!caseData){ //only add to case list for admin if case is new
