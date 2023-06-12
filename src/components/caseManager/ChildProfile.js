@@ -1,6 +1,7 @@
 import React, {useState,useEffect} from "react";
 import { useLocation,useNavigate } from "react-router-dom";
 import {GiCheckMark} from 'react-icons/gi'
+import { FaRegClock } from "react-icons/fa";
 import img from "../../profile.webp";
 import { Card, } from "reactstrap";
 import { database, db, storage } from "../../firebase";
@@ -12,8 +13,8 @@ const ChildProfile = ({ user, id }) => {
   const [child, setChild] = useState(state["children"]);
   const [deadLine, setDeadLine] = useState("");
   const [keys, setKeys] = useState(Object.keys(child));
-  const [step, setStep] = useState(0);
-
+  const [steps, setSteps] = useState(0);
+  const [stepKey,setStepkey] =useState(null)
   const navigate = useNavigate();
   const pdfGenerate = () => {
     const element = document.getElementById('profilePDF');
@@ -31,27 +32,32 @@ const ChildProfile = ({ user, id }) => {
   useEffect(() => {
     if (user !== "CaseManager") navigate("/");
     console.log("Hi there");
-
+    console.log(child["id"])
+    db.collection("caseProcesses").doc(child["id"]).get().then((doc)=>{
+      setSteps(doc.data())
+      setStepkey(Object.keys(steps))
+    } 
+    )
     // Set Setps Completed in the Process
     // --------------------------------
-    database
-      .ref(`cases/Process/` + child["id"] + "/isComplete/")
-      .on("value", (snapshot) => {
-        console.log("Steps Completed", snapshot.val());
-        setStep(snapshot.val());
-      });
-    // ---------------------------------
+    // database
+    //   .ref(`cases/Process/` + child["id"] + "/isComplete/")
+    //   .on("value", (snapshot) => {
+    //     console.log("Steps Completed", snapshot.val());
+    //     setStep(snapshot.val());
+    //   });
+    // // ---------------------------------
 
-    //  Set Deadline From Database
-    //  -----------------------
-    database
-      .ref(`cases/DeadLine/` + child["id"] + "/DeadLine")
-      .on("value", (snapshot) => {
-        setDeadLine(snapshot.val());
-        console.log("DeadLine", snapshot.val());
-      });
+    // //  Set Deadline From Database
+    // //  -----------------------
+    // database
+    //   .ref(`cases/DeadLine/` + child["id"] + "/DeadLine")
+    //   .on("value", (snapshot) => {
+    //     setDeadLine(snapshot.val());
+    //     console.log("DeadLine", snapshot.val());
+    //   });
     // -----------------------
-  }, [child, user]);
+  }, [child]);
 
   return (
     <div>
@@ -87,40 +93,23 @@ const ChildProfile = ({ user, id }) => {
           </ul>
           <div className="mt-4 p-2">
             <strong>{t('Steps Completed')}:</strong>
-            <ul className="p-0">
-              {step >= 1 && (
-                <li>
-                  <span>
-                    <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
-                  </span>
-                  {t('Verification')} 1
-                </li>
-              )}
-              {step >= 2 && (
-                <li>
-                  <span>
-                    <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
-                  </span>
-                  {t('Verification')} 2
-                </li>
-              )}
-              {step >= 3 && (
-                <li>
-                  <span>
-                    <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
-                  </span>
-                  {t('Verification')} 3
-                </li>
-              )}
-              {step >= 4 && (
-                <li>
-                  <span>
-                    <GiCheckMark className="text-base text-green-500 block float-left"></GiCheckMark>
-                  </span>
-                  {t('Verification')} 4
-                </li>
-              )}
-            </ul>
+            <ul>
+            {stepKey &&
+              stepKey.forEach((step) =>{
+                console.log(step)
+                return (<li>
+                  <div>
+                    {steps[step]}
+                  </div>
+                    <div>
+                      <div>Document Link: <a href={steps[step["Docs"]]}>Link</a></div>
+                      <div>Status: {steps[step["Status"]]==="Completed"?<span><GiCheckMark className="text-3xl text-green-500 block float-right align-self-end"></GiCheckMark></span>
+                  :<span><FaRegClock className="text-3xl text-yellow-500 block float-right align-self-end"></FaRegClock></span> }</div>
+                      <div>Report: {steps[step["text"]]}</div>
+                    </div>
+                </li>)
+              })}
+              </ul>
           </div>
         </div>
         </Card>
