@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     setUser(localStorage.getItem('user'))
     setId(localStorage.getItem('userID'))
-  }, [user]);
+  }, [user,id]);
   return (
     <>
       <div

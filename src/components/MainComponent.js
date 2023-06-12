@@ -32,7 +32,7 @@ const Main=({user,id,name,setID,setUser}) =>{
 		<>
 		<div className={`flex flex-row w-full h-screen`}>
 			<div className="flex pd-0">
-				<SideBar user={user} setuser={(value)=>setUser(value)} open={open} setOpen={(value)=>setOpen(value)} handdleToggle={()=>handleToggle()} openSide={openSide} toggle={toggle}/>
+				<SideBar user={user} id={id} setuser={(value)=>setUser(value)} open={open} setOpen={(value)=>setOpen(value)} handdleToggle={()=>handleToggle()} openSide={openSide} toggle={toggle}/>
 			</div>
 			<div className={`grid grid-rows-14 flex-col w-full ${open && "blur-sm"}`}>
 				<NavBar className="row-start-1" user={user} id={id} open={open} name={name} setOpen={(value)=>setOpen(value)} toggle={toggle}/>

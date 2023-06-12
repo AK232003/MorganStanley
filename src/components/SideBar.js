@@ -1,4 +1,4 @@
-import {React,useState} from "react";
+import {React,useEffect,useState} from "react";
 import { FaBars, FaRegUserCircle, FaTasks, FaArrowAltCircleRight, FaChild, FaHome, FaUserPlus,FaRegListAlt, FaClipboardList,FaComments  } from 'react-icons/fa';
 import {BsPeopleFill}from 'react-icons/bs'
 import { matchPath, useLocation, useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import {Dropdown,DropdownToggle,DropdownMenu,DropdownItem} from 'reactstrap';
 import i18next from "i18next";
 
-const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
+const SideBar=({user,id,setuser,open,handdleToggle,openSide})=>{
 
   const { t } = useTranslation();
 
@@ -21,7 +21,10 @@ const SideBar=({user,setuser,open,handdleToggle,openSide})=>{
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [language,setLanguage]=useState("English");
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-  console.log(pathname);
+  useEffect(()=>{
+    console.log(localStorage.getItem("userID"))
+    if(localStorage.getItem('userID')==="null") localStorage.setItem('userID',id);
+  },[]);
   const handleLogout= ()=>{
     localStorage.setItem('user',null);
     localStorage.setItem('userID',null);

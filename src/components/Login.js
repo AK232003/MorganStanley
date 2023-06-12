@@ -96,19 +96,16 @@ const Login = ({setUser, id, setId,setName}) => {
       if (userHash[1] === "GroundWorker" ) {
          console.log("ground worker route");
          localStorage.setItem('user',userHash[1]);
-         localStorage.setItem('userID',id);
          setUser("groundWorker");
          navigate("groundWorker");
         } else if(userHash[1] === "CaseManager"){
           localStorage.setItem('user',userHash[1]);
-          localStorage.setItem('userID',id);
           console.log("case manager route")
           setUser("CaseManager")
           navigate("caseManager");
         }
         else if(userHash[1] === "Admin") {
           localStorage.setItem('user',userHash[1]);
-          localStorage.setItem('userID',id);
           console.log("admin route")
          setUser("Admin")
           navigate("admin");
