@@ -38,7 +38,7 @@ const Report=({stepType}) => {
   mapOfTypes.set("TVReport", ["TV Report", "Step2","TVR"]);
   mapOfTypes.set("fileMisingReport", ["File Missing Report", "Step3","FMR"]);
   mapOfTypes.set("medicalReport", ["Medical Report", "Step4","MR"]);
-  mapOfTypes.set("siReport", ["SI Report", "Step5","TVR"]);
+  mapOfTypes.set("siReport", ["SI Report", "Step5","SIR"]);
   mapOfTypes.set("finalPoliceReport", ["Final Police Report", "Step6","FPR"]);
   mapOfTypes.set("PDC", ["Parent's Death Certificate", "Step7","PDC"]);
   mapOfTypes.set("orphanCertificate", ["Orphan Certificate", "Step8","OC"]);
@@ -139,12 +139,14 @@ const Report=({stepType}) => {
     docRef.update({
         WorkerComment: arrayUnion(e.target[0].value),
         WorkerTime: arrayUnion(date),
-      }).then(() => {
-        console.log("Reply Sent Succesfully!");
-        // alert{"Comment added"}
+      }).then((m) => {
+        console.log("Reply Sent Succesfully!")
+        alert("Comment added")
+        toggleModal()
       })
       .catch((error) => {
-        alert("Error sending comment:", error);
+        alert("Error sending comment");
+        toggleModal()
       });
   };
   // ---------------------------------------

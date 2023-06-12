@@ -129,6 +129,7 @@ const handleAccept = async (e) =>{
 
 	console.log("Task Accepted!")
   alert("Task Accepted!")
+  toggleModal(caseSelected)
 
 }
 // ----------------------------------
@@ -139,6 +140,7 @@ const handleAccept = async (e) =>{
 
     deleteDoc(doc(db, "task", task["id"]))
     alert("task Rejected");
+    toggleModal(caseSelected)
   };
 
   const taskLists=()=>{
@@ -219,32 +221,38 @@ return (
           </Dropdown>
         </div>
       </div>
-		<Modal centered isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>Task Details for {caseSelected}</ModalHeader>
-        <ModalBody>
-          <CardTitle className="m-1 p-2" tag="h4">
+		<Modal centered isOpen={modal} toggle={toggleModal} >
+        <ModalHeader className="bg-sideBarColor1" toggle={toggleModal}>Task Details for {caseSelected}</ModalHeader>
+        <ModalBody className="bg-sideBarColor1">
+          <CardTitle className="bg-sideBarColor1 m-0 p-1" tag="h4">
             Task Proposal
           </CardTitle>
 
-          <CardBody>
-
+          <CardBody className="bg-sideBarColor1">
+            {console.log(task["id"])}
+            {task["id"] && <div className="p-2 m-2">
+              Verify and submit documents of case: {task["id"].split("-")[0]} for {mapOfTypes.get(task["id"].split("-")[1])}
+          <li > <strong>Docs :</strong> {<a href={task["Docs"]}>Task Report Link</a>}</li>
+          <li > <strong>Status :</strong> {task["Status"]}</li>
+          <li > <strong>Report :</strong> {task["Text"]}</li>
+              </div>}
             
           </CardBody>
         </ModalBody>
 
-        <ModalFooter className="">
+        <ModalFooter className="!bg-sideBarColor1">
         <div className="row mt-1">
-              <div className="col m-1 p-1 bg-color3 rounded-pill">
+              <div className="col m-1 p-1 rounded-pill">
                 <Button
-                  className="w-full bg-transparent !border-none !text-textcolor"
+                  className="w-full !bg-green-500 !border-none !text-textcolor"
                   onClick={handleAccept}
                 >
                   Accept
                 </Button>
               </div>
-              <div className="col m-1 p-1 bg-color3 rounded-pill">
+              <div className="col m-1 p-1 rounded-pill">
                 <Button
-                  className="w-full bg-transparent !border-none !text-textcolor"
+                  className="w-full !bg-red-400 !border-none !text-textcolor"
                   onClick={handleReject}
                 >
                   Reject

@@ -366,13 +366,13 @@ const TaskComments = ({ user, id }) => {
             <div className="flex flex-row m-2  mb-4">
               <div className="basis-1/2 border-solid border-2">
               <div className="text-semibold text-xl">Manager Comments.</div>
-                <div>
-                {managerComments && managerComments.map((comment)=> comment)}
-                </div>
+                <ul>
+                {managerComments && managerComments.map((comment)=>{ return( <li> {comment} </li>)})}
+                </ul>
               </div>
               <div className="basis-1/2 border-solid border-2">
               <div className="text-semibold text-xl">Worker Comments. </div>
-              {workerComments && workerComments.map((comment)=> comment)}
+              {workerComments && workerComments.map((comment)=> { return( <li> {comment} </li>)})}
               </div>
                 </div>
             <FormGroup row className="mt-2">
