@@ -21,13 +21,8 @@ const SideBar=({user,id,setuser,open,handdleToggle,openSide})=>{
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [language,setLanguage]=useState("English");
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-  useEffect(()=>{
-    console.log(localStorage.getItem("userID"))
-    if(localStorage.getItem('userID')==="null") localStorage.setItem('userID',id);
-  },[]);
   const handleLogout= ()=>{
     localStorage.setItem('user',null);
-    localStorage.setItem('userID',null);
     setuser(null);
     navigate("/");
   }

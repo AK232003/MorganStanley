@@ -176,7 +176,7 @@ const Report=({stepType}) => {
                     id="newsreporttext"
                     value={newsReportText}
                     onChange={(e) => setNewsReportText(e.target.value)}
-                    placeholder="Enter news report text"
+                    placeholder={`Enter ${mapOfTypes.get(type)[0]} report text`}
                     rows={10}
                   />
                 </div>
@@ -213,29 +213,25 @@ const Report=({stepType}) => {
           </CardBody>
 
           <Modal centered isOpen={modal} toggle={toggleModal}>
-        <ModalHeader toggle={toggleModal}>
+        <ModalHeader toggle={toggleModal} className="!bg-sideBarColor1 !border-none">
           Comments for tasks related to {location.pathname.split("/")[3]}.
         </ModalHeader>
-        <ModalBody>
+        <ModalBody className="!bg-sideBarColor1 !border-none">
           <Form onSubmit={(event) => handleComment(event)}>
-            Comments History: {comments}. 
-            <div>
-              {managerComments && managerComments.map((comment)=> comment)}
-            </div>
-            <div>
-              Worker Comments. {`\n`}
+          Comments History {comments}
+            <div className="flex flex-row m-2  mb-4">
+              <div className="basis-1/2 border-solid border-2">
+              <div className="text-semibold text-xl">Manager Comments.</div>
+                <div>
+                {managerComments && managerComments.map((comment)=> comment)}
+                </div>
+              </div>
+              <div className="basis-1/2 border-solid border-2">
+              <div className="text-semibold text-xl">Worker Comments. </div>
               {workerComments && workerComments.map((comment)=> comment)}
-            </div>
-            <FormGroup row>
-              <Label for="mid" sm={2}>
-                {" "}
-                Manager id{" "}
-              </Label>
-              <Col sm={10}>
-                <div> Manager message</div>
-              </Col>
-            </FormGroup>
-            <FormGroup row>
+              </div>
+                </div>
+            <FormGroup row className="mt-2">
               <Label for="mid" sm={2}>
                 {" "}
                 Comments{" "}
@@ -249,13 +245,9 @@ const Report=({stepType}) => {
                 />
               </Col>
             </FormGroup>
-            <FormGroup row>
-              <div className="col-2 m-2">
-                <Button type="submit" color="primary">
+        <Button type="submit" className="!bg-buttonColor !border-none mb-3" block>
                   Submit
                 </Button>
-              </div>
-            </FormGroup>
           </Form>
         </ModalBody>
       </Modal>

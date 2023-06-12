@@ -75,13 +75,16 @@ const TaskStatus = ({ user, id }) => {
           // console.log(tasks)
           const managerRef = doc(db, "Users", id)
           const casesSnap = await getDoc(managerRef)
-          let casesDataList = casesSnap.data()["CasesList"]
+
+          if(casesSnap.data())        {
+            let casesDataList = casesSnap.data()["CasesList"]
           casesDataList.splice(0,1)
+          setCasesList(casesDataList)
+          }
       
           // console.log(casesDataList)
           // console.log(data)
 
-          setCasesList(casesDataList)
         };
         getTasks();
     }, [])

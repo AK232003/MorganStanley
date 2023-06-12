@@ -20,7 +20,6 @@ function App() {
   const [name,setName]=useState(null);
   useEffect(() => {
     setUser(localStorage.getItem('user'))
-    setId(localStorage.getItem('userID'))
   }, [user,id]);
   return (
     <>

@@ -21,9 +21,8 @@ const GroundWorkerDashboard = ({ user, setuser, id, setId }) => {
   }
   const handleLogout= ()=>{
     localStorage.setItem('user',null);
-    localStorage.setItem('userID',null);
     setuser(null);
-    setId(null);
+    // setId(null);
     navigate("/");
   }
   useEffect(() => {
